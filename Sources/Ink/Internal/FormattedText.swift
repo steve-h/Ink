@@ -169,22 +169,29 @@ private extension FormattedText {
         }
 
         private mutating func parseNonTriggeringCharacter() {
-            guard reader.currentCharacter != "\\" else {
+            if reader.currentCharacter == "\\"  {
                 addPendingTextIfNeeded()
-                if let nextChr = reader.nextCharacter, nextChr == "\\" {
-                    text.components.append(.text(Substring("\\")))
-                    skipCharacter()
+                if let nextChr = reader.nextCharacter {
+                    if let subAvailable =  escaped(nextChr) {
+                        skipCharacter()
+                        skipCharacter()
+                        text.components.append(.text(Substring(subAvailable)))
+                    } else if nextChr.isNewline {
+                        skipCharacter()
+                        text.components.append(.text(Substring("<br />")))
+                    }
+                    
+                } else {
+                    reader.advanceIndex()
                 }
-                skipCharacter()
-                return
-            }
-
-            if let escaped = escaped(reader.currentCharacter) {
-                addPendingTextIfNeeded()
-                text.components.append(.text(Substring(escaped)))
-                skipCharacter()
             } else {
-                reader.advanceIndex()
+                if let escaped = escaped(reader.currentCharacter) {
+                    addPendingTextIfNeeded()
+                    text.components.append(.text(Substring(escaped)))
+                    skipCharacter()
+                } else {
+                    reader.advanceIndex()
+                }
             }
         }
 
