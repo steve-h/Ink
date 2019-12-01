@@ -10,7 +10,22 @@ internal extension Character {
         case ">": return "&gt;"
         case "<": return "&lt;"
         case "&": return "&amp;"
+        case "\"": return "&quot;"
         default: return nil
         }
     }
+}
+
+let escapeSubstitutions: [Character: String] = [
+    ">": "&gt;",
+    "<": "&lt;",
+    "&": "&amp;",
+    "\"": "&quot;"
+]
+
+func escaped(_ char: Character) -> String? {
+if let substitution = escapeSubstitutions[char] {
+    return substitution
+}
+return nil
 }
