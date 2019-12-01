@@ -67,16 +67,20 @@ final class BlockQuotesTests: XCTestCase {
     // Nothing else counts as a [block quote](#block-quotes).
     // 
     // Here is a simple example:
+    // 
+    // 
     //     
     // spec.txt lines 3687-3697
     func testExample228() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > # Foo
         > bar
         > baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -90,16 +94,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // The spaces after the `>` characters can be omitted:
+    // 
+    // 
     //     
     // spec.txt lines 3702-3712
     func testExample229() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ># Foo
         >bar
         > baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -113,16 +121,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // The `>` characters can be indented 1-3 spaces:
+    // 
+    // 
     //     
     // spec.txt lines 3717-3727
     func testExample230() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
            > # Foo
            > bar
          > baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -136,16 +148,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // Four spaces gives us a code block:
+    // 
+    // 
     //     
     // spec.txt lines 3732-3741
     func testExample231() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             > # Foo
             > bar
             > baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>&gt; # Foo
@@ -159,16 +175,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // The Laziness clause allows us to omit the `>` before
     // [paragraph continuation text]:
+    // 
+    // 
     //     
     // spec.txt lines 3747-3757
     func testExample232() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > # Foo
         > bar
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -183,16 +203,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // A block quote can contain some lazy and some non-lazy
     // continuation lines:
+    // 
+    // 
     //     
     // spec.txt lines 3763-3773
     func testExample233() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > bar
         baz
         > foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -215,15 +239,19 @@ final class BlockQuotesTests: XCTestCase {
     // ```
     // 
     // without changing the meaning:
+    // 
+    // 
     //     
     // spec.txt lines 3787-3795
     func testExample234() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -243,15 +271,19 @@ final class BlockQuotesTests: XCTestCase {
     // ```
     // 
     // then the block quote ends after the first line:
+    // 
+    // 
     //     
     // spec.txt lines 3807-3819
     func testExample235() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > - foo
         - bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -269,15 +301,19 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // For the same reason, we can't omit the `> ` in front of
     // subsequent lines of an indented or fenced code block:
+    // 
+    // 
     //     
     // spec.txt lines 3825-3835
     func testExample236() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         >     foo
             bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -289,16 +325,21 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 3838-3848
     func testExample237() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > ```
         foo
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -313,15 +354,19 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // Note that in the following case, we have a [lazy
     // continuation line]:
+    // 
+    // 
     //     
     // spec.txt lines 3854-3862
     func testExample238() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
             - bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -345,14 +390,18 @@ final class BlockQuotesTests: XCTestCase {
     // interrupt paragraphs, so it is [paragraph continuation text].
     // 
     // A block quote can be empty:
+    // 
+    // 
     //     
     // spec.txt lines 3878-3883
     func testExample239() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         >
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -360,16 +409,21 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 3886-3893
     func testExample240() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         >
         >  
         > 
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -380,16 +434,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // A block quote can have initial or final blank lines:
+    // 
+    // 
     //     
     // spec.txt lines 3898-3906
     func testExample241() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         >
         > foo
         >  
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -401,16 +459,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // A blank line always separates block quotes:
+    // 
+    // 
     //     
     // spec.txt lines 3911-3922
     func testExample242() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
         
         > bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -431,15 +493,19 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // Consecutiveness means that if we put these block quotes together,
     // we get a single block quote:
+    // 
+    // 
     //     
     // spec.txt lines 3933-3941
     func testExample243() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
         > bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -452,16 +518,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // To get a block quote with two paragraphs, use:
+    // 
+    // 
     //     
     // spec.txt lines 3946-3955
     func testExample244() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
         >
         > bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -474,15 +544,19 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // 
     // Block quotes can interrupt paragraphs:
+    // 
+    // 
     //     
     // spec.txt lines 3960-3968
     func testExample245() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo
         > bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo</p>
@@ -496,16 +570,20 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // In general, blank lines are not needed before or after block
     // quotes:
+    // 
+    // 
     //     
     // spec.txt lines 3974-3986
     func testExample246() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > aaa
         ***
         > bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -522,15 +600,19 @@ final class BlockQuotesTests: XCTestCase {
     // 
     // However, because of laziness, a blank line is needed between
     // a block quote and a following paragraph:
+    // 
+    // 
     //     
     // spec.txt lines 3992-4000
     func testExample247() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > bar
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -540,16 +622,21 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 4003-4012
     func testExample248() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > bar
         
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -559,16 +646,21 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 4015-4024
     func testExample249() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > bar
         >
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -583,15 +675,19 @@ final class BlockQuotesTests: XCTestCase {
     // It is a consequence of the Laziness rule that any number
     // of initial `>`s may be omitted on a continuation line of a
     // nested block quote:
+    // 
+    // 
     //     
     // spec.txt lines 4031-4043
     func testExample250() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > > > foo
         bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -605,16 +701,21 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 4046-4060
     func testExample251() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         >>> foo
         > bar
         >>baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -635,16 +736,20 @@ final class BlockQuotesTests: XCTestCase {
     // remember that the [block quote marker] includes
     // both the `>` and a following space.  So *five spaces* are needed after
     // the `>`:
+    // 
+    // 
     //     
     // spec.txt lines 4068-4080
     func testExample252() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         >     code
         
         >    not code
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>

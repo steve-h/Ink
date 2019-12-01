@@ -32,15 +32,19 @@ final class PrecedenceTests: XCTestCase {
     // Indicators of block structure always take precedence over indicators
     // of inline structure.  So, for example, the following is a list with
     // two items, not a list with one item containing a code span:
+    // 
+    // 
     //     
     // spec.txt lines 839-847
     func testExample42() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - `one
         - two`
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>

@@ -24,15 +24,19 @@ final class SoftLineBreaksTests: XCTestCase {
     // [softbreak](@).  (A softbreak may be rendered in HTML either as a
     // [line ending] or as a space. The result will be the same in
     // browsers. In the examples here, a [line ending] will be used.)
+    // 
+    // 
     //     
     // spec.txt lines 9326-9332
     func testExample646() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo
@@ -44,15 +48,19 @@ final class SoftLineBreaksTests: XCTestCase {
     // 
     // Spaces at the end of the line and beginning of the next line are
     // removed:
+    // 
+    // 
     //     
     // spec.txt lines 9338-9344
     func testExample647() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo 
          baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo

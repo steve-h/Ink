@@ -235,16 +235,20 @@ final class ListsTests: XCTestCase {
     // wrapped in `<p>` tags, while paragraphs in a tight list are not.)
     // 
     // Changing the bullet or ordered list delimiter starts a new list:
+    // 
+    // 
     //     
     // spec.txt lines 5237-5249
     func testExample301() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - foo
         - bar
         + baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -257,16 +261,21 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 5252-5264
     func testExample302() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         1. foo
         2. bar
         3) baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -284,16 +293,20 @@ final class ListsTests: XCTestCase {
     // In CommonMark, a list can interrupt a paragraph. That is,
     // no blank line is needed to separate a paragraph from a following
     // list:
+    // 
+    // 
     //     
     // spec.txt lines 5271-5281
     func testExample303() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         - bar
         - baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo</p>
@@ -369,15 +382,19 @@ final class ListsTests: XCTestCase {
     // In order to solve of unwanted lists in paragraphs with
     // hard-wrapped numerals, we allow only lists starting with `1` to
     // interrupt paragraphs.  Thus,
+    // 
+    // 
     //     
     // spec.txt lines 5348-5354
     func testExample304() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         The number of windows in my house is
         14.  The number of doors is 6.
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>The number of windows in my house is
@@ -387,15 +404,19 @@ final class ListsTests: XCTestCase {
     }
     // 
     // We may still get an unintended result in cases like
+    // 
+    // 
     //     
     // spec.txt lines 5358-5366
     func testExample305() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         The number of windows in my house is
         1.  The number of doors is 6.
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>The number of windows in my house is</p>
@@ -409,10 +430,13 @@ final class ListsTests: XCTestCase {
     // but this rule should prevent most spurious list captures.
     // 
     // There can be any number of blank lines between items:
+    // 
+    // 
     //     
     // spec.txt lines 5372-5391
     func testExample306() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - foo
         
@@ -421,7 +445,8 @@ final class ListsTests: XCTestCase {
         
         - baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -438,10 +463,13 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
+    // 
+    // 
     //     
     // spec.txt lines 5393-5415
     func testExample307() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - foo
           - bar
@@ -450,7 +478,8 @@ final class ListsTests: XCTestCase {
         
               bim
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -476,10 +505,13 @@ final class ListsTests: XCTestCase {
     // list from an indented code block that would otherwise be parsed
     // as a subparagraph of the final list item, you can insert a blank HTML
     // comment:
+    // 
+    // 
     //     
     // spec.txt lines 5423-5441
     func testExample308() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - foo
         - bar
@@ -489,7 +521,8 @@ final class ListsTests: XCTestCase {
         - baz
         - bim
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -504,10 +537,14 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 5444-5467
     func testExample309() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         -   foo
         
@@ -519,7 +556,8 @@ final class ListsTests: XCTestCase {
         
             code
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -543,10 +581,13 @@ final class ListsTests: XCTestCase {
     // list items will be treated as items at the same list level,
     // since none is indented enough to belong to the previous list
     // item:
+    // 
+    // 
     //     
     // spec.txt lines 5475-5493
     func testExample310() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
          - b
@@ -556,7 +597,8 @@ final class ListsTests: XCTestCase {
          - f
         - g
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -571,10 +613,14 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 5496-5514
     func testExample311() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         1. a
         
@@ -582,7 +628,8 @@ final class ListsTests: XCTestCase {
         
            3. c
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -603,10 +650,13 @@ final class ListsTests: XCTestCase {
     // Note, however, that list items may not be indented more than
     // three spaces.  Here `- e` is treated as a paragraph continuation
     // line, because it is indented more than three spaces:
+    // 
+    // 
     //     
     // spec.txt lines 5520-5534
     func testExample312() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
          - b
@@ -614,7 +664,8 @@ final class ListsTests: XCTestCase {
            - d
             - e
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -631,10 +682,13 @@ final class ListsTests: XCTestCase {
     // And here, `3. c` is treated as in indented code block,
     // because it is indented four spaces and preceded by a
     // blank line.
+    // 
+    // 
     //     
     // spec.txt lines 5540-5557
     func testExample313() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         1. a
         
@@ -642,7 +696,8 @@ final class ListsTests: XCTestCase {
         
             3. c
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -662,17 +717,21 @@ final class ListsTests: XCTestCase {
     // 
     // This is a loose list, because there is a blank line between
     // two of the list items:
+    // 
+    // 
     //     
     // spec.txt lines 5563-5580
     func testExample314() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
         - b
         
         - c
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -692,17 +751,21 @@ final class ListsTests: XCTestCase {
     // 
     // 
     // So is this, with a empty second item:
+    // 
+    // 
     //     
     // spec.txt lines 5585-5600
     func testExample315() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         * a
         *
         
         * c
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -722,10 +785,13 @@ final class ListsTests: XCTestCase {
     // These are loose lists, even though there is no space between the items,
     // because one of the items directly contains two block-level elements
     // with a blank line between them:
+    // 
+    // 
     //     
     // spec.txt lines 5607-5626
     func testExample316() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
         - b
@@ -733,7 +799,8 @@ final class ListsTests: XCTestCase {
           c
         - d
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -751,10 +818,14 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 5629-5647
     func testExample317() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
         - b
@@ -762,7 +833,8 @@ final class ListsTests: XCTestCase {
           [ref]: /url
         - d
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -782,10 +854,13 @@ final class ListsTests: XCTestCase {
     // 
     // 
     // This is a tight list, because the blank lines are in a code block:
+    // 
+    // 
     //     
     // spec.txt lines 5652-5671
     func testExample318() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
         - ```
@@ -795,7 +870,8 @@ final class ListsTests: XCTestCase {
           ```
         - c
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -816,10 +892,13 @@ final class ListsTests: XCTestCase {
     // This is a tight list, because the blank line is between two
     // paragraphs of a sublist.  So the sublist is loose while
     // the outer list is tight:
+    // 
+    // 
     //     
     // spec.txt lines 5678-5696
     func testExample319() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
           - b
@@ -827,7 +906,8 @@ final class ListsTests: XCTestCase {
             c
         - d
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -848,17 +928,21 @@ final class ListsTests: XCTestCase {
     // 
     // This is a tight list, because the blank line is inside the
     // block quote:
+    // 
+    // 
     //     
     // spec.txt lines 5702-5716
     func testExample320() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         * a
           > b
           >
         * c
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -876,10 +960,13 @@ final class ListsTests: XCTestCase {
     // 
     // This list is tight, because the consecutive block elements
     // are not separated by blank lines:
+    // 
+    // 
     //     
     // spec.txt lines 5722-5740
     func testExample321() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
           > b
@@ -888,7 +975,8 @@ final class ListsTests: XCTestCase {
           ```
         - d
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -907,14 +995,18 @@ final class ListsTests: XCTestCase {
     // 
     // 
     // A single-paragraph list is tight:
+    // 
+    // 
     //     
     // spec.txt lines 5745-5751
     func testExample322() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -923,15 +1015,20 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 5754-5765
     func testExample323() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
           - b
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -948,10 +1045,13 @@ final class ListsTests: XCTestCase {
     // 
     // This list is loose, because of the blank line between the
     // two block elements in the list item:
+    // 
+    // 
     //     
     // spec.txt lines 5771-5785
     func testExample324() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         1. ```
            foo
@@ -959,7 +1059,8 @@ final class ListsTests: XCTestCase {
         
            bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -975,17 +1076,21 @@ final class ListsTests: XCTestCase {
     // 
     // 
     // Here the outer list is loose, the inner list tight:
+    // 
+    // 
     //     
     // spec.txt lines 5790-5805
     func testExample325() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         * foo
           * bar
         
           baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -1000,10 +1105,14 @@ final class ListsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 5808-5833
     func testExample326() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - a
           - b
@@ -1013,7 +1122,8 @@ final class ListsTests: XCTestCase {
           - e
           - f
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>

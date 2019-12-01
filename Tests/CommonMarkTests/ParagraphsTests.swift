@@ -27,16 +27,20 @@ final class ParagraphsTests: XCTestCase {
     // [whitespace].
     // 
     // A simple example with two paragraphs:
+    // 
+    // 
     //     
     // spec.txt lines 3514-3521
     func testExample219() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         aaa
         
         bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa</p>
@@ -47,10 +51,13 @@ final class ParagraphsTests: XCTestCase {
     // 
     // 
     // Paragraphs can contain multiple lines, but no blank lines:
+    // 
+    // 
     //     
     // spec.txt lines 3526-3537
     func testExample220() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         aaa
         bbb
@@ -58,7 +65,8 @@ final class ParagraphsTests: XCTestCase {
         ccc
         ddd
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa
@@ -71,17 +79,21 @@ final class ParagraphsTests: XCTestCase {
     // 
     // 
     // Multiple blank lines between paragraph have no effect:
+    // 
+    // 
     //     
     // spec.txt lines 3542-3550
     func testExample221() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         aaa
         
         
         bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa</p>
@@ -92,15 +104,19 @@ final class ParagraphsTests: XCTestCase {
     // 
     // 
     // Leading spaces are skipped:
+    // 
+    // 
     //     
     // spec.txt lines 3555-3561
     func testExample222() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           aaa
          bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa
@@ -112,16 +128,20 @@ final class ParagraphsTests: XCTestCase {
     // 
     // Lines after the first may be indented any amount, since indented
     // code blocks cannot interrupt paragraphs.
+    // 
+    // 
     //     
     // spec.txt lines 3567-3575
     func testExample223() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         aaa
                      bbb
                                                ccc
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa
@@ -134,15 +154,19 @@ final class ParagraphsTests: XCTestCase {
     // 
     // However, the first line may be indented at most three spaces,
     // or an indented code block will be triggered:
+    // 
+    // 
     //     
     // spec.txt lines 3581-3587
     func testExample224() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
            aaa
         bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa
@@ -150,15 +174,20 @@ final class ParagraphsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 3590-3597
     func testExample225() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             aaa
         bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -172,15 +201,19 @@ final class ParagraphsTests: XCTestCase {
     // Final spaces are stripped before inline parsing, so a paragraph
     // that ends with two or more spaces will not end with a [hard line
     // break]:
+    // 
+    // 
     //     
     // spec.txt lines 3604-3610
     func testExample226() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         aaa     
         bbb     
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa<br />

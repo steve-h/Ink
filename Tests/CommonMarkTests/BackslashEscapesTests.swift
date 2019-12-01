@@ -26,14 +26,18 @@ final class BackslashEscapesTests: XCTestCase {
     // ## Backslash escapes
     // 
     // Any ASCII punctuation character may be backslash-escaped:
+    // 
+    // 
     //     
     // spec.txt lines 488-492
     func testExample12() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         \!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</p>
@@ -44,14 +48,18 @@ final class BackslashEscapesTests: XCTestCase {
     // 
     // Backslashes before other characters are treated as literal
     // backslashes:
+    // 
+    // 
     //     
     // spec.txt lines 498-502
     func testExample13() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         \	\A\a\ \3\φ\«
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>\	\A\a\ \3\φ\«</p>
@@ -62,10 +70,13 @@ final class BackslashEscapesTests: XCTestCase {
     // 
     // Escaped characters are treated as regular characters and do
     // not have their usual Markdown meanings:
+    // 
+    // 
     //     
     // spec.txt lines 508-528
     func testExample14() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         \*not emphasized*
         \<br/> not a tag
@@ -77,7 +88,8 @@ final class BackslashEscapesTests: XCTestCase {
         \[foo]: /url "not a reference"
         \&ouml; not a character entity
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*not emphasized*
@@ -95,14 +107,18 @@ final class BackslashEscapesTests: XCTestCase {
     // 
     // 
     // If a backslash is itself escaped, the following character is not:
+    // 
+    // 
     //     
     // spec.txt lines 533-537
     func testExample15() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         \\*emphasis*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>\<em>emphasis</em></p>
@@ -112,15 +128,19 @@ final class BackslashEscapesTests: XCTestCase {
     // 
     // 
     // A backslash at the end of the line is a [hard line break]:
+    // 
+    // 
     //     
     // spec.txt lines 542-548
     func testExample16() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo\
         bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<br />
@@ -132,28 +152,37 @@ final class BackslashEscapesTests: XCTestCase {
     // 
     // Backslash escapes do not work in code blocks, code spans, autolinks, or
     // raw HTML:
+    // 
+    // 
     //     
     // spec.txt lines 554-558
     func testExample17() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         `` \[\` ``
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code>\[\`</code></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 561-566
     func testExample18() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             \[\]
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>\[\]
@@ -161,16 +190,21 @@ final class BackslashEscapesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 569-576
     func testExample19() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~
         \[\]
         ~~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>\[\]
@@ -178,28 +212,38 @@ final class BackslashEscapesTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 579-583
     func testExample20() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <http://example.com?find=\*>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="http://example.com?find=%5C*">http://example.com?find=\*</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 586-590
     func testExample21() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <a href="/bar\/)">
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <a href="/bar\/)">
@@ -210,46 +254,60 @@ final class BackslashEscapesTests: XCTestCase {
     // 
     // But they work in all other contexts, including URLs and link titles,
     // link references, and [info strings] in [fenced code blocks]:
+    // 
+    // 
     //     
     // spec.txt lines 596-600
     func testExample22() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         [foo](/bar\* "ti\*tle")
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="/bar*" title="ti*tle">foo</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 603-609
     func testExample23() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         [foo]
         
         [foo]: /bar\* "ti\*tle"
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="/bar*" title="ti*tle">foo</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 612-619
     func testExample24() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ``` foo\+bar
         foo
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-foo+bar">foo

@@ -31,15 +31,19 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // a blank line between a paragraph and a following indented code block.
     // (A blank line is not needed, however, between a code block and a following
     // paragraph.)
+    // 
+    // 
     //     
     // spec.txt lines 1751-1758
     func testExample107() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             a simple
               indented code block
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>a simple
@@ -53,16 +57,20 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // If there is any ambiguity between an interpretation of indentation
     // as a code block and as indicating that material belongs to a [list
     // item][list items], the list item interpretation takes precedence:
+    // 
+    // 
     //     
     // spec.txt lines 1765-1776
     func testExample108() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           - foo
         
             bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -74,16 +82,21 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 1779-1792
     func testExample109() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         1.  foo
         
             - bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -102,17 +115,21 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // The contents of a code block are literal text, and do not get parsed
     // as Markdown:
+    // 
+    // 
     //     
     // spec.txt lines 1799-1810
     func testExample110() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             <a/>
             *hi*
         
             - one
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>&lt;a/&gt;
@@ -126,10 +143,13 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // 
     // Here we have three chunks separated by blank lines:
+    // 
+    // 
     //     
     // spec.txt lines 1815-1832
     func testExample111() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             chunk1
         
@@ -139,7 +159,8 @@ final class IndentedCodeBlocksTests: XCTestCase {
          
             chunk3
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>chunk1
@@ -157,16 +178,20 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // Any initial spaces beyond four will be included in the content, even
     // in interior blank lines:
+    // 
+    // 
     //     
     // spec.txt lines 1838-1847
     func testExample112() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             chunk1
               
               chunk2
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>chunk1
@@ -180,16 +205,20 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // An indented code block cannot interrupt a paragraph.  (This
     // allows hanging indents and the like.)
+    // 
+    // 
     //     
     // spec.txt lines 1853-1860
     func testExample113() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
             bar
         
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -202,15 +231,19 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // However, any non-blank line with fewer than four leading spaces ends
     // the code block immediately.  So a paragraph may occur immediately
     // after indented code:
+    // 
+    // 
     //     
     // spec.txt lines 1867-1874
     func testExample114() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             foo
         bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>foo
@@ -223,10 +256,13 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // And indented code can occur immediately before and after other kinds of
     // blocks:
+    // 
+    // 
     //     
     // spec.txt lines 1880-1895
     func testExample115() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         # Heading
             foo
@@ -235,7 +271,8 @@ final class IndentedCodeBlocksTests: XCTestCase {
             foo
         ----
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h1>Heading</h1>
@@ -251,15 +288,19 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // 
     // The first line can be indented more than four spaces:
+    // 
+    // 
     //     
     // spec.txt lines 1900-1907
     func testExample116() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
                 foo
             bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>    foo
@@ -272,10 +313,13 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // Blank lines preceding or following an indented code block
     // are not included in it:
+    // 
+    // 
     //     
     // spec.txt lines 1913-1922
     func testExample117() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         
             
@@ -283,7 +327,8 @@ final class IndentedCodeBlocksTests: XCTestCase {
             
         
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>foo
@@ -294,14 +339,18 @@ final class IndentedCodeBlocksTests: XCTestCase {
     // 
     // 
     // Trailing spaces are included in the code block's content:
+    // 
+    // 
     //     
     // spec.txt lines 1927-1932
     func testExample118() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             foo  
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>foo  

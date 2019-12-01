@@ -23,15 +23,19 @@ final class HardLineBreaksTests: XCTestCase {
     // by two or more spaces and does not occur at the end of a block
     // is parsed as a [hard line break](@) (rendered
     // in HTML as a `<br />` tag):
+    // 
+    // 
     //     
     // spec.txt lines 9175-9181
     func testExample631() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo  
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<br />
@@ -43,15 +47,19 @@ final class HardLineBreaksTests: XCTestCase {
     // 
     // For a more visible alternative, a backslash before the
     // [line ending] may be used instead of two spaces:
+    // 
+    // 
     //     
     // spec.txt lines 9187-9193
     func testExample632() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo\
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<br />
@@ -62,15 +70,19 @@ final class HardLineBreaksTests: XCTestCase {
     // 
     // 
     // More than two spaces can be used:
+    // 
+    // 
     //     
     // spec.txt lines 9198-9204
     func testExample633() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo       
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<br />
@@ -81,15 +93,19 @@ final class HardLineBreaksTests: XCTestCase {
     // 
     // 
     // Leading spaces at the beginning of the next line are ignored:
+    // 
+    // 
     //     
     // spec.txt lines 9209-9215
     func testExample634() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo  
              bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<br />
@@ -97,15 +113,20 @@ final class HardLineBreaksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9218-9224
     func testExample635() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo\
              bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<br />
@@ -117,15 +138,19 @@ final class HardLineBreaksTests: XCTestCase {
     // 
     // Line breaks can occur inside emphasis, links, and other constructs
     // that allow inline content:
+    // 
+    // 
     //     
     // spec.txt lines 9230-9236
     func testExample636() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo  
         bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo<br />
@@ -133,15 +158,20 @@ final class HardLineBreaksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9239-9245
     func testExample637() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo\
         bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo<br />
@@ -152,30 +182,39 @@ final class HardLineBreaksTests: XCTestCase {
     // 
     // 
     // Line breaks do not occur inside code spans
+    // 
+    // 
     //     
     // spec.txt lines 9250-9255
     func testExample638() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         `code 
         span`
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code>code  span</code></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9258-9263
     func testExample639() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         `code\
         span`
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code>code\ span</code></p>
@@ -185,15 +224,19 @@ final class HardLineBreaksTests: XCTestCase {
     // 
     // 
     // or HTML tags:
+    // 
+    // 
     //     
     // spec.txt lines 9268-9274
     func testExample640() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <a href="foo  
         bar">
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="foo  
@@ -201,15 +244,20 @@ final class HardLineBreaksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9277-9283
     func testExample641() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <a href="foo\
         bar">
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="foo\
@@ -222,56 +270,75 @@ final class HardLineBreaksTests: XCTestCase {
     // Hard line breaks are for separating inline content within a block.
     // Neither syntax for hard line breaks works at the end of a paragraph or
     // other block element:
+    // 
+    // 
     //     
     // spec.txt lines 9290-9294
     func testExample642() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo\
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo\</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9297-9301
     func testExample643() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo  
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9304-9308
     func testExample644() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ### foo\
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h3>foo\</h3>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9311-9315
     func testExample645() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ### foo  
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h3>foo</h3>

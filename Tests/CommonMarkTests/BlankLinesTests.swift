@@ -24,10 +24,13 @@ final class BlankLinesTests: XCTestCase {
     // is [tight] or [loose].
     // 
     // Blank lines at the beginning and end of the document are also ignored.
+    // 
+    // 
     //     
     // spec.txt lines 3621-3633
     func testExample227() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           
         
@@ -38,7 +41,8 @@ final class BlankLinesTests: XCTestCase {
         
           
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aaa</p>

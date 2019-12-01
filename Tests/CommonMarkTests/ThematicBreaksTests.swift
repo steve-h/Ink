@@ -44,16 +44,20 @@ final class ThematicBreaksTests: XCTestCase {
     // of three or more matching `-`, `_`, or `*` characters, each followed
     // optionally by any number of spaces or tabs, forms a
     // [thematic break](@).
+    // 
+    // 
     //     
     // spec.txt lines 878-886
     func testExample43() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ***
         ---
         ___
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -65,28 +69,37 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Wrong characters:
+    // 
+    // 
     //     
     // spec.txt lines 891-895
     func testExample44() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         +++
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>+++</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 898-902
     func testExample45() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ===
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>===</p>
@@ -96,16 +109,20 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Not enough characters:
+    // 
+    // 
     //     
     // spec.txt lines 907-915
     func testExample46() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         --
         **
         __
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>--
@@ -117,16 +134,20 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // One to three spaces indent are allowed:
+    // 
+    // 
     //     
     // spec.txt lines 920-928
     func testExample47() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
          ***
           ***
            ***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -138,14 +159,18 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Four spaces is too many:
+    // 
+    // 
     //     
     // spec.txt lines 933-938
     func testExample48() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             ***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>***
@@ -153,15 +178,20 @@ final class ThematicBreaksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 941-947
     func testExample49() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
             ***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -172,14 +202,18 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // More than three characters may be used:
+    // 
+    // 
     //     
     // spec.txt lines 952-956
     func testExample50() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _____________________________________
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -189,42 +223,56 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Spaces are allowed between the characters:
+    // 
+    // 
     //     
     // spec.txt lines 961-965
     func testExample51() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
          - - -
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 968-972
     func testExample52() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
          **  * ** * ** * **
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 975-979
     func testExample53() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         -     -      -      -
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -234,14 +282,18 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Spaces are allowed at the end:
+    // 
+    // 
     //     
     // spec.txt lines 984-988
     func testExample54() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - - - -    
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -251,10 +303,13 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // However, no other characters may occur in the line:
+    // 
+    // 
     //     
     // spec.txt lines 993-1003
     func testExample55() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _ _ _ _ a
         
@@ -262,7 +317,8 @@ final class ThematicBreaksTests: XCTestCase {
         
         ---a---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_ _ _ _ a</p>
@@ -275,14 +331,18 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // It is required that all of the [non-whitespace characters] be the same.
     // So, this is not a thematic break:
+    // 
+    // 
     //     
     // spec.txt lines 1009-1013
     func testExample56() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
          *-*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>-</em></p>
@@ -292,16 +352,20 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Thematic breaks do not need blank lines before or after:
+    // 
+    // 
     //     
     // spec.txt lines 1018-1030
     func testExample57() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - foo
         ***
         - bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -317,16 +381,20 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // Thematic breaks can interrupt a paragraph:
+    // 
+    // 
     //     
     // spec.txt lines 1035-1043
     func testExample58() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         ***
         bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo</p>
@@ -342,16 +410,20 @@ final class ThematicBreaksTests: XCTestCase {
     // heading], the interpretation as a
     // [setext heading] takes precedence. Thus, for example,
     // this is a setext heading, not a paragraph followed by a thematic break:
+    // 
+    // 
     //     
     // spec.txt lines 1052-1059
     func testExample59() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         ---
         bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
@@ -363,16 +435,20 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // When both a thematic break and a list item are possible
     // interpretations of a line, the thematic break takes precedence:
+    // 
+    // 
     //     
     // spec.txt lines 1065-1077
     func testExample60() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         * Foo
         * * *
         * Bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -388,15 +464,19 @@ final class ThematicBreaksTests: XCTestCase {
     // 
     // 
     // If you want a thematic break in a list item, use a different bullet:
+    // 
+    // 
     //     
     // spec.txt lines 1082-1092
     func testExample61() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - Foo
         - * * *
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>

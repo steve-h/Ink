@@ -85,10 +85,13 @@ final class HtmlBlocksTests: XCTestCase {
     // For instance, `<pre>` within a HTML block started by `<table>` will not affect
     // the parser state; as the HTML block was started in by start condition 6, it
     // will end at any blank line. This can be surprising:
+    // 
+    // 
     //     
     // spec.txt lines 2430-2445
     func testExample148() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <table><tr><td>
         <pre>
@@ -98,7 +101,8 @@ final class HtmlBlocksTests: XCTestCase {
         </pre>
         </td></tr></table>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <table><tr><td>
@@ -122,10 +126,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // Some simple examples follow.  Here are some basic HTML blocks
     // of type 6:
+    // 
+    // 
     //     
     // spec.txt lines 2459-2478
     func testExample149() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <table>
           <tr>
@@ -137,7 +144,8 @@ final class HtmlBlocksTests: XCTestCase {
         
         okay.
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <table>
@@ -151,16 +159,21 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2481-2489
     func testExample150() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
          <div>
           *hello*
                  <foo><a>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
          <div>
@@ -172,15 +185,19 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // A block can also start with a closing tag:
+    // 
+    // 
     //     
     // spec.txt lines 2494-2500
     func testExample151() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         </div>
         *foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         </div>
@@ -191,10 +208,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // Here we have two HTML blocks with a Markdown paragraph between them:
+    // 
+    // 
     //     
     // spec.txt lines 2505-2515
     func testExample152() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <DIV CLASS="foo">
         
@@ -202,7 +222,8 @@ final class HtmlBlocksTests: XCTestCase {
         
         </DIV>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <DIV CLASS="foo">
@@ -215,16 +236,20 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // The tag on the first line can be partial, as long
     // as it is split where there would be whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 2521-2529
     func testExample153() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div id="foo"
           class="bar">
         </div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div id="foo"
@@ -233,16 +258,21 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2532-2540
     func testExample154() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div id="foo" class="bar
           baz">
         </div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div id="foo" class="bar
@@ -253,17 +283,21 @@ final class HtmlBlocksTests: XCTestCase {
     }
     // 
     // 
-    // An open tag need not be closed:    
+    // An open tag need not be closed:
+    // 
+    //     
     // spec.txt lines 2544-2553
     func testExample155() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div>
         *foo*
         
         *bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div>
@@ -277,15 +311,19 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // A partial tag need not even be completed (garbage
     // in, garbage out):
+    // 
+    // 
     //     
     // spec.txt lines 2560-2566
     func testExample156() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div id="foo"
         *hi*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div id="foo"
@@ -293,15 +331,20 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2569-2575
     func testExample157() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div class
         foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div class
@@ -313,15 +356,19 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // The initial tag doesn't even need to be a valid
     // tag, as long as it starts like one:
+    // 
+    // 
     //     
     // spec.txt lines 2581-2587
     func testExample158() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div *???-&&&-<---
         *foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div *???-&&&-<---
@@ -333,30 +380,39 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // In type 6 blocks, the initial tag need not be on a line by
     // itself:
+    // 
+    // 
     //     
     // spec.txt lines 2593-2597
     func testExample159() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div><a href="bar">*foo*</a></div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div><a href="bar">*foo*</a></div>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2600-2608
     func testExample160() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <table><tr><td>
         foo
         </td></tr></table>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <table><tr><td>
@@ -372,17 +428,21 @@ final class HtmlBlocksTests: XCTestCase {
     // example, what looks like a Markdown code block
     // is actually part of the HTML block, which continues until a blank
     // line or the end of the document is reached:
+    // 
+    // 
     //     
     // spec.txt lines 2617-2627
     func testExample161() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div></div>
         ``` c
         int x = 33;
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div></div>
@@ -397,16 +457,20 @@ final class HtmlBlocksTests: XCTestCase {
     // To start an [HTML block] with a tag that is *not* in the
     // list of block-level tags in (6), you must put the tag by
     // itself on the first line (and it must be complete):
+    // 
+    // 
     //     
     // spec.txt lines 2634-2642
     func testExample162() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <a href="foo">
         *bar*
         </a>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <a href="foo">
@@ -418,16 +482,20 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // In type 7 blocks, the [tag name] can be anything:
+    // 
+    // 
     //     
     // spec.txt lines 2647-2655
     func testExample163() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <Warning>
         *bar*
         </Warning>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <Warning>
@@ -436,16 +504,21 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2658-2666
     func testExample164() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <i class="foo">
         *bar*
         </i>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <i class="foo">
@@ -454,15 +527,20 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2669-2675
     func testExample165() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         </ins>
         *bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         </ins>
@@ -477,16 +555,20 @@ final class HtmlBlocksTests: XCTestCase {
     // The `<del>` tag is a nice example.  We can surround content with
     // `<del>` tags in three different ways.  In this case, we get a raw
     // HTML block, because the `<del>` tag is on a line by itself:
+    // 
+    // 
     //     
     // spec.txt lines 2684-2692
     func testExample166() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <del>
         *foo*
         </del>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <del>
@@ -500,10 +582,13 @@ final class HtmlBlocksTests: XCTestCase {
     // In this case, we get a raw HTML block that just includes
     // the `<del>` tag (because it ends with the following blank
     // line).  So the contents get interpreted as CommonMark:
+    // 
+    // 
     //     
     // spec.txt lines 2699-2709
     func testExample167() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <del>
         
@@ -511,7 +596,8 @@ final class HtmlBlocksTests: XCTestCase {
         
         </del>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <del>
@@ -526,14 +612,18 @@ final class HtmlBlocksTests: XCTestCase {
     // as [raw HTML] *inside* the CommonMark paragraph.  (Because
     // the tag is not on a line by itself, we get inline HTML
     // rather than an [HTML block].)
+    // 
+    // 
     //     
     // spec.txt lines 2717-2721
     func testExample168() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <del>*foo*</del>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><del><em>foo</em></del></p>
@@ -550,10 +640,13 @@ final class HtmlBlocksTests: XCTestCase {
     // As a result, these blocks can contain blank lines:
     // 
     // A pre tag (type 1):
+    // 
+    // 
     //     
     // spec.txt lines 2733-2749
     func testExample169() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <pre language="haskell"><code>
         import Text.HTML.TagSoup
@@ -563,7 +656,8 @@ final class HtmlBlocksTests: XCTestCase {
         </code></pre>
         okay
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre language="haskell"><code>
@@ -579,10 +673,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // A script tag (type 1):
+    // 
+    // 
     //     
     // spec.txt lines 2754-2768
     func testExample170() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <script type="text/javascript">
         // JavaScript example
@@ -591,7 +688,8 @@ final class HtmlBlocksTests: XCTestCase {
         </script>
         okay
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <script type="text/javascript">
@@ -606,10 +704,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // A style tag (type 1):
+    // 
+    // 
     //     
     // spec.txt lines 2773-2789
     func testExample171() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <style
           type="text/css">
@@ -619,7 +720,8 @@ final class HtmlBlocksTests: XCTestCase {
         </style>
         okay
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <style
@@ -637,17 +739,21 @@ final class HtmlBlocksTests: XCTestCase {
     // If there is no matching end tag, the block will end at the
     // end of the document (or the enclosing [block quote][block quotes]
     // or [list item][list items]):
+    // 
+    // 
     //     
     // spec.txt lines 2796-2806
     func testExample172() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <style
           type="text/css">
         
         foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <style
@@ -657,17 +763,22 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2809-2820
     func testExample173() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > <div>
         > foo
         
         bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -678,15 +789,20 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2823-2833
     func testExample174() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - <div>
         - foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -701,15 +817,19 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // The end tag can occur on the same line as the start tag:
+    // 
+    // 
     //     
     // spec.txt lines 2838-2844
     func testExample175() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <style>p{color:red;}</style>
         *foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <style>p{color:red;}</style>
@@ -717,15 +837,20 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2847-2853
     func testExample176() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <!-- foo -->*bar*
         *baz*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <!-- foo -->*bar*
@@ -737,16 +862,20 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // Note that anything on the last line after the
     // end tag will be included in the [HTML block]:
+    // 
+    // 
     //     
     // spec.txt lines 2859-2867
     func testExample177() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <script>
         foo
         </script>1. *bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <script>
@@ -758,10 +887,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // A comment (type 2):
+    // 
+    // 
     //     
     // spec.txt lines 2872-2884
     func testExample178() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <!-- Foo
         
@@ -769,7 +901,8 @@ final class HtmlBlocksTests: XCTestCase {
            baz -->
         okay
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <!-- Foo
@@ -784,10 +917,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // A processing instruction (type 3):
+    // 
+    // 
     //     
     // spec.txt lines 2890-2904
     func testExample179() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <?php
         
@@ -796,7 +932,8 @@ final class HtmlBlocksTests: XCTestCase {
         ?>
         okay
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <?php
@@ -811,14 +948,18 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // A declaration (type 4):
+    // 
+    // 
     //     
     // spec.txt lines 2909-2913
     func testExample180() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <!DOCTYPE html>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <!DOCTYPE html>
@@ -828,10 +969,13 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // CDATA (type 5):
+    // 
+    // 
     //     
     // spec.txt lines 2918-2946
     func testExample181() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <![CDATA[
         function matchwo(a,b)
@@ -847,7 +991,8 @@ final class HtmlBlocksTests: XCTestCase {
         ]]>
         okay
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <![CDATA[
@@ -869,16 +1014,20 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // The opening tag can be indented 1-3 spaces, but not 4:
+    // 
+    // 
     //     
     // spec.txt lines 2951-2959
     func testExample182() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           <!-- foo -->
         
             <!-- foo -->
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
           <!-- foo -->
@@ -887,16 +1036,21 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2962-2970
     func testExample183() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           <div>
         
             <div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
           <div>
@@ -909,17 +1063,21 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // An HTML block of types 1--6 can interrupt a paragraph, and need not be
     // preceded by a blank line.
+    // 
+    // 
     //     
     // spec.txt lines 2976-2986
     func testExample184() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         <div>
         bar
         </div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo</p>
@@ -934,17 +1092,21 @@ final class HtmlBlocksTests: XCTestCase {
     // However, a following blank line is needed, except at the end of
     // a document, and except for blocks of types 1--5, [above][HTML
     // block]:
+    // 
+    // 
     //     
     // spec.txt lines 2993-3003
     func testExample185() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div>
         bar
         </div>
         *foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div>
@@ -957,16 +1119,20 @@ final class HtmlBlocksTests: XCTestCase {
     // 
     // 
     // HTML blocks of type 7 cannot interrupt a paragraph:
+    // 
+    // 
     //     
     // spec.txt lines 3008-3016
     func testExample186() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         <a href="bar">
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -1006,10 +1172,13 @@ final class HtmlBlocksTests: XCTestCase {
     // simply separate the Markdown from the HTML using blank lines:
     // 
     // Compare:
+    // 
+    // 
     //     
     // spec.txt lines 3049-3059
     func testExample187() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div>
         
@@ -1017,7 +1186,8 @@ final class HtmlBlocksTests: XCTestCase {
         
         </div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div>
@@ -1026,16 +1196,21 @@ final class HtmlBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 3062-3070
     func testExample188() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <div>
         *Emphasized* text.
         </div>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <div>
@@ -1056,10 +1231,13 @@ final class HtmlBlocksTests: XCTestCase {
     // blocks into Markdown documents with 100% reliability.  However,
     // *in most cases* this will work fine, because the blank lines in
     // HTML are usually followed by HTML block tags.  For example:
+    // 
+    // 
     //     
     // spec.txt lines 3084-3104
     func testExample189() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <table>
         
@@ -1073,7 +1251,8 @@ final class HtmlBlocksTests: XCTestCase {
         
         </table>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <table>
@@ -1091,10 +1270,13 @@ final class HtmlBlocksTests: XCTestCase {
     // There are problems, however, if the inner tags are indented
     // *and* separated by spaces, as then they will be interpreted as
     // an indented code block:
+    // 
+    // 
     //     
     // spec.txt lines 3111-3132
     func testExample190() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <table>
         
@@ -1108,7 +1290,8 @@ final class HtmlBlocksTests: XCTestCase {
         
         </table>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <table>

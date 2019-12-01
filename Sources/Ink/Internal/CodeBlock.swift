@@ -23,7 +23,7 @@ internal struct CodeBlock: Fragment {
         var code = ""
 
         while !reader.didReachEnd {
-            if code.last == "\n", reader.currentCharacter == marker {
+            if reader.currentCharacter == marker, (code == "") || (code.last == "\n")  {
                 let markerCount = reader.readCount(of: marker)
 
                 if markerCount == startingMarkerCount {
@@ -38,6 +38,7 @@ internal struct CodeBlock: Fragment {
             if let escaped = reader.currentCharacter.escaped {
                 code.append(escaped)
             } else {
+                let thisChar = reader.currentCharacter
                 code.append(reader.currentCharacter)
             }
 

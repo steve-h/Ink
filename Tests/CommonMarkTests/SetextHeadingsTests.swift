@@ -48,10 +48,13 @@ final class SetextHeadingsTests: XCTestCase {
     // them.
     // 
     // Simple examples:
+    // 
+    // 
     //     
     // spec.txt lines 1349-1358
     func testExample80() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo *bar*
         =========
@@ -59,7 +62,8 @@ final class SetextHeadingsTests: XCTestCase {
         Foo *bar*
         ---------
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h1>Foo <em>bar</em></h1>
@@ -70,16 +74,20 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // The content of the header may span more than one line:
+    // 
+    // 
     //     
     // spec.txt lines 1363-1370
     func testExample81() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo *bar
         baz*
         ====
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h1>Foo <em>bar
@@ -92,16 +100,20 @@ final class SetextHeadingsTests: XCTestCase {
     // content as inlines.  The heading's raw content is formed by
     // concatenating the lines and removing initial and final
     // [whitespace].
+    // 
+    // 
     //     
     // spec.txt lines 1377-1384
     func testExample82() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           Foo *bar
         baz*	
         ====
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h1>Foo <em>bar
@@ -112,10 +124,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // The underlining can be any length:
+    // 
+    // 
     //     
     // spec.txt lines 1389-1398
     func testExample83() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         -------------------------
@@ -123,7 +138,8 @@ final class SetextHeadingsTests: XCTestCase {
         Foo
         =
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
@@ -135,10 +151,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // The heading content can be indented up to three spaces, and need
     // not line up with the underlining:
+    // 
+    // 
     //     
     // spec.txt lines 1404-1417
     func testExample84() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
            Foo
         ---
@@ -149,7 +168,8 @@ final class SetextHeadingsTests: XCTestCase {
           Foo
           ===
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
@@ -161,10 +181,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // Four spaces indent is too much:
+    // 
+    // 
     //     
     // spec.txt lines 1422-1435
     func testExample85() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             Foo
             ---
@@ -172,7 +195,8 @@ final class SetextHeadingsTests: XCTestCase {
             Foo
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>Foo
@@ -188,15 +212,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // The setext heading underline can be indented up to three spaces, and
     // may have trailing spaces:
+    // 
+    // 
     //     
     // spec.txt lines 1441-1446
     func testExample86() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
            ----      
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
@@ -206,15 +234,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // Four spaces is too much:
+    // 
+    // 
     //     
     // spec.txt lines 1451-1457
     func testExample87() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
             ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -225,10 +257,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // The setext heading underline cannot contain internal spaces:
+    // 
+    // 
     //     
     // spec.txt lines 1462-1473
     func testExample88() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         = =
@@ -236,7 +271,8 @@ final class SetextHeadingsTests: XCTestCase {
         Foo
         --- -
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -249,15 +285,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // Trailing spaces in the content line do not cause a line break:
+    // 
+    // 
     //     
     // spec.txt lines 1478-1483
     func testExample89() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo  
         -----
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
@@ -267,15 +307,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // Nor does a backslash at the end:
+    // 
+    // 
     //     
     // spec.txt lines 1488-1493
     func testExample90() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo\
         ----
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo\</h2>
@@ -286,10 +330,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // Since indicators of block structure take precedence over
     // indicators of inline structure, the following are setext headings:
+    // 
+    // 
     //     
     // spec.txt lines 1499-1512
     func testExample91() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         `Foo
         ----
@@ -299,7 +346,8 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         of dashes"/>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>`Foo</h2>
@@ -313,15 +361,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // The setext heading underline cannot be a [lazy continuation
     // line] in a list item or block quote:
+    // 
+    // 
     //     
     // spec.txt lines 1518-1526
     func testExample92() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > Foo
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -331,16 +383,21 @@ final class SetextHeadingsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 1529-1539
     func testExample93() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
         bar
         ===
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -351,15 +408,20 @@ final class SetextHeadingsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 1542-1550
     func testExample94() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - Foo
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -374,16 +436,20 @@ final class SetextHeadingsTests: XCTestCase {
     // A blank line is needed between a paragraph and a following
     // setext heading, since otherwise the paragraph becomes part
     // of the heading's content:
+    // 
+    // 
     //     
     // spec.txt lines 1557-1564
     func testExample95() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         Bar
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>Foo
@@ -395,10 +461,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // But in general a blank line is not required before or after
     // setext headings:
+    // 
+    // 
     //     
     // spec.txt lines 1570-1582
     func testExample96() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ---
         Foo
@@ -407,7 +476,8 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         Baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -420,15 +490,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // Setext headings cannot be empty:
+    // 
+    // 
     //     
     // spec.txt lines 1587-1592
     func testExample97() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         
         ====
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>====</p>
@@ -440,15 +514,19 @@ final class SetextHeadingsTests: XCTestCase {
     // Setext heading text lines must not be interpretable as block
     // constructs other than paragraphs.  So, the line of dashes
     // in these examples gets interpreted as a thematic break:
+    // 
+    // 
     //     
     // spec.txt lines 1599-1605
     func testExample98() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ---
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -456,15 +534,20 @@ final class SetextHeadingsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 1608-1616
     func testExample99() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         - foo
         -----
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -474,15 +557,20 @@ final class SetextHeadingsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 1619-1626
     func testExample100() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             foo
         ---
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>foo
@@ -491,15 +579,20 @@ final class SetextHeadingsTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 1629-1637
     func testExample101() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > foo
         -----
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -513,15 +606,19 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // If you want a heading with `> foo` as its literal text, you can
     // use backslash escapes:
+    // 
+    // 
     //     
     // spec.txt lines 1643-1648
     func testExample102() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         \> foo
         ------
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>&gt; foo</h2>
@@ -552,10 +649,13 @@ final class SetextHeadingsTests: XCTestCase {
     // increases the expressive power of CommonMark, by allowing
     // multiline headings.  Authors who want interpretation 1 can
     // put a blank line after the first paragraph:
+    // 
+    // 
     //     
     // spec.txt lines 1674-1684
     func testExample103() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         
@@ -563,7 +663,8 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo</p>
@@ -576,10 +677,13 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // Authors who want interpretation 2 can put blank lines around
     // the thematic break,
+    // 
+    // 
     //     
     // spec.txt lines 1690-1702
     func testExample104() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         bar
@@ -588,7 +692,8 @@ final class SetextHeadingsTests: XCTestCase {
         
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -602,17 +707,21 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // or use a thematic break that cannot count as a [setext heading
     // underline], such as
+    // 
+    // 
     //     
     // spec.txt lines 1708-1718
     func testExample105() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         bar
         * * *
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -625,17 +734,21 @@ final class SetextHeadingsTests: XCTestCase {
     // 
     // 
     // Authors who want interpretation 3 can use backslash escapes:
+    // 
+    // 
     //     
     // spec.txt lines 1723-1733
     func testExample106() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo
         bar
         \---
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo

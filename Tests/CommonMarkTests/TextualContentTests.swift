@@ -27,28 +27,37 @@ final class TextualContentTests: XCTestCase {
     // 
     // Any characters not given an interpretation by the above rules will
     // be parsed as plain textual content.
+    // 
+    // 
     //     
     // spec.txt lines 9358-9362
     func testExample648() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         hello $.;'there
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>hello $.;'there</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 9365-9369
     func testExample649() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Foo χρῆν
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Foo χρῆν</p>
@@ -58,14 +67,18 @@ final class TextualContentTests: XCTestCase {
     // 
     // 
     // Internal spaces are preserved verbatim:
+    // 
+    // 
     //     
     // spec.txt lines 9374-9378
     func testExample650() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         Multiple     spaces
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>Multiple     spaces</p>

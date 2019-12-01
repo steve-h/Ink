@@ -226,14 +226,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // These rules can be illustrated through a series of examples.
     // 
     // Rule 1:
+    // 
+    // 
     //     
     // spec.txt lines 6296-6300
     func testExample350() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo bar</em></p>
@@ -244,14 +248,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the opening `*` is followed by
     // whitespace, and hence not part of a [left-flanking delimiter run]:
+    // 
+    // 
     //     
     // spec.txt lines 6306-6310
     func testExample351() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         a * foo bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>a * foo bar*</p>
@@ -263,14 +271,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is not emphasis, because the opening `*` is preceded
     // by an alphanumeric and followed by punctuation, and hence
     // not part of a [left-flanking delimiter run]:
+    // 
+    // 
     //     
     // spec.txt lines 6317-6321
     func testExample352() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         a*"foo"*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>a*&quot;foo&quot;*</p>
@@ -280,14 +292,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Unicode nonbreaking spaces count as whitespace, too:
+    // 
+    // 
     //     
     // spec.txt lines 6326-6330
     func testExample353() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         * a *
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>* a *</p>
@@ -297,28 +313,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword emphasis with `*` is permitted:
+    // 
+    // 
     //     
     // spec.txt lines 6335-6339
     func testExample354() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo*bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<em>bar</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6342-6346
     func testExample355() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         5*6*78
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>5<em>6</em>78</p>
@@ -328,14 +353,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 2:
+    // 
+    // 
     //     
     // spec.txt lines 6351-6355
     func testExample356() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo bar_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo bar</em></p>
@@ -346,14 +375,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the opening `_` is followed by
     // whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6361-6365
     func testExample357() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _ foo bar_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_ foo bar_</p>
@@ -364,14 +397,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the opening `_` is preceded
     // by an alphanumeric and followed by punctuation:
+    // 
+    // 
     //     
     // spec.txt lines 6371-6375
     func testExample358() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         a_"foo"_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>a_&quot;foo&quot;_</p>
@@ -381,42 +418,56 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Emphasis with `_` is not allowed inside words:
+    // 
+    // 
     //     
     // spec.txt lines 6380-6384
     func testExample359() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo_bar_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo_bar_</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6387-6391
     func testExample360() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         5_6_78
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>5_6_78</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6394-6398
     func testExample361() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         пристаням_стремятся_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>пристаням_стремятся_</p>
@@ -427,14 +478,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // Here `_` does not generate emphasis, because the first delimiter run
     // is right-flanking and the second left-flanking:
+    // 
+    // 
     //     
     // spec.txt lines 6404-6408
     func testExample362() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         aa_"bb"_cc
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>aa_&quot;bb&quot;_cc</p>
@@ -446,14 +501,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is emphasis, even though the opening delimiter is
     // both left- and right-flanking, because it is preceded by
     // punctuation:
+    // 
+    // 
     //     
     // spec.txt lines 6415-6419
     func testExample363() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo-_(bar)_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo-<em>(bar)</em></p>
@@ -466,14 +525,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the closing delimiter does
     // not match the opening delimiter:
+    // 
+    // 
     //     
     // spec.txt lines 6427-6431
     func testExample364() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_foo*</p>
@@ -484,14 +547,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the closing `*` is preceded by
     // whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6437-6441
     func testExample365() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo bar *
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*foo bar *</p>
@@ -501,15 +568,19 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // A newline also counts as whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6446-6452
     func testExample366() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo bar
         *
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*foo bar
@@ -522,14 +593,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is not emphasis, because the second `*` is
     // preceded by punctuation and followed by an alphanumeric
     // (hence it is not part of a [right-flanking delimiter run]:
+    // 
+    // 
     //     
     // spec.txt lines 6459-6463
     func testExample367() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *(*foo)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*(*foo)</p>
@@ -540,14 +615,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // The point of this restriction is more easily appreciated
     // with this example:
+    // 
+    // 
     //     
     // spec.txt lines 6469-6473
     func testExample368() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *(*foo*)*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>(<em>foo</em>)</em></p>
@@ -557,14 +636,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword emphasis with `*` is allowed:
+    // 
+    // 
     //     
     // spec.txt lines 6478-6482
     func testExample369() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo*bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>bar</p>
@@ -578,14 +661,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the closing `_` is preceded by
     // whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6491-6495
     func testExample370() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo bar _
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_foo bar _</p>
@@ -596,14 +683,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not emphasis, because the second `_` is
     // preceded by punctuation and followed by an alphanumeric:
+    // 
+    // 
     //     
     // spec.txt lines 6501-6505
     func testExample371() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _(_foo)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_(_foo)</p>
@@ -613,14 +704,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // This is emphasis within emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 6510-6514
     func testExample372() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _(_foo_)_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>(<em>foo</em>)</em></p>
@@ -630,42 +725,56 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword emphasis is disallowed for `_`:
+    // 
+    // 
     //     
     // spec.txt lines 6519-6523
     func testExample373() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo_bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_foo_bar</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6526-6530
     func testExample374() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _пристаням_стремятся
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_пристаням_стремятся</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6533-6537
     func testExample375() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo_bar_baz_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo_bar_baz</em></p>
@@ -677,14 +786,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is emphasis, even though the closing delimiter is
     // both left- and right-flanking, because it is followed by
     // punctuation:
+    // 
+    // 
     //     
     // spec.txt lines 6544-6548
     func testExample376() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _(bar)_.
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>(bar)</em>.</p>
@@ -694,14 +807,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 5:
+    // 
+    // 
     //     
     // spec.txt lines 6553-6557
     func testExample377() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo bar**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo bar</strong></p>
@@ -712,14 +829,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the opening delimiter is
     // followed by whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6563-6567
     func testExample378() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ** foo bar**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>** foo bar**</p>
@@ -731,14 +852,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is not strong emphasis, because the opening `**` is preceded
     // by an alphanumeric and followed by punctuation, and hence
     // not part of a [left-flanking delimiter run]:
+    // 
+    // 
     //     
     // spec.txt lines 6574-6578
     func testExample379() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         a**"foo"**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>a**&quot;foo&quot;**</p>
@@ -748,14 +873,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword strong emphasis with `**` is permitted:
+    // 
+    // 
     //     
     // spec.txt lines 6583-6587
     func testExample380() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo**bar**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<strong>bar</strong></p>
@@ -765,14 +894,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 6:
+    // 
+    // 
     //     
     // spec.txt lines 6592-6596
     func testExample381() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo bar__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo bar</strong></p>
@@ -783,14 +916,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the opening delimiter is
     // followed by whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6602-6606
     func testExample382() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __ foo bar__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__ foo bar__</p>
@@ -799,15 +936,19 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     }
     // 
     // 
-    // A newline counts as whitespace:    
+    // A newline counts as whitespace:
+    // 
+    //     
     // spec.txt lines 6610-6616
     func testExample383() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __
         foo bar__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__
@@ -819,14 +960,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the opening `__` is preceded
     // by an alphanumeric and followed by punctuation:
+    // 
+    // 
     //     
     // spec.txt lines 6622-6626
     func testExample384() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         a__"foo"__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>a__&quot;foo&quot;__</p>
@@ -836,56 +981,75 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword strong emphasis is forbidden with `__`:
+    // 
+    // 
     //     
     // spec.txt lines 6631-6635
     func testExample385() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo__bar__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo__bar__</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6638-6642
     func testExample386() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         5__6__78
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>5__6__78</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6645-6649
     func testExample387() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         пристаням__стремятся__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>пристаням__стремятся__</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6652-6656
     func testExample388() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo, __bar__, baz__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo, <strong>bar</strong>, baz</strong></p>
@@ -897,14 +1061,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is strong emphasis, even though the opening delimiter is
     // both left- and right-flanking, because it is preceded by
     // punctuation:
+    // 
+    // 
     //     
     // spec.txt lines 6663-6667
     func testExample389() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo-__(bar)__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo-<strong>(bar)</strong></p>
@@ -918,14 +1086,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the closing delimiter is preceded
     // by whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6676-6680
     func testExample390() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo bar **
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>**foo bar **</p>
@@ -939,14 +1111,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the second `**` is
     // preceded by punctuation and followed by an alphanumeric:
+    // 
+    // 
     //     
     // spec.txt lines 6689-6693
     func testExample391() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **(**foo)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>**(**foo)</p>
@@ -957,29 +1133,38 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // The point of this restriction is more easily appreciated
     // with these examples:
+    // 
+    // 
     //     
     // spec.txt lines 6699-6703
     func testExample392() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *(**foo**)*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>(<strong>foo</strong>)</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6706-6712
     func testExample393() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **Gomphocarpus (*Gomphocarpus physocarpus*, syn.
         *Asclepias physocarpa*)**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>Gomphocarpus (<em>Gomphocarpus physocarpus</em>, syn.
@@ -987,14 +1172,19 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6715-6719
     func testExample394() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo "*bar*" foo**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo &quot;<em>bar</em>&quot; foo</strong></p>
@@ -1004,14 +1194,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 6724-6728
     func testExample395() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo**bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong>bar</p>
@@ -1024,14 +1218,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the closing delimiter is
     // preceded by whitespace:
+    // 
+    // 
     //     
     // spec.txt lines 6736-6740
     func testExample396() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo bar __
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__foo bar __</p>
@@ -1042,14 +1240,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // This is not strong emphasis, because the second `__` is
     // preceded by punctuation and followed by an alphanumeric:
+    // 
+    // 
     //     
     // spec.txt lines 6746-6750
     func testExample397() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __(__foo)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__(__foo)</p>
@@ -1060,14 +1262,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // The point of this restriction is more easily appreciated
     // with this example:
+    // 
+    // 
     //     
     // spec.txt lines 6756-6760
     func testExample398() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _(__foo__)_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>(<strong>foo</strong>)</em></p>
@@ -1077,42 +1283,56 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Intraword strong emphasis is forbidden with `__`:
+    // 
+    // 
     //     
     // spec.txt lines 6765-6769
     func testExample399() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo__bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__foo__bar</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6772-6776
     func testExample400() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __пристаням__стремятся
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__пристаням__стремятся</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6779-6783
     func testExample401() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo__bar__baz__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo__bar__baz</strong></p>
@@ -1124,14 +1344,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // This is strong emphasis, even though the closing delimiter is
     // both left- and right-flanking, because it is followed by
     // punctuation:
+    // 
+    // 
     //     
     // spec.txt lines 6790-6794
     func testExample402() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __(bar)__.
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>(bar)</strong>.</p>
@@ -1144,29 +1368,38 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // Any nonempty sequence of inline elements can be the contents of an
     // emphasized span.
+    // 
+    // 
     //     
     // spec.txt lines 6802-6806
     func testExample403() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo [bar](/url)*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <a href="/url">bar</a></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6809-6815
     func testExample404() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo
         bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo
@@ -1178,84 +1411,112 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // In particular, emphasis and strong emphasis can be nested
     // inside emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 6821-6825
     func testExample405() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo __bar__ baz_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar</strong> baz</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6828-6832
     func testExample406() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo _bar_ baz_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <em>bar</em> baz</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6835-6839
     func testExample407() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo_ bar_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em><em>foo</em> bar</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6842-6846
     func testExample408() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo *bar**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <em>bar</em></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6849-6853
     func testExample409() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo **bar** baz*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar</strong> baz</em></p>
         """#####
         )
     }
+    // 
+    // 
     //     
     // spec.txt lines 6855-6859
     func testExample410() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo**bar**baz*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo<strong>bar</strong>baz</em></p>
@@ -1280,14 +1541,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // For the same reason, we don't get two consecutive
     // emphasis sections in this example:
+    // 
+    // 
     //     
     // spec.txt lines 6879-6883
     func testExample411() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo**bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo**bar</em></p>
@@ -1301,42 +1566,56 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // emphasis, even when the interior spaces are
     // omitted:
     // 
+    // 
+    // 
     //     
     // spec.txt lines 6892-6896
     func testExample412() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ***foo** bar*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em><strong>foo</strong> bar</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6899-6903
     func testExample413() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo **bar***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar</strong></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6906-6910
     func testExample414() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo**bar***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo<strong>bar</strong></em></p>
@@ -1348,28 +1627,36 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // When the lengths of the interior closing and opening
     // delimiter runs are *both* multiples of 3, though,
     // they can match to create emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 6917-6921
     func testExample415() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo***bar***baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<em><strong>bar</strong></em>baz</p>
         """#####
         )
     }
+    // 
+    // 
     //     
     // spec.txt lines 6923-6927
     func testExample416() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo******bar*********baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>
@@ -1379,28 +1666,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Indefinite levels of nesting are possible:
+    // 
+    // 
     //     
     // spec.txt lines 6932-6936
     func testExample417() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo **bar *baz* bim** bop*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar <em>baz</em> bim</strong> bop</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6939-6943
     func testExample418() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo [*bar*](/url)*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <a href="/url"><em>bar</em></a></em></p>
@@ -1410,28 +1706,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // There can be no empty emphasis or strong emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 6948-6952
     func testExample419() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ** is not an empty emphasis
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>** is not an empty emphasis</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6955-6959
     func testExample420() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **** is not an empty strong emphasis
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>**** is not an empty strong emphasis</p>
@@ -1445,29 +1750,38 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // Any nonempty sequence of inline elements can be the contents of an
     // strongly emphasized span.
+    // 
+    // 
     //     
     // spec.txt lines 6968-6972
     func testExample421() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo [bar](/url)**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <a href="/url">bar</a></strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6975-6981
     func testExample422() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo
         bar**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo
@@ -1479,112 +1793,151 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // In particular, emphasis and strong emphasis can be nested
     // inside strong emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 6987-6991
     func testExample423() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo _bar_ baz__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar</em> baz</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 6994-6998
     func testExample424() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo __bar__ baz__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <strong>bar</strong> baz</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7001-7005
     func testExample425() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ____foo__ bar__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong>foo</strong> bar</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7008-7012
     func testExample426() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo **bar****
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <strong>bar</strong></strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7015-7019
     func testExample427() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo *bar* baz**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar</em> baz</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7022-7026
     func testExample428() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo*bar*baz**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo<em>bar</em>baz</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7029-7033
     func testExample429() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ***foo* bar**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong><em>foo</em> bar</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7036-7040
     func testExample430() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo *bar***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar</em></strong></p>
@@ -1594,15 +1947,19 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Indefinite levels of nesting are possible:
+    // 
+    // 
     //     
     // spec.txt lines 7045-7051
     func testExample431() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo *bar **baz**
         bim* bop**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar <strong>baz</strong>
@@ -1610,14 +1967,19 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7054-7058
     func testExample432() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo [*bar*](/url)**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <a href="/url"><em>bar</em></a></strong></p>
@@ -1627,28 +1989,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // There can be no empty emphasis or strong emphasis:
+    // 
+    // 
     //     
     // spec.txt lines 7063-7067
     func testExample433() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __ is not an empty emphasis
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__ is not an empty emphasis</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7070-7074
     func testExample434() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ____ is not an empty strong emphasis
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>____ is not an empty strong emphasis</p>
@@ -1659,84 +2030,113 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 11:
+    // 
+    // 
     //     
     // spec.txt lines 7080-7084
     func testExample435() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo ***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo ***</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7087-7091
     func testExample436() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo *\**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>*</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7094-7098
     func testExample437() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo *_*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>_</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7101-7105
     func testExample438() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo *****
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo *****</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7108-7112
     func testExample439() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo **\***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>*</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7115-7119
     func testExample440() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo **_**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>_</strong></p>
@@ -1748,84 +2148,113 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // Note that when delimiters do not match evenly, Rule 11 determines
     // that the excess literal `*` characters will appear outside of the
     // emphasis, rather than inside it:
+    // 
+    // 
     //     
     // spec.txt lines 7126-7130
     func testExample441() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*<em>foo</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7133-7137
     func testExample442() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>*</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7140-7144
     func testExample443() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ***foo**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*<strong>foo</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7147-7151
     func testExample444() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ****foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>***<em>foo</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7154-7158
     func testExample445() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong>*</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7161-7165
     func testExample446() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo****
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>***</p>
@@ -1836,98 +2265,132 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 12:
+    // 
+    // 
     //     
     // spec.txt lines 7171-7175
     func testExample447() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo ___
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo ___</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7178-7182
     func testExample448() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo _\__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>_</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7185-7189
     func testExample449() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo _*_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>*</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7192-7196
     func testExample450() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo _____
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo _____</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7199-7203
     func testExample451() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo __\___
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>_</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7206-7210
     func testExample452() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo __*__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>*</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7213-7217
     func testExample453() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_<em>foo</em></p>
@@ -1939,70 +2402,94 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // Note that when delimiters do not match evenly, Rule 12 determines
     // that the excess literal `_` characters will appear outside of the
     // emphasis, rather than inside it:
+    // 
+    // 
     //     
     // spec.txt lines 7224-7228
     func testExample454() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>_</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7231-7235
     func testExample455() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ___foo__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_<strong>foo</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7238-7242
     func testExample456() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ____foo_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>___<em>foo</em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7245-7249
     func testExample457() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo___
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong>_</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7252-7256
     func testExample458() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo____
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>___</p>
@@ -2013,56 +2500,75 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // Rule 13 implies that if you want emphasis nested directly inside
     // emphasis, you must use different delimiters:
+    // 
+    // 
     //     
     // spec.txt lines 7262-7266
     func testExample459() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7269-7273
     func testExample460() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *_foo_*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em><em>foo</em></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7276-7280
     func testExample461() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __foo__
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7283-7287
     func testExample462() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _*foo*_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em><em>foo</em></em></p>
@@ -2073,28 +2579,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // However, strong emphasis within strong emphasis is possible without
     // switching delimiters:
+    // 
+    // 
     //     
     // spec.txt lines 7293-7297
     func testExample463() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ****foo****
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong>foo</strong></strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7300-7304
     func testExample464() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ____foo____
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong>foo</strong></strong></p>
@@ -2106,14 +2621,18 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // Rule 13 can be applied to arbitrarily long sequences of
     // delimiters:
+    // 
+    // 
     //     
     // spec.txt lines 7311-7315
     func testExample465() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ******foo******
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong><strong>foo</strong></strong></strong></p>
@@ -2123,28 +2642,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 14:
+    // 
+    // 
     //     
     // spec.txt lines 7320-7324
     func testExample466() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ***foo***
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em><strong>foo</strong></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7327-7331
     func testExample467() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _____foo_____
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em><strong><strong>foo</strong></strong></em></p>
@@ -2154,28 +2682,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 15:
+    // 
+    // 
     //     
     // spec.txt lines 7336-7340
     func testExample468() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo _bar* baz_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo _bar</em> baz_</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7343-7347
     func testExample469() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo __bar *baz bim__ bam*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar *baz bim</strong> bam</em></p>
@@ -2185,28 +2722,37 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 16:
+    // 
+    // 
     //     
     // spec.txt lines 7352-7356
     func testExample470() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **foo **bar baz**
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>**foo <strong>bar baz</strong></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7359-7363
     func testExample471() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *foo *bar baz*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*foo <em>bar baz</em></p>
@@ -2216,126 +2762,170 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
     // 
     // 
     // Rule 17:
+    // 
+    // 
     //     
     // spec.txt lines 7368-7372
     func testExample472() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *[bar*](/url)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*<a href="/url">bar*</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7375-7379
     func testExample473() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _foo [bar_](/url)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>_foo <a href="/url">bar_</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7382-7386
     func testExample474() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *<img src="foo" title="*"/>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*<img src="foo" title="*"/></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7389-7393
     func testExample475() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **<a href="**">
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>**<a href="**"></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7396-7400
     func testExample476() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __<a href="__">
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__<a href="__"></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7403-7407
     func testExample477() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         *a `*`*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>a <code>*</code></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7410-7414
     func testExample478() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         _a `_`_
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><em>a <code>_</code></em></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7417-7421
     func testExample479() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         **a<http://foo.bar/?q=**>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>**a<a href="http://foo.bar/?q=**">http://foo.bar/?q=**</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 7424-7428
     func testExample480() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         __a<http://foo.bar/?q=__>
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>__a<a href="http://foo.bar/?q=__">http://foo.bar/?q=__</a></p>

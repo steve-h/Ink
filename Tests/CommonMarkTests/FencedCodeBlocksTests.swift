@@ -63,17 +63,21 @@ final class FencedCodeBlocksTests: XCTestCase {
     // particular treatment of the [info string].
     // 
     // Here is a simple example with backticks:
+    // 
+    // 
     //     
     // spec.txt lines 1982-1991
     func testExample119() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         <
          >
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>&lt;
@@ -85,17 +89,21 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // With tildes:
+    // 
+    // 
     //     
     // spec.txt lines 1996-2005
     func testExample120() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~
         <
          >
         ~~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>&lt;
@@ -106,16 +114,20 @@ final class FencedCodeBlocksTests: XCTestCase {
     }
     // 
     // Fewer than three backticks is not enough:
+    // 
+    // 
     //     
     // spec.txt lines 2009-2015
     func testExample121() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ``
         foo
         ``
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code>foo</code></p>
@@ -125,17 +137,21 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // The closing code fence must use the same character as the opening
     // fence:
+    // 
+    // 
     //     
     // spec.txt lines 2020-2029
     func testExample122() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         aaa
         ~~~
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -144,17 +160,22 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2032-2041
     func testExample123() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~
         aaa
         ```
         ~~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -166,17 +187,21 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // The closing code fence must be at least as long as the opening fence:
+    // 
+    // 
     //     
     // spec.txt lines 2046-2055
     func testExample124() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ````
         aaa
         ```
         ``````
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -185,17 +210,22 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2058-2067
     func testExample125() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~~
         aaa
         ~~~
         ~~~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -208,31 +238,40 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // Unclosed code blocks are closed by the end of the document
     // (or the enclosing [block quote][block quotes] or [list item][list items]):
+    // 
+    // 
     //     
     // spec.txt lines 2073-2077
     func testExample126() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code></code></pre>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2080-2090
     func testExample127() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         `````
         
         ```
         aaa
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>
@@ -242,17 +281,22 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2093-2104
     func testExample128() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         > ```
         > aaa
         
         bbb
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -266,17 +310,21 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // A code block can have all empty lines as its content:
+    // 
+    // 
     //     
     // spec.txt lines 2109-2118
     func testExample129() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         
           
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>
@@ -288,15 +336,19 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // A code block can be empty:
+    // 
+    // 
     //     
     // spec.txt lines 2123-2128
     func testExample130() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code></code></pre>
@@ -308,17 +360,21 @@ final class FencedCodeBlocksTests: XCTestCase {
     // Fences can be indented.  If the opening fence is indented,
     // content lines will have equivalent opening indentation removed,
     // if present:
+    // 
+    // 
     //     
     // spec.txt lines 2135-2144
     func testExample131() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
          ```
          aaa
         aaa
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -327,10 +383,14 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2147-2158
     func testExample132() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
           ```
         aaa
@@ -338,7 +398,8 @@ final class FencedCodeBlocksTests: XCTestCase {
         aaa
           ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -348,10 +409,14 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2161-2172
     func testExample133() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
            ```
            aaa
@@ -359,7 +424,8 @@ final class FencedCodeBlocksTests: XCTestCase {
           aaa
            ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -372,16 +438,20 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // Four spaces indentation produces an indented code block:
+    // 
+    // 
     //     
     // spec.txt lines 2177-2186
     func testExample134() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             ```
             aaa
             ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>```
@@ -395,16 +465,20 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // Closing fences may be indented by 0-3 spaces, and their indentation
     // need not match that of the opening fence:
+    // 
+    // 
     //     
     // spec.txt lines 2192-2199
     func testExample135() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         aaa
           ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -412,16 +486,21 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2202-2209
     func testExample136() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
            ```
         aaa
           ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -432,16 +511,20 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // This is not a closing fence, because it is indented 4 spaces:
+    // 
+    // 
     //     
     // spec.txt lines 2214-2222
     func testExample137() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         aaa
             ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -454,15 +537,19 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // Code fences (opening and closing) cannot contain internal spaces:
+    // 
+    // 
     //     
     // spec.txt lines 2228-2234
     func testExample138() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ``` ```
         aaa
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code> </code>
@@ -470,16 +557,21 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2237-2245
     func testExample139() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~~~~
         aaa
         ~~~ ~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>aaa
@@ -492,10 +584,13 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // Fenced code blocks can interrupt paragraphs, and can be followed
     // directly by paragraphs, without a blank line between:
+    // 
+    // 
     //     
     // spec.txt lines 2251-2262
     func testExample140() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo
         ```
@@ -503,7 +598,8 @@ final class FencedCodeBlocksTests: XCTestCase {
         ```
         baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo</p>
@@ -517,10 +613,13 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // Other blocks can also occur before and after fenced code blocks
     // without an intervening blank line:
+    // 
+    // 
     //     
     // spec.txt lines 2268-2280
     func testExample141() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo
         ---
@@ -529,7 +628,8 @@ final class FencedCodeBlocksTests: XCTestCase {
         ~~~
         # baz
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <h2>foo</h2>
@@ -547,10 +647,13 @@ final class FencedCodeBlocksTests: XCTestCase {
     // the language of the code block. In HTML output, the language is
     // normally indicated by adding a class to the `code` element consisting
     // of `language-` followed by the language name.
+    // 
+    // 
     //     
     // spec.txt lines 2290-2301
     func testExample142() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```ruby
         def foo(x)
@@ -558,7 +661,8 @@ final class FencedCodeBlocksTests: XCTestCase {
         end
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-ruby">def foo(x)
@@ -568,10 +672,14 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2304-2315
     func testExample143() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~~    ruby startline=3 $%@#$
         def foo(x)
@@ -579,7 +687,8 @@ final class FencedCodeBlocksTests: XCTestCase {
         end
         ~~~~~~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-ruby">def foo(x)
@@ -589,15 +698,20 @@ final class FencedCodeBlocksTests: XCTestCase {
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 2318-2323
     func testExample144() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ````;
         ````
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-;"></code></pre>
@@ -607,15 +721,19 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // [Info strings] for backtick code blocks cannot contain backticks:
+    // 
+    // 
     //     
     // spec.txt lines 2328-2334
     func testExample145() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ``` aa ```
         foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code>aa</code>
@@ -626,16 +744,20 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // [Info strings] for tilde code blocks can contain backticks and tildes:
+    // 
+    // 
     //     
     // spec.txt lines 2339-2346
     func testExample146() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ~~~ aa ``` ~~~
         foo
         ~~~
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-aa">foo
@@ -646,16 +768,20 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // 
     // Closing code fences cannot have [info strings]:
+    // 
+    // 
     //     
     // spec.txt lines 2351-2358
     func testExample147() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ```
         ``` aaa
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>``` aaa

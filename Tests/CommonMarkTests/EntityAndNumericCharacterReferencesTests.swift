@@ -42,16 +42,20 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // document <https://html.spec.whatwg.org/entities.json>
     // is used as an authoritative source for the valid entity
     // references and their corresponding code points.
+    // 
+    // 
     //     
     // spec.txt lines 648-656
     func testExample25() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &nbsp; &amp; &copy; &AElig; &Dcaron;
         &frac34; &HilbertSpace; &DifferentialD;
         &ClockwiseContourIntegral; &ngE;
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>  &amp; © Æ Ď
@@ -69,14 +73,18 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // Unicode character. Invalid Unicode code points will be replaced by
     // the REPLACEMENT CHARACTER (`U+FFFD`).  For security reasons,
     // the code point `U+0000` will also be replaced by `U+FFFD`.
+    // 
+    // 
     //     
     // spec.txt lines 667-671
     func testExample26() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &#35; &#1234; &#992; &#0;
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p># Ӓ Ϡ �</p>
@@ -90,14 +98,18 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // either `X` or `x` + a string of 1-6 hexadecimal digits + `;`.
     // They too are parsed as the corresponding Unicode character (this
     // time specified with a hexadecimal numeral instead of decimal).
+    // 
+    // 
     //     
     // spec.txt lines 680-684
     func testExample27() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &#X22; &#XD06; &#xcab;
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>&quot; ആ ಫ</p>
@@ -107,17 +119,21 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // 
     // 
     // Here are some nonentities:
+    // 
+    // 
     //     
     // spec.txt lines 689-699
     func testExample28() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &nbsp &x; &#; &#x;
         &#87654321;
         &#abcdef0;
         &ThisIsNotDefined; &hi?;
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>&amp;nbsp &amp;x; &amp;#; &amp;#x;
@@ -132,14 +148,18 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // Although HTML5 does accept some entity references
     // without a trailing semicolon (such as `&copy`), these are not
     // recognized here, because it makes the grammar too ambiguous:
+    // 
+    // 
     //     
     // spec.txt lines 706-710
     func testExample29() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &copy
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>&amp;copy</p>
@@ -150,14 +170,18 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // 
     // Strings that are not on the list of HTML5 named entities are not
     // recognized as entity references either:
+    // 
+    // 
     //     
     // spec.txt lines 716-720
     func testExample30() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &MadeUpEntity;
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>&amp;MadeUpEntity;</p>
@@ -169,60 +193,79 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // Entity and numeric character references are recognized in any
     // context besides code spans or code blocks, including
     // URLs, [link titles], and [fenced code block][] [info strings]:
+    // 
+    // 
     //     
     // spec.txt lines 727-731
     func testExample31() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         <a href="&ouml;&ouml;.html">
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <a href="&ouml;&ouml;.html">
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 734-738
     func testExample32() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         [foo](/f&ouml;&ouml; "f&ouml;&ouml;")
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="/f%C3%B6%C3%B6" title="föö">foo</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 741-747
     func testExample33() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         [foo]
         
         [foo]: /f&ouml;&ouml; "f&ouml;&ouml;"
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><a href="/f%C3%B6%C3%B6" title="föö">foo</a></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 750-757
     func testExample34() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         ``` f&ouml;&ouml;
         foo
         ```
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-föö">foo
@@ -234,28 +277,37 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // 
     // Entity and numeric character references are treated as literal
     // text in code spans and code blocks:
+    // 
+    // 
     //     
     // spec.txt lines 763-767
     func testExample35() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         `f&ouml;&ouml;`
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p><code>f&amp;ouml;&amp;ouml;</code></p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 770-775
     func testExample36() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
             f&ouml;f&ouml;
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <pre><code>f&amp;ouml;f&amp;ouml;
@@ -268,15 +320,19 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
     // Entity and numeric character references cannot be used
     // in place of symbols indicating structure in CommonMark
     // documents.
+    // 
+    // 
     //     
     // spec.txt lines 782-788
     func testExample37() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &#42;foo&#42;
         *foo*
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>*foo*
@@ -284,16 +340,20 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         """#####
         )
     }
+    // 
+    // 
     //     
     // spec.txt lines 790-799
     func testExample38() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &#42; foo
         
         * foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>* foo</p>
@@ -303,14 +363,18 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         """#####
         )
     }
+    // 
+    // 
     //     
     // spec.txt lines 801-807
     func testExample39() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         foo&#10;&#10;bar
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>foo
@@ -319,28 +383,37 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         """#####
         )
     }
+    // 
+    // 
     //     
     // spec.txt lines 809-813
     func testExample40() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         &#9;foo
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>	foo</p>
         """#####
         )
     }
-    
+    // 
+    // 
+    // 
+    //     
     // spec.txt lines 816-820
     func testExample41() {
-        let html = MarkdownParser().html(from:
+        let newlineChar = "\n"
+        var markdownTest =
         #####"""
         [a](url &quot;tit&quot;)
         """#####
-        )
+        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
+        let html = MarkdownParser().html(from: markdownTest)
         XCTAssertEqual(html,
         #####"""
         <p>[a](url &quot;tit&quot;)</p>
