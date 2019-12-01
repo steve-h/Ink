@@ -14,8 +14,17 @@ import XCTest
 import Ink
 
 final class SoftLineBreaksTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // ## Soft line breaks
+    // 
+    // A regular line break (not in a code span or HTML tag) that is not
+    // preceded by two or more spaces or a backslash is parsed as a
+    // [softbreak](@).  (A softbreak may be rendered in HTML either as a
+    // [line ending] or as a space. The result will be the same in
+    // browsers. In the examples here, a [line ending] will be used.)
+    //     
     // spec.txt lines 9326-9332
     func testExample646() {
         let html = MarkdownParser().html(from:
@@ -30,8 +39,12 @@ final class SoftLineBreaksTests: XCTestCase {
         baz</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Spaces at the end of the line and beginning of the next line are
+    // removed:
+    //     
     // spec.txt lines 9338-9344
     func testExample647() {
         let html = MarkdownParser().html(from:

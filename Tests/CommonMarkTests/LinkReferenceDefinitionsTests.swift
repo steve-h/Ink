@@ -14,8 +14,33 @@ import XCTest
 import Ink
 
 final class LinkReferenceDefinitionsTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // Fortunately, blank lines are usually not necessary and can be
+    // deleted.  The exception is inside `<pre>` tags, but as described
+    // [above][HTML blocks], raw HTML blocks starting with `<pre>`
+    // *can* contain blank lines.
+    // 
+    // ## Link reference definitions
+    // 
+    // A [link reference definition](@)
+    // consists of a [link label], indented up to three spaces, followed
+    // by a colon (`:`), optional [whitespace] (including up to one
+    // [line ending]), a [link destination],
+    // optional [whitespace] (including up to one
+    // [line ending]), and an optional [link
+    // title], which if it is present must be separated
+    // from the [link destination] by [whitespace].
+    // No further [non-whitespace characters] may occur on the line.
+    // 
+    // A [link reference definition]
+    // does not correspond to a structural element of a document.  Instead, it
+    // defines a label which can be used in [reference links]
+    // and reference-style [images] elsewhere in the document.  [Link
+    // reference definitions] can come either before or after the links that use
+    // them.
+    //     
     // spec.txt lines 3159-3165
     func testExample191() {
         let html = MarkdownParser().html(from:
@@ -30,7 +55,7 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/url" title="title">foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 3168-3176
     func testExample192() {
@@ -48,7 +73,7 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/url" title="the title">foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 3179-3185
     func testExample193() {
@@ -64,7 +89,7 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="my_(url)" title="title (with parens)">Foo*bar]</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 3188-3196
     func testExample194() {
@@ -82,8 +107,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="my%20url" title="title">Foo bar</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The title may extend over multiple lines:
+    //     
     // spec.txt lines 3201-3215
     func testExample195() {
         let html = MarkdownParser().html(from:
@@ -106,8 +134,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         ">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // However, it may not contain a [blank line]:
+    //     
     // spec.txt lines 3220-3230
     func testExample196() {
         let html = MarkdownParser().html(from:
@@ -126,8 +157,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[foo]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The title may be omitted:
+    //     
     // spec.txt lines 3235-3242
     func testExample197() {
         let html = MarkdownParser().html(from:
@@ -143,8 +177,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/url">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The link destination may not be omitted:
+    //     
     // spec.txt lines 3247-3254
     func testExample198() {
         let html = MarkdownParser().html(from:
@@ -160,8 +197,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[foo]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    //  However, an empty link destination may be specified using
+    //  angle brackets:
+    //     
     // spec.txt lines 3259-3265
     func testExample199() {
         let html = MarkdownParser().html(from:
@@ -176,8 +216,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // The title must be separated from the link destination by
+    // whitespace:
+    //     
     // spec.txt lines 3270-3277
     func testExample200() {
         let html = MarkdownParser().html(from:
@@ -193,8 +236,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[foo]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Both title and destination can contain backslash escapes
+    // and literal backslashes:
+    //     
     // spec.txt lines 3283-3289
     func testExample201() {
         let html = MarkdownParser().html(from:
@@ -209,8 +256,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/url%5Cbar*baz" title="foo&quot;bar\baz">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A link can come before its corresponding definition:
+    //     
     // spec.txt lines 3294-3300
     func testExample202() {
         let html = MarkdownParser().html(from:
@@ -225,8 +275,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="url">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // If there are several matching definitions, the first one takes
+    // precedence:
+    //     
     // spec.txt lines 3306-3313
     func testExample203() {
         let html = MarkdownParser().html(from:
@@ -242,8 +296,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="first">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // As noted in the section on [Links], matching of labels is
+    // case-insensitive (see [matches]).
+    //     
     // spec.txt lines 3319-3325
     func testExample204() {
         let html = MarkdownParser().html(from:
@@ -258,7 +316,7 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/url">Foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 3328-3334
     func testExample205() {
@@ -274,8 +332,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/%CF%86%CE%BF%CF%85">αγω</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Here is a link reference definition with no corresponding link.
+    // It contributes nothing to the document.
+    //     
     // spec.txt lines 3340-3343
     func testExample206() {
         let html = MarkdownParser().html(from:
@@ -288,8 +350,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Here is another one:
+    //     
     // spec.txt lines 3348-3355
     func testExample207() {
         let html = MarkdownParser().html(from:
@@ -305,8 +370,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>bar</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // This is not a link reference definition, because there are
+    // [non-whitespace characters] after the title:
+    //     
     // spec.txt lines 3361-3365
     func testExample208() {
         let html = MarkdownParser().html(from:
@@ -319,8 +388,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[foo]: /url &quot;title&quot; ok</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // This is a link reference definition, but it has no title:
+    //     
     // spec.txt lines 3370-3375
     func testExample209() {
         let html = MarkdownParser().html(from:
@@ -334,8 +406,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>&quot;title&quot; ok</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // This is not a link reference definition, because it is indented
+    // four spaces:
+    //     
     // spec.txt lines 3381-3389
     func testExample210() {
         let html = MarkdownParser().html(from:
@@ -352,8 +428,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[foo]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // This is not a link reference definition, because it occurs inside
+    // a code block:
+    //     
     // spec.txt lines 3395-3405
     func testExample211() {
         let html = MarkdownParser().html(from:
@@ -372,8 +452,11 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[foo]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A [link reference definition] cannot interrupt a paragraph.
+    //     
     // spec.txt lines 3410-3419
     func testExample212() {
         let html = MarkdownParser().html(from:
@@ -391,8 +474,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p>[bar]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // However, it can directly follow other block elements, such as headings
+    // and thematic breaks, and it need not be followed by a blank line.
+    //     
     // spec.txt lines 3425-3434
     func testExample213() {
         let html = MarkdownParser().html(from:
@@ -410,8 +497,8 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    //     
     // spec.txt lines 3436-3444
     func testExample214() {
         let html = MarkdownParser().html(from:
@@ -428,8 +515,8 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <p><a href="/url">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    //     
     // spec.txt lines 3446-3453
     func testExample215() {
         let html = MarkdownParser().html(from:
@@ -445,8 +532,12 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <a href="/url">foo</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Several [link reference definitions]
+    // can occur one after another, without intervening blank lines.
+    //     
     // spec.txt lines 3459-3472
     func testExample216() {
         let html = MarkdownParser().html(from:
@@ -468,8 +559,14 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         <a href="/baz-url">baz</a></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // [Link reference definitions] can occur
+    // inside block containers, like lists and block quotations.  They
+    // affect the entire document, not just the container in which they
+    // are defined:
+    //     
     // spec.txt lines 3480-3488
     func testExample217() {
         let html = MarkdownParser().html(from:
@@ -486,8 +583,15 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Whether something is a [link reference definition] is
+    // independent of whether the link reference it defines is
+    // used in the document.  Thus, for example, the following
+    // document contains just a link reference definition, and
+    // no visible content:
+    //     
     // spec.txt lines 3497-3500
     func testExample218() {
         let html = MarkdownParser().html(from:

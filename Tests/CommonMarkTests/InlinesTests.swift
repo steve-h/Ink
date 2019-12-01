@@ -14,8 +14,15 @@ import XCTest
 import Ink
 
 final class InlinesTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // # Inlines
+    // 
+    // Inlines are parsed sequentially from the beginning of the character
+    // stream to the end (left to right, in left-to-right languages).
+    // Thus, for example, in
+    //     
     // spec.txt lines 5842-5846
     func testExample327() {
         let html = MarkdownParser().html(from:

@@ -14,8 +14,17 @@ import XCTest
 import Ink
 
 final class BlankLinesTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // ## Blank lines
+    // 
+    // [Blank lines] between block-level elements are ignored,
+    // except for the role they play in determining whether a [list]
+    // is [tight] or [loose].
+    // 
+    // Blank lines at the beginning and end of the document are also ignored.
+    //     
     // spec.txt lines 3621-3633
     func testExample227() {
         let html = MarkdownParser().html(from:

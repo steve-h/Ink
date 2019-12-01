@@ -14,8 +14,60 @@ import XCTest
 import Ink
 
 final class BlockQuotesTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // 
+    // # Container blocks
+    // 
+    // A [container block](#container-blocks) is a block that has other
+    // blocks as its contents.  There are two basic kinds of container blocks:
+    // [block quotes] and [list items].
+    // [Lists] are meta-containers for [list items].
+    // 
+    // We define the syntax for container blocks recursively.  The general
+    // form of the definition is:
+    // 
+    // > If X is a sequence of blocks, then the result of
+    // > transforming X in such-and-such a way is a container of type Y
+    // > with these blocks as its content.
+    // 
+    // So, we explain what counts as a block quote or list item by explaining
+    // how these can be *generated* from their contents. This should suffice
+    // to define the syntax, although it does not give a recipe for *parsing*
+    // these constructions.  (A recipe is provided below in the section entitled
+    // [A parsing strategy](#appendix-a-parsing-strategy).)
+    // 
+    // ## Block quotes
+    // 
+    // A [block quote marker](@)
+    // consists of 0-3 spaces of initial indent, plus (a) the character `>` together
+    // with a following space, or (b) a single character `>` not followed by a space.
+    // 
+    // The following rules define [block quotes]:
+    // 
+    // 1.  **Basic case.**  If a string of lines *Ls* constitute a sequence
+    //     of blocks *Bs*, then the result of prepending a [block quote
+    //     marker] to the beginning of each line in *Ls*
+    //     is a [block quote](#block-quotes) containing *Bs*.
+    // 
+    // 2.  **Laziness.**  If a string of lines *Ls* constitute a [block
+    //     quote](#block-quotes) with contents *Bs*, then the result of deleting
+    //     the initial [block quote marker] from one or
+    //     more lines in which the next [non-whitespace character] after the [block
+    //     quote marker] is [paragraph continuation
+    //     text] is a block quote with *Bs* as its content.
+    //     [Paragraph continuation text](@) is text
+    //     that will be parsed as part of the content of a paragraph, but does
+    //     not occur at the beginning of the paragraph.
+    // 
+    // 3.  **Consecutiveness.**  A document cannot contain two [block
+    //     quotes] in a row unless there is a [blank line] between them.
+    // 
+    // Nothing else counts as a [block quote](#block-quotes).
+    // 
+    // Here is a simple example:
+    //     
     // spec.txt lines 3687-3697
     func testExample228() {
         let html = MarkdownParser().html(from:
@@ -34,8 +86,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The spaces after the `>` characters can be omitted:
+    //     
     // spec.txt lines 3702-3712
     func testExample229() {
         let html = MarkdownParser().html(from:
@@ -54,8 +109,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The `>` characters can be indented 1-3 spaces:
+    //     
     // spec.txt lines 3717-3727
     func testExample230() {
         let html = MarkdownParser().html(from:
@@ -74,8 +132,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Four spaces gives us a code block:
+    //     
     // spec.txt lines 3732-3741
     func testExample231() {
         let html = MarkdownParser().html(from:
@@ -93,8 +154,12 @@ final class BlockQuotesTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The Laziness clause allows us to omit the `>` before
+    // [paragraph continuation text]:
+    //     
     // spec.txt lines 3747-3757
     func testExample232() {
         let html = MarkdownParser().html(from:
@@ -113,8 +178,12 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A block quote can contain some lazy and some non-lazy
+    // continuation lines:
+    //     
     // spec.txt lines 3763-3773
     func testExample233() {
         let html = MarkdownParser().html(from:
@@ -133,8 +202,20 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Laziness only applies to lines that would have been continuations of
+    // paragraphs had they been prepended with [block quote markers].
+    // For example, the `> ` cannot be omitted in the second line of
+    // 
+    // ``` markdown
+    // > foo
+    // > ---
+    // ```
+    // 
+    // without changing the meaning:
+    //     
     // spec.txt lines 3787-3795
     func testExample234() {
         let html = MarkdownParser().html(from:
@@ -151,8 +232,18 @@ final class BlockQuotesTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Similarly, if we omit the `> ` in the second line of
+    // 
+    // ``` markdown
+    // > - foo
+    // > - bar
+    // ```
+    // 
+    // then the block quote ends after the first line:
+    //     
     // spec.txt lines 3807-3819
     func testExample235() {
         let html = MarkdownParser().html(from:
@@ -173,8 +264,12 @@ final class BlockQuotesTests: XCTestCase {
         </ul>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // For the same reason, we can't omit the `> ` in front of
+    // subsequent lines of an indented or fenced code block:
+    //     
     // spec.txt lines 3825-3835
     func testExample236() {
         let html = MarkdownParser().html(from:
@@ -193,7 +288,7 @@ final class BlockQuotesTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 3838-3848
     func testExample237() {
@@ -213,8 +308,12 @@ final class BlockQuotesTests: XCTestCase {
         <pre><code></code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Note that in the following case, we have a [lazy
+    // continuation line]:
+    //     
     // spec.txt lines 3854-3862
     func testExample238() {
         let html = MarkdownParser().html(from:
@@ -231,8 +330,22 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // To see why, note that in
+    // 
+    // ```markdown
+    // > foo
+    // >     - bar
+    // ```
+    // 
+    // the `- bar` is indented too far to start a list, and can't
+    // be an indented code block because indented code blocks cannot
+    // interrupt paragraphs, so it is [paragraph continuation text].
+    // 
+    // A block quote can be empty:
+    //     
     // spec.txt lines 3878-3883
     func testExample239() {
         let html = MarkdownParser().html(from:
@@ -246,7 +359,7 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 3886-3893
     func testExample240() {
@@ -263,8 +376,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A block quote can have initial or final blank lines:
+    //     
     // spec.txt lines 3898-3906
     func testExample241() {
         let html = MarkdownParser().html(from:
@@ -281,8 +397,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A blank line always separates block quotes:
+    //     
     // spec.txt lines 3911-3922
     func testExample242() {
         let html = MarkdownParser().html(from:
@@ -302,8 +421,17 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // (Most current Markdown implementations, including John Gruber's
+    // original `Markdown.pl`, will parse this example as a single block quote
+    // with two paragraphs.  But it seems better to allow the author to decide
+    // whether two block quotes or one are wanted.)
+    // 
+    // Consecutiveness means that if we put these block quotes together,
+    // we get a single block quote:
+    //     
     // spec.txt lines 3933-3941
     func testExample243() {
         let html = MarkdownParser().html(from:
@@ -320,8 +448,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // To get a block quote with two paragraphs, use:
+    //     
     // spec.txt lines 3946-3955
     func testExample244() {
         let html = MarkdownParser().html(from:
@@ -339,8 +470,11 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Block quotes can interrupt paragraphs:
+    //     
     // spec.txt lines 3960-3968
     func testExample245() {
         let html = MarkdownParser().html(from:
@@ -357,8 +491,12 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // In general, blank lines are not needed before or after block
+    // quotes:
+    //     
     // spec.txt lines 3974-3986
     func testExample246() {
         let html = MarkdownParser().html(from:
@@ -379,8 +517,12 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // However, because of laziness, a blank line is needed between
+    // a block quote and a following paragraph:
+    //     
     // spec.txt lines 3992-4000
     func testExample247() {
         let html = MarkdownParser().html(from:
@@ -397,7 +539,7 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 4003-4012
     func testExample248() {
@@ -416,7 +558,7 @@ final class BlockQuotesTests: XCTestCase {
         <p>baz</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 4015-4024
     func testExample249() {
@@ -435,8 +577,13 @@ final class BlockQuotesTests: XCTestCase {
         <p>baz</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // It is a consequence of the Laziness rule that any number
+    // of initial `>`s may be omitted on a continuation line of a
+    // nested block quote:
+    //     
     // spec.txt lines 4031-4043
     func testExample250() {
         let html = MarkdownParser().html(from:
@@ -457,7 +604,7 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 4046-4060
     func testExample251() {
@@ -481,8 +628,14 @@ final class BlockQuotesTests: XCTestCase {
         </blockquote>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // When including an indented code block in a block quote,
+    // remember that the [block quote marker] includes
+    // both the `>` and a following space.  So *five spaces* are needed after
+    // the `>`:
+    //     
     // spec.txt lines 4068-4080
     func testExample252() {
         let html = MarkdownParser().html(from:

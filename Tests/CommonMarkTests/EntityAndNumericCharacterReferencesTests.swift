@@ -14,8 +14,35 @@ import XCTest
 import Ink
 
 final class EntityAndNumericCharacterReferencesTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // ## Entity and numeric character references
+    // 
+    // Valid HTML entity references and numeric character references
+    // can be used in place of the corresponding Unicode character,
+    // with the following exceptions:
+    // 
+    // - Entity and character references are not recognized in code
+    //   blocks and code spans.
+    // 
+    // - Entity and character references cannot stand in place of
+    //   special characters that define structural elements in
+    //   CommonMark.  For example, although `&#42;` can be used
+    //   in place of a literal `*` character, `&#42;` cannot replace
+    //   `*` in emphasis delimiters, bullet list markers, or thematic
+    //   breaks.
+    // 
+    // Conforming CommonMark parsers need not store information about
+    // whether a particular character was represented in the source
+    // using a Unicode character or an entity reference.
+    // 
+    // [Entity references](@) consist of `&` + any of the valid
+    // HTML5 entity names + `;`. The
+    // document <https://html.spec.whatwg.org/entities.json>
+    // is used as an authoritative source for the valid entity
+    // references and their corresponding code points.
+    //     
     // spec.txt lines 648-656
     func testExample25() {
         let html = MarkdownParser().html(from:
@@ -32,8 +59,17 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         ∲ ≧̸</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // [Decimal numeric character
+    // references](@)
+    // consist of `&#` + a string of 1--7 arabic digits + `;`. A
+    // numeric character reference is parsed as the corresponding
+    // Unicode character. Invalid Unicode code points will be replaced by
+    // the REPLACEMENT CHARACTER (`U+FFFD`).  For security reasons,
+    // the code point `U+0000` will also be replaced by `U+FFFD`.
+    //     
     // spec.txt lines 667-671
     func testExample26() {
         let html = MarkdownParser().html(from:
@@ -46,8 +82,15 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p># Ӓ Ϡ �</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // [Hexadecimal numeric character
+    // references](@) consist of `&#` +
+    // either `X` or `x` + a string of 1-6 hexadecimal digits + `;`.
+    // They too are parsed as the corresponding Unicode character (this
+    // time specified with a hexadecimal numeral instead of decimal).
+    //     
     // spec.txt lines 680-684
     func testExample27() {
         let html = MarkdownParser().html(from:
@@ -60,8 +103,11 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p>&quot; ആ ಫ</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Here are some nonentities:
+    //     
     // spec.txt lines 689-699
     func testExample28() {
         let html = MarkdownParser().html(from:
@@ -80,8 +126,13 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &amp;ThisIsNotDefined; &amp;hi?;</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Although HTML5 does accept some entity references
+    // without a trailing semicolon (such as `&copy`), these are not
+    // recognized here, because it makes the grammar too ambiguous:
+    //     
     // spec.txt lines 706-710
     func testExample29() {
         let html = MarkdownParser().html(from:
@@ -94,8 +145,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p>&amp;copy</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Strings that are not on the list of HTML5 named entities are not
+    // recognized as entity references either:
+    //     
     // spec.txt lines 716-720
     func testExample30() {
         let html = MarkdownParser().html(from:
@@ -108,8 +163,13 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p>&amp;MadeUpEntity;</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Entity and numeric character references are recognized in any
+    // context besides code spans or code blocks, including
+    // URLs, [link titles], and [fenced code block][] [info strings]:
+    //     
     // spec.txt lines 727-731
     func testExample31() {
         let html = MarkdownParser().html(from:
@@ -122,7 +182,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <a href="&ouml;&ouml;.html">
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 734-738
     func testExample32() {
@@ -136,7 +196,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p><a href="/f%C3%B6%C3%B6" title="föö">foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 741-747
     func testExample33() {
@@ -152,7 +212,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p><a href="/f%C3%B6%C3%B6" title="föö">foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 750-757
     func testExample34() {
@@ -169,8 +229,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Entity and numeric character references are treated as literal
+    // text in code spans and code blocks:
+    //     
     // spec.txt lines 763-767
     func testExample35() {
         let html = MarkdownParser().html(from:
@@ -183,7 +247,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p><code>f&amp;ouml;&amp;ouml;</code></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 770-775
     func testExample36() {
@@ -198,8 +262,13 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Entity and numeric character references cannot be used
+    // in place of symbols indicating structure in CommonMark
+    // documents.
+    //     
     // spec.txt lines 782-788
     func testExample37() {
         let html = MarkdownParser().html(from:
@@ -214,8 +283,8 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <em>foo</em></p>
         """#####
         )
-    }    
-    
+    }
+    //     
     // spec.txt lines 790-799
     func testExample38() {
         let html = MarkdownParser().html(from:
@@ -233,8 +302,8 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         </ul>
         """#####
         )
-    }    
-    
+    }
+    //     
     // spec.txt lines 801-807
     func testExample39() {
         let html = MarkdownParser().html(from:
@@ -249,8 +318,8 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         bar</p>
         """#####
         )
-    }    
-    
+    }
+    //     
     // spec.txt lines 809-813
     func testExample40() {
         let html = MarkdownParser().html(from:
@@ -263,7 +332,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <p>	foo</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 816-820
     func testExample41() {

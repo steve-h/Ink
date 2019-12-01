@@ -14,8 +14,56 @@ import XCTest
 import Ink
 
 final class FencedCodeBlocksTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // 
+    // ## Fenced code blocks
+    // 
+    // A [code fence](@) is a sequence
+    // of at least three consecutive backtick characters (`` ` ``) or
+    // tildes (`~`).  (Tildes and backticks cannot be mixed.)
+    // A [fenced code block](@)
+    // begins with a code fence, indented no more than three spaces.
+    // 
+    // The line with the opening code fence may optionally contain some text
+    // following the code fence; this is trimmed of leading and trailing
+    // whitespace and called the [info string](@). If the [info string] comes
+    // after a backtick fence, it may not contain any backtick
+    // characters.  (The reason for this restriction is that otherwise
+    // some inline code would be incorrectly interpreted as the
+    // beginning of a fenced code block.)
+    // 
+    // The content of the code block consists of all subsequent lines, until
+    // a closing [code fence] of the same type as the code block
+    // began with (backticks or tildes), and with at least as many backticks
+    // or tildes as the opening code fence.  If the leading code fence is
+    // indented N spaces, then up to N spaces of indentation are removed from
+    // each line of the content (if present).  (If a content line is not
+    // indented, it is preserved unchanged.  If it is indented less than N
+    // spaces, all of the indentation is removed.)
+    // 
+    // The closing code fence may be indented up to three spaces, and may be
+    // followed only by spaces, which are ignored.  If the end of the
+    // containing block (or document) is reached and no closing code fence
+    // has been found, the code block contains all of the lines after the
+    // opening code fence until the end of the containing block (or
+    // document).  (An alternative spec would require backtracking in the
+    // event that a closing code fence is not found.  But this makes parsing
+    // much less efficient, and there seems to be no real down side to the
+    // behavior described here.)
+    // 
+    // A fenced code block may interrupt a paragraph, and does not require
+    // a blank line either before or after.
+    // 
+    // The content of a code fence is treated as literal text, not parsed
+    // as inlines.  The first word of the [info string] is typically used to
+    // specify the language of the code sample, and rendered in the `class`
+    // attribute of the `code` tag.  However, this spec does not mandate any
+    // particular treatment of the [info string].
+    // 
+    // Here is a simple example with backticks:
+    //     
     // spec.txt lines 1982-1991
     func testExample119() {
         let html = MarkdownParser().html(from:
@@ -33,8 +81,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // With tildes:
+    //     
     // spec.txt lines 1996-2005
     func testExample120() {
         let html = MarkdownParser().html(from:
@@ -52,8 +103,10 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // Fewer than three backticks is not enough:
+    //     
     // spec.txt lines 2009-2015
     func testExample121() {
         let html = MarkdownParser().html(from:
@@ -68,8 +121,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         <p><code>foo</code></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // The closing code fence must use the same character as the opening
+    // fence:
+    //     
     // spec.txt lines 2020-2029
     func testExample122() {
         let html = MarkdownParser().html(from:
@@ -87,7 +143,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2032-2041
     func testExample123() {
@@ -106,8 +162,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The closing code fence must be at least as long as the opening fence:
+    //     
     // spec.txt lines 2046-2055
     func testExample124() {
         let html = MarkdownParser().html(from:
@@ -125,7 +184,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2058-2067
     func testExample125() {
@@ -144,8 +203,12 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Unclosed code blocks are closed by the end of the document
+    // (or the enclosing [block quote][block quotes] or [list item][list items]):
+    //     
     // spec.txt lines 2073-2077
     func testExample126() {
         let html = MarkdownParser().html(from:
@@ -158,7 +221,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         <pre><code></code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2080-2090
     func testExample127() {
@@ -178,7 +241,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2093-2104
     func testExample128() {
@@ -199,8 +262,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         <p>bbb</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A code block can have all empty lines as its content:
+    //     
     // spec.txt lines 2109-2118
     func testExample129() {
         let html = MarkdownParser().html(from:
@@ -218,8 +284,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A code block can be empty:
+    //     
     // spec.txt lines 2123-2128
     func testExample130() {
         let html = MarkdownParser().html(from:
@@ -233,8 +302,13 @@ final class FencedCodeBlocksTests: XCTestCase {
         <pre><code></code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Fences can be indented.  If the opening fence is indented,
+    // content lines will have equivalent opening indentation removed,
+    // if present:
+    //     
     // spec.txt lines 2135-2144
     func testExample131() {
         let html = MarkdownParser().html(from:
@@ -252,7 +326,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2147-2158
     func testExample132() {
@@ -273,7 +347,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2161-2172
     func testExample133() {
@@ -294,8 +368,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Four spaces indentation produces an indented code block:
+    //     
     // spec.txt lines 2177-2186
     func testExample134() {
         let html = MarkdownParser().html(from:
@@ -313,8 +390,12 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Closing fences may be indented by 0-3 spaces, and their indentation
+    // need not match that of the opening fence:
+    //     
     // spec.txt lines 2192-2199
     func testExample135() {
         let html = MarkdownParser().html(from:
@@ -330,7 +411,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2202-2209
     func testExample136() {
@@ -347,8 +428,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // This is not a closing fence, because it is indented 4 spaces:
+    //     
     // spec.txt lines 2214-2222
     func testExample137() {
         let html = MarkdownParser().html(from:
@@ -365,8 +449,12 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // 
+    // Code fences (opening and closing) cannot contain internal spaces:
+    //     
     // spec.txt lines 2228-2234
     func testExample138() {
         let html = MarkdownParser().html(from:
@@ -381,7 +469,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         aaa</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2237-2245
     func testExample139() {
@@ -399,8 +487,12 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Fenced code blocks can interrupt paragraphs, and can be followed
+    // directly by paragraphs, without a blank line between:
+    //     
     // spec.txt lines 2251-2262
     func testExample140() {
         let html = MarkdownParser().html(from:
@@ -420,8 +512,12 @@ final class FencedCodeBlocksTests: XCTestCase {
         <p>baz</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Other blocks can also occur before and after fenced code blocks
+    // without an intervening blank line:
+    //     
     // spec.txt lines 2268-2280
     func testExample141() {
         let html = MarkdownParser().html(from:
@@ -442,8 +538,16 @@ final class FencedCodeBlocksTests: XCTestCase {
         <h1>baz</h1>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // An [info string] can be provided after the opening code fence.
+    // Although this spec doesn't mandate any particular treatment of
+    // the info string, the first word is typically used to specify
+    // the language of the code block. In HTML output, the language is
+    // normally indicated by adding a class to the `code` element consisting
+    // of `language-` followed by the language name.
+    //     
     // spec.txt lines 2290-2301
     func testExample142() {
         let html = MarkdownParser().html(from:
@@ -463,7 +567,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2304-2315
     func testExample143() {
@@ -484,7 +588,7 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 2318-2323
     func testExample144() {
@@ -499,8 +603,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         <pre><code class="language-;"></code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // [Info strings] for backtick code blocks cannot contain backticks:
+    //     
     // spec.txt lines 2328-2334
     func testExample145() {
         let html = MarkdownParser().html(from:
@@ -515,8 +622,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         foo</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // [Info strings] for tilde code blocks can contain backticks and tildes:
+    //     
     // spec.txt lines 2339-2346
     func testExample146() {
         let html = MarkdownParser().html(from:
@@ -532,8 +642,11 @@ final class FencedCodeBlocksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Closing code fences cannot have [info strings]:
+    //     
     // spec.txt lines 2351-2358
     func testExample147() {
         let html = MarkdownParser().html(from:

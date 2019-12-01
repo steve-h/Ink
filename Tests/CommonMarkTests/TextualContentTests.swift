@@ -14,8 +14,20 @@ import XCTest
 import Ink
 
 final class TextualContentTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // A conforming parser may render a soft line break in HTML either as a
+    // line break or as a space.
+    // 
+    // A renderer may also provide an option to render soft line breaks
+    // as hard line breaks.
+    // 
+    // ## Textual content
+    // 
+    // Any characters not given an interpretation by the above rules will
+    // be parsed as plain textual content.
+    //     
     // spec.txt lines 9358-9362
     func testExample648() {
         let html = MarkdownParser().html(from:
@@ -28,7 +40,7 @@ final class TextualContentTests: XCTestCase {
         <p>hello $.;'there</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9365-9369
     func testExample649() {
@@ -42,8 +54,11 @@ final class TextualContentTests: XCTestCase {
         <p>Foo χρῆν</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Internal spaces are preserved verbatim:
+    //     
     // spec.txt lines 9374-9378
     func testExample650() {
         let html = MarkdownParser().html(from:

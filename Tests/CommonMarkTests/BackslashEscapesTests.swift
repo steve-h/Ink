@@ -14,8 +14,19 @@ import XCTest
 import Ink
 
 final class BackslashEscapesTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // ## Insecure characters
+    // 
+    // For security reasons, the Unicode character `U+0000` must be replaced
+    // with the REPLACEMENT CHARACTER (`U+FFFD`).
+    // 
+    // 
+    // ## Backslash escapes
+    // 
+    // Any ASCII punctuation character may be backslash-escaped:
+    //     
     // spec.txt lines 488-492
     func testExample12() {
         let html = MarkdownParser().html(from:
@@ -28,8 +39,12 @@ final class BackslashEscapesTests: XCTestCase {
         <p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Backslashes before other characters are treated as literal
+    // backslashes:
+    //     
     // spec.txt lines 498-502
     func testExample13() {
         let html = MarkdownParser().html(from:
@@ -42,8 +57,12 @@ final class BackslashEscapesTests: XCTestCase {
         <p>\	\A\a\ \3\φ\«</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Escaped characters are treated as regular characters and do
+    // not have their usual Markdown meanings:
+    //     
     // spec.txt lines 508-528
     func testExample14() {
         let html = MarkdownParser().html(from:
@@ -72,8 +91,11 @@ final class BackslashEscapesTests: XCTestCase {
         &amp;ouml; not a character entity</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // If a backslash is itself escaped, the following character is not:
+    //     
     // spec.txt lines 533-537
     func testExample15() {
         let html = MarkdownParser().html(from:
@@ -86,8 +108,11 @@ final class BackslashEscapesTests: XCTestCase {
         <p>\<em>emphasis</em></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A backslash at the end of the line is a [hard line break]:
+    //     
     // spec.txt lines 542-548
     func testExample16() {
         let html = MarkdownParser().html(from:
@@ -102,8 +127,12 @@ final class BackslashEscapesTests: XCTestCase {
         bar</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Backslash escapes do not work in code blocks, code spans, autolinks, or
+    // raw HTML:
+    //     
     // spec.txt lines 554-558
     func testExample17() {
         let html = MarkdownParser().html(from:
@@ -116,7 +145,7 @@ final class BackslashEscapesTests: XCTestCase {
         <p><code>\[\`</code></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 561-566
     func testExample18() {
@@ -131,7 +160,7 @@ final class BackslashEscapesTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 569-576
     func testExample19() {
@@ -148,7 +177,7 @@ final class BackslashEscapesTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 579-583
     func testExample20() {
@@ -162,7 +191,7 @@ final class BackslashEscapesTests: XCTestCase {
         <p><a href="http://example.com?find=%5C*">http://example.com?find=\*</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 586-590
     func testExample21() {
@@ -176,8 +205,12 @@ final class BackslashEscapesTests: XCTestCase {
         <a href="/bar\/)">
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // But they work in all other contexts, including URLs and link titles,
+    // link references, and [info strings] in [fenced code blocks]:
+    //     
     // spec.txt lines 596-600
     func testExample22() {
         let html = MarkdownParser().html(from:
@@ -190,7 +223,7 @@ final class BackslashEscapesTests: XCTestCase {
         <p><a href="/bar*" title="ti*tle">foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 603-609
     func testExample23() {
@@ -206,7 +239,7 @@ final class BackslashEscapesTests: XCTestCase {
         <p><a href="/bar*" title="ti*tle">foo</a></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 612-619
     func testExample24() {

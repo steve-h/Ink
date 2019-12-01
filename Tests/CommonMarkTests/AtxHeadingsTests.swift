@@ -14,8 +14,25 @@ import XCTest
 import Ink
 
 final class AtxHeadingsTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // ## ATX headings
+    // 
+    // An [ATX heading](@)
+    // consists of a string of characters, parsed as inline content, between an
+    // opening sequence of 1--6 unescaped `#` characters and an optional
+    // closing sequence of any number of unescaped `#` characters.
+    // The opening sequence of `#` characters must be followed by a
+    // [space] or by the end of line. The optional closing sequence of `#`s must be
+    // preceded by a [space] and may be followed by spaces only.  The opening
+    // `#` character may be indented 0-3 spaces.  The raw contents of the
+    // heading are stripped of leading and trailing spaces before being parsed
+    // as inline content.  The heading level is equal to the number of `#`
+    // characters in the opening sequence.
+    // 
+    // Simple headings:
+    //     
     // spec.txt lines 1111-1125
     func testExample62() {
         let html = MarkdownParser().html(from:
@@ -38,8 +55,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h6>foo</h6>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // More than six `#` characters is not a heading:
+    //     
     // spec.txt lines 1130-1134
     func testExample63() {
         let html = MarkdownParser().html(from:
@@ -52,8 +72,17 @@ final class AtxHeadingsTests: XCTestCase {
         <p>####### foo</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // At least one space is required between the `#` characters and the
+    // heading's contents, unless the heading is empty.  Note that many
+    // implementations currently do not require the space.  However, the
+    // space was required by the
+    // [original ATX implementation](http://www.aaronsw.com/2002/atx/atx.py),
+    // and it helps prevent things like the following from being parsed as
+    // headings:
+    //     
     // spec.txt lines 1145-1152
     func testExample64() {
         let html = MarkdownParser().html(from:
@@ -69,8 +98,11 @@ final class AtxHeadingsTests: XCTestCase {
         <p>#hashtag</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // This is not a heading, because the first `#` is escaped:
+    //     
     // spec.txt lines 1157-1161
     func testExample65() {
         let html = MarkdownParser().html(from:
@@ -83,8 +115,11 @@ final class AtxHeadingsTests: XCTestCase {
         <p>## foo</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Contents are parsed as inlines:
+    //     
     // spec.txt lines 1166-1170
     func testExample66() {
         let html = MarkdownParser().html(from:
@@ -97,8 +132,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h1>foo <em>bar</em> *baz*</h1>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Leading and trailing [whitespace] is ignored in parsing inline content:
+    //     
     // spec.txt lines 1175-1179
     func testExample67() {
         let html = MarkdownParser().html(from:
@@ -111,8 +149,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h1>foo</h1>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // One to three spaces indentation are allowed:
+    //     
     // spec.txt lines 1184-1192
     func testExample68() {
         let html = MarkdownParser().html(from:
@@ -129,8 +170,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h1>foo</h1>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Four spaces are too much:
+    //     
     // spec.txt lines 1197-1202
     func testExample69() {
         let html = MarkdownParser().html(from:
@@ -144,7 +188,7 @@ final class AtxHeadingsTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 1205-1211
     func testExample70() {
@@ -160,8 +204,11 @@ final class AtxHeadingsTests: XCTestCase {
         # bar</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A closing sequence of `#` characters is optional:
+    //     
     // spec.txt lines 1216-1222
     func testExample71() {
         let html = MarkdownParser().html(from:
@@ -176,8 +223,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h3>bar</h3>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // It need not be the same length as the opening sequence:
+    //     
     // spec.txt lines 1227-1233
     func testExample72() {
         let html = MarkdownParser().html(from:
@@ -192,8 +242,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h5>foo</h5>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Spaces are allowed after the closing sequence:
+    //     
     // spec.txt lines 1238-1242
     func testExample73() {
         let html = MarkdownParser().html(from:
@@ -206,8 +259,13 @@ final class AtxHeadingsTests: XCTestCase {
         <h3>foo</h3>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // A sequence of `#` characters with anything but [spaces] following it
+    // is not a closing sequence, but counts as part of the contents of the
+    // heading:
+    //     
     // spec.txt lines 1249-1253
     func testExample74() {
         let html = MarkdownParser().html(from:
@@ -220,8 +278,11 @@ final class AtxHeadingsTests: XCTestCase {
         <h3>foo ### b</h3>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The closing sequence must be preceded by a space:
+    //     
     // spec.txt lines 1258-1262
     func testExample75() {
         let html = MarkdownParser().html(from:
@@ -234,8 +295,12 @@ final class AtxHeadingsTests: XCTestCase {
         <h1>foo#</h1>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Backslash-escaped `#` characters do not count as part
+    // of the closing sequence:
+    //     
     // spec.txt lines 1268-1276
     func testExample76() {
         let html = MarkdownParser().html(from:
@@ -252,8 +317,12 @@ final class AtxHeadingsTests: XCTestCase {
         <h1>foo #</h1>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // ATX headings need not be separated from surrounding content by blank
+    // lines, and they can interrupt paragraphs:
+    //     
     // spec.txt lines 1282-1290
     func testExample77() {
         let html = MarkdownParser().html(from:
@@ -270,7 +339,7 @@ final class AtxHeadingsTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 1293-1301
     func testExample78() {
@@ -288,8 +357,11 @@ final class AtxHeadingsTests: XCTestCase {
         <p>Bar foo</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // ATX headings can be empty:
+    //     
     // spec.txt lines 1306-1314
     func testExample79() {
         let html = MarkdownParser().html(from:

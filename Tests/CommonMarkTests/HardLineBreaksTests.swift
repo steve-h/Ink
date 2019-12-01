@@ -14,8 +14,16 @@ import XCTest
 import Ink
 
 final class HardLineBreaksTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // ## Hard line breaks
+    // 
+    // A line break (not in a code span or HTML tag) that is preceded
+    // by two or more spaces and does not occur at the end of a block
+    // is parsed as a [hard line break](@) (rendered
+    // in HTML as a `<br />` tag):
+    //     
     // spec.txt lines 9175-9181
     func testExample631() {
         let html = MarkdownParser().html(from:
@@ -30,8 +38,12 @@ final class HardLineBreaksTests: XCTestCase {
         baz</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // For a more visible alternative, a backslash before the
+    // [line ending] may be used instead of two spaces:
+    //     
     // spec.txt lines 9187-9193
     func testExample632() {
         let html = MarkdownParser().html(from:
@@ -46,8 +58,11 @@ final class HardLineBreaksTests: XCTestCase {
         baz</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // More than two spaces can be used:
+    //     
     // spec.txt lines 9198-9204
     func testExample633() {
         let html = MarkdownParser().html(from:
@@ -62,8 +77,11 @@ final class HardLineBreaksTests: XCTestCase {
         baz</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Leading spaces at the beginning of the next line are ignored:
+    //     
     // spec.txt lines 9209-9215
     func testExample634() {
         let html = MarkdownParser().html(from:
@@ -78,7 +96,7 @@ final class HardLineBreaksTests: XCTestCase {
         bar</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9218-9224
     func testExample635() {
@@ -94,8 +112,12 @@ final class HardLineBreaksTests: XCTestCase {
         bar</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Line breaks can occur inside emphasis, links, and other constructs
+    // that allow inline content:
+    //     
     // spec.txt lines 9230-9236
     func testExample636() {
         let html = MarkdownParser().html(from:
@@ -110,7 +132,7 @@ final class HardLineBreaksTests: XCTestCase {
         bar</em></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9239-9245
     func testExample637() {
@@ -126,8 +148,11 @@ final class HardLineBreaksTests: XCTestCase {
         bar</em></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Line breaks do not occur inside code spans
+    //     
     // spec.txt lines 9250-9255
     func testExample638() {
         let html = MarkdownParser().html(from:
@@ -141,7 +166,7 @@ final class HardLineBreaksTests: XCTestCase {
         <p><code>code  span</code></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9258-9263
     func testExample639() {
@@ -156,8 +181,11 @@ final class HardLineBreaksTests: XCTestCase {
         <p><code>code\ span</code></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // or HTML tags:
+    //     
     // spec.txt lines 9268-9274
     func testExample640() {
         let html = MarkdownParser().html(from:
@@ -172,7 +200,7 @@ final class HardLineBreaksTests: XCTestCase {
         bar"></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9277-9283
     func testExample641() {
@@ -188,8 +216,13 @@ final class HardLineBreaksTests: XCTestCase {
         bar"></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Hard line breaks are for separating inline content within a block.
+    // Neither syntax for hard line breaks works at the end of a paragraph or
+    // other block element:
+    //     
     // spec.txt lines 9290-9294
     func testExample642() {
         let html = MarkdownParser().html(from:
@@ -202,7 +235,7 @@ final class HardLineBreaksTests: XCTestCase {
         <p>foo\</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9297-9301
     func testExample643() {
@@ -216,7 +249,7 @@ final class HardLineBreaksTests: XCTestCase {
         <p>foo</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9304-9308
     func testExample644() {
@@ -230,7 +263,7 @@ final class HardLineBreaksTests: XCTestCase {
         <h3>foo\</h3>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 9311-9315
     func testExample645() {

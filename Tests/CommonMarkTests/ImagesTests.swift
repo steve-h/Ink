@@ -14,8 +14,22 @@ import XCTest
 import Ink
 
 final class ImagesTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // 
+    // ## Images
+    // 
+    // Syntax for images is like the syntax for links, with one
+    // difference. Instead of [link text], we have an
+    // [image description](@).  The rules for this are the
+    // same as for [link text], except that (a) an
+    // image description starts with `![` rather than `[`, and
+    // (b) an image description may contain links.
+    // An image description has inline elements
+    // as its contents.  When an image is rendered to HTML,
+    // this is standardly used as the image's `alt` attribute.
+    //     
     // spec.txt lines 8494-8498
     func testExample569() {
         let html = MarkdownParser().html(from:
@@ -28,7 +42,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo" title="title" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8501-8507
     func testExample570() {
@@ -44,7 +58,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="train.jpg" alt="foo bar" title="train &amp; tracks" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8510-8514
     func testExample571() {
@@ -58,7 +72,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url2" alt="foo bar" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8517-8521
     func testExample572() {
@@ -72,8 +86,16 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url2" alt="foo bar" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Though this spec is concerned with parsing, not rendering, it is
+    // recommended that in rendering to HTML, only the plain string content
+    // of the [image description] be used.  Note that in
+    // the above example, the alt attribute's value is `foo bar`, not `foo
+    // [bar](/url)` or `foo <a href="/url">bar</a>`.  Only the plain string
+    // content is rendered, without formatting.
+    //     
     // spec.txt lines 8531-8537
     func testExample573() {
         let html = MarkdownParser().html(from:
@@ -88,7 +110,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="train.jpg" alt="foo bar" title="train &amp; tracks" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8540-8546
     func testExample574() {
@@ -104,7 +126,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="train.jpg" alt="foo bar" title="train &amp; tracks" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8549-8553
     func testExample575() {
@@ -118,7 +140,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="train.jpg" alt="foo" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8556-8560
     func testExample576() {
@@ -132,7 +154,7 @@ final class ImagesTests: XCTestCase {
         <p>My <img src="/path/to/train.jpg" alt="foo bar" title="title" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8563-8567
     func testExample577() {
@@ -146,7 +168,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="url" alt="foo" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8570-8574
     func testExample578() {
@@ -160,8 +182,11 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Reference-style:
+    //     
     // spec.txt lines 8579-8585
     func testExample579() {
         let html = MarkdownParser().html(from:
@@ -176,7 +201,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8588-8594
     func testExample580() {
@@ -192,8 +217,11 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Collapsed:
+    //     
     // spec.txt lines 8599-8605
     func testExample581() {
         let html = MarkdownParser().html(from:
@@ -208,7 +236,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo" title="title" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8608-8614
     func testExample582() {
@@ -224,8 +252,11 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo bar" title="title" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The labels are case-insensitive:
+    //     
     // spec.txt lines 8619-8625
     func testExample583() {
         let html = MarkdownParser().html(from:
@@ -240,8 +271,12 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="Foo" title="title" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // As with reference links, [whitespace] is not allowed
+    // between the two sets of brackets:
+    //     
     // spec.txt lines 8631-8639
     func testExample584() {
         let html = MarkdownParser().html(from:
@@ -258,8 +293,11 @@ final class ImagesTests: XCTestCase {
         []</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Shortcut:
+    //     
     // spec.txt lines 8644-8650
     func testExample585() {
         let html = MarkdownParser().html(from:
@@ -274,7 +312,7 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo" title="title" /></p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 8653-8659
     func testExample586() {
@@ -290,8 +328,11 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="foo bar" title="title" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Note that link labels cannot contain unescaped brackets:
+    //     
     // spec.txt lines 8664-8671
     func testExample587() {
         let html = MarkdownParser().html(from:
@@ -307,8 +348,11 @@ final class ImagesTests: XCTestCase {
         <p>[[foo]]: /url &quot;title&quot;</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // The link labels are case-insensitive:
+    //     
     // spec.txt lines 8676-8682
     func testExample588() {
         let html = MarkdownParser().html(from:
@@ -323,8 +367,12 @@ final class ImagesTests: XCTestCase {
         <p><img src="/url" alt="Foo" title="title" /></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // If you just want a literal `!` followed by bracketed text, you can
+    // backslash-escape the opening `[`:
+    //     
     // spec.txt lines 8688-8694
     func testExample589() {
         let html = MarkdownParser().html(from:
@@ -339,8 +387,12 @@ final class ImagesTests: XCTestCase {
         <p>![foo]</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // If you want a link after a literal `!`, backslash-escape the
+    // `!`:
+    //     
     // spec.txt lines 8700-8706
     func testExample590() {
         let html = MarkdownParser().html(from:

@@ -14,8 +14,37 @@ import XCTest
 import Ink
 
 final class ThematicBreaksTests: XCTestCase {
-    
-    
+
+    // 
+    // 
+    // This means that parsing can proceed in two steps:  first, the block
+    // structure of the document can be discerned; second, text lines inside
+    // paragraphs, headings, and other block constructs can be parsed for inline
+    // structure.  The second step requires information about link reference
+    // definitions that will be available only at the end of the first
+    // step.  Note that the first step requires processing lines in sequence,
+    // but the second can be parallelized, since the inline parsing of
+    // one block element does not affect the inline parsing of any other.
+    // 
+    // ## Container blocks and leaf blocks
+    // 
+    // We can divide blocks into two types:
+    // [container blocks](@),
+    // which can contain other blocks, and [leaf blocks](@),
+    // which cannot.
+    // 
+    // # Leaf blocks
+    // 
+    // This section describes the different kinds of leaf block that make up a
+    // Markdown document.
+    // 
+    // ## Thematic breaks
+    // 
+    // A line consisting of 0-3 spaces of indentation, followed by a sequence
+    // of three or more matching `-`, `_`, or `*` characters, each followed
+    // optionally by any number of spaces or tabs, forms a
+    // [thematic break](@).
+    //     
     // spec.txt lines 878-886
     func testExample43() {
         let html = MarkdownParser().html(from:
@@ -32,8 +61,11 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Wrong characters:
+    //     
     // spec.txt lines 891-895
     func testExample44() {
         let html = MarkdownParser().html(from:
@@ -46,7 +78,7 @@ final class ThematicBreaksTests: XCTestCase {
         <p>+++</p>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 898-902
     func testExample45() {
@@ -60,8 +92,11 @@ final class ThematicBreaksTests: XCTestCase {
         <p>===</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Not enough characters:
+    //     
     // spec.txt lines 907-915
     func testExample46() {
         let html = MarkdownParser().html(from:
@@ -78,8 +113,11 @@ final class ThematicBreaksTests: XCTestCase {
         __</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // One to three spaces indent are allowed:
+    //     
     // spec.txt lines 920-928
     func testExample47() {
         let html = MarkdownParser().html(from:
@@ -96,8 +134,11 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Four spaces is too many:
+    //     
     // spec.txt lines 933-938
     func testExample48() {
         let html = MarkdownParser().html(from:
@@ -111,7 +152,7 @@ final class ThematicBreaksTests: XCTestCase {
         </code></pre>
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 941-947
     func testExample49() {
@@ -127,8 +168,11 @@ final class ThematicBreaksTests: XCTestCase {
         ***</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // More than three characters may be used:
+    //     
     // spec.txt lines 952-956
     func testExample50() {
         let html = MarkdownParser().html(from:
@@ -141,8 +185,11 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Spaces are allowed between the characters:
+    //     
     // spec.txt lines 961-965
     func testExample51() {
         let html = MarkdownParser().html(from:
@@ -155,7 +202,7 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 968-972
     func testExample52() {
@@ -169,7 +216,7 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
+    }
     
     // spec.txt lines 975-979
     func testExample53() {
@@ -183,8 +230,11 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Spaces are allowed at the end:
+    //     
     // spec.txt lines 984-988
     func testExample54() {
         let html = MarkdownParser().html(from:
@@ -197,8 +247,11 @@ final class ThematicBreaksTests: XCTestCase {
         <hr />
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // However, no other characters may occur in the line:
+    //     
     // spec.txt lines 993-1003
     func testExample55() {
         let html = MarkdownParser().html(from:
@@ -217,8 +270,12 @@ final class ThematicBreaksTests: XCTestCase {
         <p>---a---</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // It is required that all of the [non-whitespace characters] be the same.
+    // So, this is not a thematic break:
+    //     
     // spec.txt lines 1009-1013
     func testExample56() {
         let html = MarkdownParser().html(from:
@@ -231,8 +288,11 @@ final class ThematicBreaksTests: XCTestCase {
         <p><em>-</em></p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Thematic breaks do not need blank lines before or after:
+    //     
     // spec.txt lines 1018-1030
     func testExample57() {
         let html = MarkdownParser().html(from:
@@ -253,8 +313,11 @@ final class ThematicBreaksTests: XCTestCase {
         </ul>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // Thematic breaks can interrupt a paragraph:
+    //     
     // spec.txt lines 1035-1043
     func testExample58() {
         let html = MarkdownParser().html(from:
@@ -271,8 +334,15 @@ final class ThematicBreaksTests: XCTestCase {
         <p>bar</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // If a line of dashes that meets the above conditions for being a
+    // thematic break could also be interpreted as the underline of a [setext
+    // heading], the interpretation as a
+    // [setext heading] takes precedence. Thus, for example,
+    // this is a setext heading, not a paragraph followed by a thematic break:
+    //     
     // spec.txt lines 1052-1059
     func testExample59() {
         let html = MarkdownParser().html(from:
@@ -288,8 +358,12 @@ final class ThematicBreaksTests: XCTestCase {
         <p>bar</p>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // When both a thematic break and a list item are possible
+    // interpretations of a line, the thematic break takes precedence:
+    //     
     // spec.txt lines 1065-1077
     func testExample60() {
         let html = MarkdownParser().html(from:
@@ -310,8 +384,11 @@ final class ThematicBreaksTests: XCTestCase {
         </ul>
         """#####
         )
-    }    
-    
+    }
+    // 
+    // 
+    // If you want a thematic break in a list item, use a different bullet:
+    //     
     // spec.txt lines 1082-1092
     func testExample61() {
         let html = MarkdownParser().html(from:
