@@ -172,17 +172,21 @@ private extension FormattedText {
             if reader.currentCharacter == "\\"  {
                 addPendingTextIfNeeded()
                 if let nextChr = reader.nextCharacter {
-                    if let subAvailable =  escaped(nextChr) {
+                    // only ASCII punctuation and the html special chars are escapable in CommonMark
+                    if let foundSubstitution = escaped(nextChr) {
+                        // skip the backslash and the following char and use substitution instead
                         skipCharacter()
                         skipCharacter()
-                        text.components.append(.text(Substring(subAvailable)))
+                        text.components.append(.text(Substring(foundSubstitution)))
                     } else if nextChr.isNewline {
+                        // just skip the backslash as we still need the newline after the hard break
                         skipCharacter()
+                        // special case trailing backslash yields a hard html break
                         text.components.append(.text(Substring("<br />")))
+                    } else {
+                        // the backslash remains in all other cases
+                        reader.advanceIndex()
                     }
-                    
-                } else {
-                    reader.advanceIndex()
                 }
             } else {
                 if let escaped = escaped(reader.currentCharacter) {
