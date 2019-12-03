@@ -12,6 +12,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
 
 import XCTest
 import Ink
+import Foundation
 
 final class EmphasisAndStrongEmphasisTests: XCTestCase {
 
@@ -237,11 +238,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo bar*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -259,11 +261,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         a * foo bar*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>a * foo bar*</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -282,11 +285,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         a*"foo"*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>a*&quot;foo&quot;*</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -303,11 +307,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         * a *
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>* a *</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -324,11 +329,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo*bar*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo<em>bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -343,11 +349,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         5*6*78
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>5<em>6</em>78</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -364,11 +371,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo bar_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -386,11 +394,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _ foo bar_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_ foo bar_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -408,11 +417,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         a_"foo"_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>a_&quot;foo&quot;_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -429,11 +439,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo_bar_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo_bar_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -448,11 +459,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         5_6_78
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>5_6_78</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -467,11 +479,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         пристаням_стремятся_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>пристаням_стремятся_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -489,11 +502,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         aa_"bb"_cc
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>aa_&quot;bb&quot;_cc</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -512,11 +526,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo-_(bar)_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo-<em>(bar)</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -536,11 +551,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_foo*</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -558,11 +574,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo bar *
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*foo bar *</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -580,12 +597,13 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*foo bar
         *</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -604,11 +622,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *(*foo)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*(*foo)</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -626,11 +645,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *(*foo*)*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>(<em>foo</em>)</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -647,11 +667,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo*bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -672,11 +693,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo bar _
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_foo bar _</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -694,11 +716,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _(_foo)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_(_foo)</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -715,11 +738,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _(_foo_)_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>(<em>foo</em>)</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -736,11 +760,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo_bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_foo_bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -755,11 +780,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _пристаням_стремятся
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_пристаням_стремятся</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -774,11 +800,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo_bar_baz_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo_bar_baz</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -797,11 +824,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _(bar)_.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>(bar)</em>.</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -818,11 +846,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo bar**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo bar</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -840,11 +869,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ** foo bar**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>** foo bar**</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -863,11 +893,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         a**"foo"**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>a**&quot;foo&quot;**</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -884,11 +915,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo**bar**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo<strong>bar</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -905,11 +937,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo bar__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo bar</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -927,11 +960,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __ foo bar__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__ foo bar__</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -948,12 +982,13 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo bar__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__
         foo bar__</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -971,11 +1006,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         a__"foo"__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>a__&quot;foo&quot;__</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -992,11 +1028,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo__bar__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo__bar__</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1011,11 +1048,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         5__6__78
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>5__6__78</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1030,11 +1068,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         пристаням__стремятся__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>пристаням__стремятся__</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1049,11 +1088,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo, __bar__, baz__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo, <strong>bar</strong>, baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1072,11 +1112,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo-__(bar)__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo-<strong>(bar)</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1097,11 +1138,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo bar **
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>**foo bar **</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1122,11 +1164,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **(**foo)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>**(**foo)</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1144,11 +1187,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *(**foo**)*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>(<strong>foo</strong>)</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1164,12 +1208,13 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *Asclepias physocarpa*)**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>Gomphocarpus (<em>Gomphocarpus physocarpus</em>, syn.
         <em>Asclepias physocarpa</em>)</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1184,11 +1229,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo "*bar*" foo**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo &quot;<em>bar</em>&quot; foo</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1205,11 +1251,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo**bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong>bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1229,11 +1276,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo bar __
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__foo bar __</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1251,11 +1299,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __(__foo)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__(__foo)</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1273,11 +1322,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _(__foo__)_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>(<strong>foo</strong>)</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1294,11 +1344,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo__bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__foo__bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1313,11 +1364,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __пристаням__стремятся
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__пристаням__стремятся</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1332,11 +1384,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo__bar__baz__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo__bar__baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1355,11 +1408,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __(bar)__.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>(bar)</strong>.</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1379,11 +1433,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo [bar](/url)*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <a href="/url">bar</a></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1399,12 +1454,13 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         bar*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo
         bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1422,11 +1478,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo __bar__ baz_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar</strong> baz</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1441,11 +1498,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo _bar_ baz_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <em>bar</em> baz</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1460,11 +1518,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo_ bar_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em><em>foo</em> bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1479,11 +1538,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo *bar**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <em>bar</em></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1498,11 +1558,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo **bar** baz*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar</strong> baz</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1516,11 +1577,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo**bar**baz*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo<strong>bar</strong>baz</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1552,11 +1614,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo**bar*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo**bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1577,11 +1640,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ***foo** bar*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em><strong>foo</strong> bar</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1596,11 +1660,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo **bar***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar</strong></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1615,11 +1680,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo**bar***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo<strong>bar</strong></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1638,11 +1704,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo***bar***baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo<em><strong>bar</strong></em>baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1656,11 +1723,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo******bar*********baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1677,11 +1745,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo **bar *baz* bim** bop*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar <em>baz</em> bim</strong> bop</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1696,11 +1765,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo [*bar*](/url)*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <a href="/url"><em>bar</em></a></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1717,11 +1787,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ** is not an empty emphasis
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>** is not an empty emphasis</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1736,11 +1807,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **** is not an empty strong emphasis
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>**** is not an empty strong emphasis</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1761,11 +1833,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo [bar](/url)**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <a href="/url">bar</a></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1781,12 +1854,13 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         bar**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo
         bar</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1804,11 +1878,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo _bar_ baz__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar</em> baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1823,11 +1898,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo __bar__ baz__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <strong>bar</strong> baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1842,11 +1918,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ____foo__ bar__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong>foo</strong> bar</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1861,11 +1938,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo **bar****
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <strong>bar</strong></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1880,11 +1958,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo *bar* baz**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar</em> baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1899,11 +1978,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo*bar*baz**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo<em>bar</em>baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1918,11 +1998,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ***foo* bar**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong><em>foo</em> bar</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1937,11 +2018,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo *bar***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar</em></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1959,12 +2041,13 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         bim* bop**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <em>bar <strong>baz</strong>
         bim</em> bop</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1979,11 +2062,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo [*bar*](/url)**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo <a href="/url"><em>bar</em></a></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2000,11 +2084,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __ is not an empty emphasis
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__ is not an empty emphasis</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2019,11 +2104,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ____ is not an empty strong emphasis
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>____ is not an empty strong emphasis</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2041,11 +2127,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo ***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo ***</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2060,11 +2147,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo *\**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>*</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2079,11 +2167,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo *_*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>_</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2098,11 +2187,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo *****
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo *****</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2117,11 +2207,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo **\***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>*</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2136,11 +2227,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo **_**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>_</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2159,11 +2251,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*<em>foo</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2178,11 +2271,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>*</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2197,11 +2291,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ***foo**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*<strong>foo</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2216,11 +2311,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ****foo*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>***<em>foo</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2235,11 +2331,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong>*</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2254,11 +2351,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo****
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>***</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2276,11 +2374,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo ___
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo ___</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2295,11 +2394,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo _\__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>_</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2314,11 +2414,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo _*_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <em>*</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2333,11 +2434,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo _____
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo _____</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2352,11 +2454,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo __\___
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>_</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2371,11 +2474,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         foo __*__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo <strong>*</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2390,11 +2494,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_<em>foo</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2413,11 +2518,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2432,11 +2538,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ___foo__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_<strong>foo</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2451,11 +2558,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ____foo_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>___<em>foo</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2470,11 +2578,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo___
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong>_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2489,11 +2598,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo____
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo</em>___</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2511,11 +2621,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2530,11 +2641,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *_foo_*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em><em>foo</em></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2549,11 +2661,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __foo__
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong>foo</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2568,11 +2681,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _*foo*_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em><em>foo</em></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2590,11 +2704,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ****foo****
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong>foo</strong></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2609,11 +2724,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ____foo____
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong>foo</strong></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2632,11 +2748,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ******foo******
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><strong><strong><strong>foo</strong></strong></strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2653,11 +2770,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         ***foo***
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em><strong>foo</strong></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2672,11 +2790,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _____foo_____
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em><strong><strong>foo</strong></strong></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2693,11 +2812,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo _bar* baz_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo _bar</em> baz_</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2712,11 +2832,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo __bar *baz bim__ bam*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>foo <strong>bar *baz bim</strong> bam</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2733,11 +2854,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **foo **bar baz**
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>**foo <strong>bar baz</strong></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2752,11 +2874,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *foo *bar baz*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*foo <em>bar baz</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2773,11 +2896,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *[bar*](/url)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*<a href="/url">bar*</a></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2792,11 +2916,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _foo [bar_](/url)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>_foo <a href="/url">bar_</a></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2811,11 +2936,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *<img src="foo" title="*"/>
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*<img src="foo" title="*"/></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2830,11 +2956,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **<a href="**">
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>**<a href="**"></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2849,11 +2976,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __<a href="__">
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__<a href="__"></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2868,11 +2996,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         *a `*`*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>a <code>*</code></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2887,11 +3016,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         _a `_`_
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><em>a <code>_</code></em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2906,11 +3036,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         **a<http://foo.bar/?q=**>
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>**a<a href="http://foo.bar/?q=**">http://foo.bar/?q=**</a></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -2925,11 +3056,12 @@ final class EmphasisAndStrongEmphasisTests: XCTestCase {
         __a<http://foo.bar/?q=__>
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>__a<a href="http://foo.bar/?q=__">http://foo.bar/?q=__</a></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

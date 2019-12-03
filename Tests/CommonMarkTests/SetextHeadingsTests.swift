@@ -12,6 +12,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
 
 import XCTest
 import Ink
+import Foundation
 
 final class SetextHeadingsTests: XCTestCase {
 
@@ -63,12 +64,13 @@ final class SetextHeadingsTests: XCTestCase {
         ---------
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h1>Foo <em>bar</em></h1>
         <h2>Foo <em>bar</em></h2>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -87,12 +89,13 @@ final class SetextHeadingsTests: XCTestCase {
         ====
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h1>Foo <em>bar
         baz</em></h1>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -113,12 +116,13 @@ final class SetextHeadingsTests: XCTestCase {
         ====
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h1>Foo <em>bar
         baz</em></h1>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -139,12 +143,13 @@ final class SetextHeadingsTests: XCTestCase {
         =
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
         <h1>Foo</h1>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -169,13 +174,14 @@ final class SetextHeadingsTests: XCTestCase {
           ===
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
         <h2>Foo</h2>
         <h1>Foo</h1>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -196,7 +202,7 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <pre><code>Foo
@@ -206,6 +212,7 @@ final class SetextHeadingsTests: XCTestCase {
         </code></pre>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -224,11 +231,12 @@ final class SetextHeadingsTests: XCTestCase {
            ----      
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -246,12 +254,13 @@ final class SetextHeadingsTests: XCTestCase {
             ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>Foo
         ---</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -272,7 +281,7 @@ final class SetextHeadingsTests: XCTestCase {
         --- -
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -280,6 +289,7 @@ final class SetextHeadingsTests: XCTestCase {
         <p>Foo</p>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -297,11 +307,12 @@ final class SetextHeadingsTests: XCTestCase {
         -----
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>Foo</h2>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -319,11 +330,12 @@ final class SetextHeadingsTests: XCTestCase {
         ----
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>Foo\</h2>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -347,7 +359,7 @@ final class SetextHeadingsTests: XCTestCase {
         of dashes"/>
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>`Foo</h2>
@@ -355,6 +367,7 @@ final class SetextHeadingsTests: XCTestCase {
         <h2>&lt;a title=&quot;a lot</h2>
         <p>of dashes&quot;/&gt;</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -373,7 +386,7 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -381,6 +394,7 @@ final class SetextHeadingsTests: XCTestCase {
         </blockquote>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -397,7 +411,7 @@ final class SetextHeadingsTests: XCTestCase {
         ===
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -406,6 +420,7 @@ final class SetextHeadingsTests: XCTestCase {
         ===</p>
         </blockquote>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -421,7 +436,7 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -429,6 +444,7 @@ final class SetextHeadingsTests: XCTestCase {
         </ul>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -449,12 +465,13 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>Foo
         Bar</h2>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -477,7 +494,7 @@ final class SetextHeadingsTests: XCTestCase {
         Baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <hr />
@@ -485,6 +502,7 @@ final class SetextHeadingsTests: XCTestCase {
         <h2>Bar</h2>
         <p>Baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -502,11 +520,12 @@ final class SetextHeadingsTests: XCTestCase {
         ====
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>====</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -526,12 +545,13 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <hr />
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -547,7 +567,7 @@ final class SetextHeadingsTests: XCTestCase {
         -----
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -555,6 +575,7 @@ final class SetextHeadingsTests: XCTestCase {
         </ul>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -570,13 +591,14 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <pre><code>foo
         </code></pre>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -592,7 +614,7 @@ final class SetextHeadingsTests: XCTestCase {
         -----
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -600,6 +622,7 @@ final class SetextHeadingsTests: XCTestCase {
         </blockquote>
         <hr />
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -618,11 +641,12 @@ final class SetextHeadingsTests: XCTestCase {
         ------
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <h2>&gt; foo</h2>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -664,13 +688,14 @@ final class SetextHeadingsTests: XCTestCase {
         baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>Foo</p>
         <h2>bar</h2>
         <p>baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -693,7 +718,7 @@ final class SetextHeadingsTests: XCTestCase {
         baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -701,6 +726,7 @@ final class SetextHeadingsTests: XCTestCase {
         <hr />
         <p>baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -721,7 +747,7 @@ final class SetextHeadingsTests: XCTestCase {
         baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -729,6 +755,7 @@ final class SetextHeadingsTests: XCTestCase {
         <hr />
         <p>baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -748,7 +775,7 @@ final class SetextHeadingsTests: XCTestCase {
         baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>Foo
@@ -756,6 +783,7 @@ final class SetextHeadingsTests: XCTestCase {
         ---
         baz</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

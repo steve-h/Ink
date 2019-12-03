@@ -12,6 +12,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
 
 import XCTest
 import Ink
+import Foundation
 
 final class ListItemsTests: XCTestCase {
 
@@ -71,7 +72,7 @@ final class ListItemsTests: XCTestCase {
         > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>A paragraph
@@ -82,6 +83,7 @@ final class ListItemsTests: XCTestCase {
         <p>A block quote.</p>
         </blockquote>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -105,7 +107,7 @@ final class ListItemsTests: XCTestCase {
             > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -120,6 +122,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -147,7 +150,7 @@ final class ListItemsTests: XCTestCase {
          two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -155,6 +158,7 @@ final class ListItemsTests: XCTestCase {
         </ul>
         <p>two</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -171,7 +175,7 @@ final class ListItemsTests: XCTestCase {
           two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -181,6 +185,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -197,7 +202,7 @@ final class ListItemsTests: XCTestCase {
              two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -206,6 +211,7 @@ final class ListItemsTests: XCTestCase {
         <pre><code> two
         </code></pre>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -222,7 +228,7 @@ final class ListItemsTests: XCTestCase {
               two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -232,6 +238,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -256,7 +263,7 @@ final class ListItemsTests: XCTestCase {
         >>     two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -270,6 +277,7 @@ final class ListItemsTests: XCTestCase {
         </blockquote>
         </blockquote>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -295,7 +303,7 @@ final class ListItemsTests: XCTestCase {
           >  > two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -307,6 +315,7 @@ final class ListItemsTests: XCTestCase {
         </blockquote>
         </blockquote>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -326,12 +335,13 @@ final class ListItemsTests: XCTestCase {
         2.two
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>-one</p>
         <p>2.two</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -352,7 +362,7 @@ final class ListItemsTests: XCTestCase {
           bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -362,6 +372,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -386,7 +397,7 @@ final class ListItemsTests: XCTestCase {
             > bam
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -401,6 +412,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -423,7 +435,7 @@ final class ListItemsTests: XCTestCase {
               baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -437,6 +449,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -452,13 +465,14 @@ final class ListItemsTests: XCTestCase {
         123456789. ok
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol start="123456789">
         <li>ok</li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -473,11 +487,12 @@ final class ListItemsTests: XCTestCase {
         1234567890. not ok
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>1234567890. not ok</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -494,13 +509,14 @@ final class ListItemsTests: XCTestCase {
         0. ok
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol start="0">
         <li>ok</li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -515,13 +531,14 @@ final class ListItemsTests: XCTestCase {
         003. ok
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol start="3">
         <li>ok</li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -538,11 +555,12 @@ final class ListItemsTests: XCTestCase {
         -1. not ok
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>-1. not ok</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -575,7 +593,7 @@ final class ListItemsTests: XCTestCase {
               bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -586,6 +604,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -604,7 +623,7 @@ final class ListItemsTests: XCTestCase {
                    bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol start="10">
@@ -615,6 +634,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -637,7 +657,7 @@ final class ListItemsTests: XCTestCase {
             more code
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <pre><code>indented code
@@ -646,6 +666,7 @@ final class ListItemsTests: XCTestCase {
         <pre><code>more code
         </code></pre>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -664,7 +685,7 @@ final class ListItemsTests: XCTestCase {
                more code
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -677,6 +698,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -698,7 +720,7 @@ final class ListItemsTests: XCTestCase {
                more code
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -711,6 +733,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -735,12 +758,13 @@ final class ListItemsTests: XCTestCase {
         bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo</p>
         <p>bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -757,7 +781,7 @@ final class ListItemsTests: XCTestCase {
           bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -765,6 +789,7 @@ final class ListItemsTests: XCTestCase {
         </ul>
         <p>bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -786,7 +811,7 @@ final class ListItemsTests: XCTestCase {
            bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -796,6 +821,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -831,7 +857,7 @@ final class ListItemsTests: XCTestCase {
               baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -846,6 +872,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -863,13 +890,14 @@ final class ListItemsTests: XCTestCase {
           foo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
         <li>foo</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -890,7 +918,7 @@ final class ListItemsTests: XCTestCase {
           foo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -898,6 +926,7 @@ final class ListItemsTests: XCTestCase {
         </ul>
         <p>foo</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -916,7 +945,7 @@ final class ListItemsTests: XCTestCase {
         - bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -925,6 +954,7 @@ final class ListItemsTests: XCTestCase {
         <li>bar</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -943,7 +973,7 @@ final class ListItemsTests: XCTestCase {
         - bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -952,6 +982,7 @@ final class ListItemsTests: XCTestCase {
         <li>bar</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -970,7 +1001,7 @@ final class ListItemsTests: XCTestCase {
         3. bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -979,6 +1010,7 @@ final class ListItemsTests: XCTestCase {
         <li>bar</li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -995,13 +1027,14 @@ final class ListItemsTests: XCTestCase {
         *
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
         <li></li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1021,7 +1054,7 @@ final class ListItemsTests: XCTestCase {
         1.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo
@@ -1029,6 +1062,7 @@ final class ListItemsTests: XCTestCase {
         <p>foo
         1.</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1056,7 +1090,7 @@ final class ListItemsTests: XCTestCase {
              > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -1071,6 +1105,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1092,7 +1127,7 @@ final class ListItemsTests: XCTestCase {
               > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -1107,6 +1142,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1128,7 +1164,7 @@ final class ListItemsTests: XCTestCase {
                > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -1143,6 +1179,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1164,7 +1201,7 @@ final class ListItemsTests: XCTestCase {
                 > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <pre><code>1.  A paragraph
@@ -1175,6 +1212,7 @@ final class ListItemsTests: XCTestCase {
             &gt; A block quote.
         </code></pre>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1206,7 +1244,7 @@ final class ListItemsTests: XCTestCase {
               > A block quote.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -1221,6 +1259,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1238,7 +1277,7 @@ final class ListItemsTests: XCTestCase {
             with two lines.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -1246,6 +1285,7 @@ final class ListItemsTests: XCTestCase {
         with two lines.</li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1263,7 +1303,7 @@ final class ListItemsTests: XCTestCase {
         continued here.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -1277,6 +1317,7 @@ final class ListItemsTests: XCTestCase {
         </ol>
         </blockquote>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1292,7 +1333,7 @@ final class ListItemsTests: XCTestCase {
         > continued here.
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <blockquote>
@@ -1306,6 +1347,7 @@ final class ListItemsTests: XCTestCase {
         </ol>
         </blockquote>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1334,7 +1376,7 @@ final class ListItemsTests: XCTestCase {
               - boo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -1353,6 +1395,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1372,7 +1415,7 @@ final class ListItemsTests: XCTestCase {
            - boo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -1382,6 +1425,7 @@ final class ListItemsTests: XCTestCase {
         <li>boo</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1399,7 +1443,7 @@ final class ListItemsTests: XCTestCase {
             - bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol start="10">
@@ -1410,6 +1454,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1427,7 +1472,7 @@ final class ListItemsTests: XCTestCase {
            - bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol start="10">
@@ -1437,6 +1482,7 @@ final class ListItemsTests: XCTestCase {
         <li>bar</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1453,7 +1499,7 @@ final class ListItemsTests: XCTestCase {
         - - foo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -1464,6 +1510,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1478,7 +1525,7 @@ final class ListItemsTests: XCTestCase {
         1. - 2. foo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ol>
@@ -1493,6 +1540,7 @@ final class ListItemsTests: XCTestCase {
         </li>
         </ol>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -1512,7 +1560,7 @@ final class ListItemsTests: XCTestCase {
           baz
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -1524,6 +1572,7 @@ final class ListItemsTests: XCTestCase {
         baz</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

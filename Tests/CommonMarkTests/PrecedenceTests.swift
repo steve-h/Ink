@@ -12,6 +12,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
 
 import XCTest
 import Ink
+import Foundation
 
 final class PrecedenceTests: XCTestCase {
 
@@ -44,7 +45,7 @@ final class PrecedenceTests: XCTestCase {
         - two`
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <ul>
@@ -52,6 +53,7 @@ final class PrecedenceTests: XCTestCase {
         <li>two`</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

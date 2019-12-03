@@ -12,6 +12,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
 
 import XCTest
 import Ink
+import Foundation
 
 final class BlankLinesTests: XCTestCase {
 
@@ -42,12 +43,13 @@ final class BlankLinesTests: XCTestCase {
           
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>aaa</p>
         <h1>aaa</h1>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

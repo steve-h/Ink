@@ -12,6 +12,7 @@ license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
 
 import XCTest
 import Ink
+import Foundation
 
 final class EntityAndNumericCharacterReferencesTests: XCTestCase {
 
@@ -55,13 +56,14 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &ClockwiseContourIntegral; &ngE;
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>  &amp; © Æ Ď
         ¾ ℋ ⅆ
         ∲ ≧̸</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -84,11 +86,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &#35; &#1234; &#992; &#0;
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p># Ӓ Ϡ �</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -109,11 +112,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &#X22; &#XD06; &#xcab;
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>&quot; ആ ಫ</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -133,7 +137,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &ThisIsNotDefined; &hi?;
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>&amp;nbsp &amp;x; &amp;#; &amp;#x;
@@ -141,6 +145,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &amp;#abcdef0;
         &amp;ThisIsNotDefined; &amp;hi?;</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -159,11 +164,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &copy
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>&amp;copy</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -181,11 +187,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &MadeUpEntity;
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>&amp;MadeUpEntity;</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -204,11 +211,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <a href="&ouml;&ouml;.html">
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <a href="&ouml;&ouml;.html">
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -223,11 +231,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         [foo](/f&ouml;&ouml; "f&ouml;&ouml;")
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><a href="/f%C3%B6%C3%B6" title="föö">foo</a></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -244,11 +253,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         [foo]: /f&ouml;&ouml; "f&ouml;&ouml;"
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><a href="/f%C3%B6%C3%B6" title="föö">foo</a></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -265,12 +275,13 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         ```
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <pre><code class="language-föö">foo
         </code></pre>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -288,11 +299,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         `f&ouml;&ouml;`
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p><code>f&amp;ouml;&amp;ouml;</code></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -307,12 +319,13 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
             f&ouml;f&ouml;
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <pre><code>f&amp;ouml;f&amp;ouml;
         </code></pre>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -332,12 +345,13 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         *foo*
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>*foo*
         <em>foo</em></p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -353,7 +367,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         * foo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>* foo</p>
@@ -361,6 +375,7 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         <li>foo</li>
         </ul>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -374,13 +389,14 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         foo&#10;&#10;bar
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>foo
         
         bar</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -394,11 +410,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         &#9;foo
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>	foo</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -413,11 +430,12 @@ final class EntityAndNumericCharacterReferencesTests: XCTestCase {
         [a](url &quot;tit&quot;)
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest)
+        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
         XCTAssertEqual(html,
         #####"""
         <p>[a](url &quot;tit&quot;)</p>
         """#####
+    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }
