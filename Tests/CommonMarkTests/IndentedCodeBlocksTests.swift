@@ -45,13 +45,11 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>a simple
           indented code block
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -73,16 +71,9 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <ul>
-        <li>
-        <p>foo</p>
-        <p>bar</p>
-        </li>
-        </ul>
+        XCTAssertEqual(html,#####"""
+        <ul><li><p>foo</p><p>bar</p></li></ul>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -100,18 +91,9 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <ol>
-        <li>
-        <p>foo</p>
-        <ul>
-        <li>bar</li>
-        </ul>
-        </li>
-        </ol>
+        XCTAssertEqual(html,#####"""
+        <ol><li><p>foo</p><ul><li>bar</li></ul></li></ol>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -134,15 +116,13 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>&lt;a/&gt;
         *hi*
         
         - one
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -166,8 +146,7 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>chunk1
         
         chunk2
@@ -177,7 +156,6 @@ final class IndentedCodeBlocksTests: XCTestCase {
         chunk3
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -198,14 +176,12 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>chunk1
           
           chunk2
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -226,12 +202,10 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p>Foo
         bar</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -252,13 +226,10 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>foo
-        </code></pre>
-        <p>bar</p>
+        </code></pre><p>bar</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -282,17 +253,11 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <h1>Heading</h1>
-        <pre><code>foo
-        </code></pre>
-        <h2>Heading</h2>
-        <pre><code>foo
-        </code></pre>
-        <hr />
+        XCTAssertEqual(html,#####"""
+        <h1>Heading</h1><pre><code>foo
+        </code></pre><h2>Heading</h2><pre><code>foo
+        </code></pre><hr>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -311,13 +276,11 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>    foo
         bar
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -340,12 +303,10 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>foo
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -363,12 +324,10 @@ final class IndentedCodeBlocksTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>foo  
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

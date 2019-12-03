@@ -54,11 +54,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -78,11 +76,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo ` bar</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -101,11 +97,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>``</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -122,11 +116,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code> `` </code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -144,11 +136,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code> a</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -166,11 +156,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code> b </code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -188,12 +176,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <p><code> </code>
-        <code>  </code></p>
+        XCTAssertEqual(html,#####"""
+        <p><code> </code><code>  </code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -215,11 +200,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo bar   baz</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -236,11 +219,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo </code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -259,11 +240,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo   bar  baz</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -288,11 +267,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo\</code>bar`</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -312,11 +289,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo`bar</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -331,11 +306,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>foo `` bar</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -356,11 +329,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p>*foo<code>*</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -378,11 +349,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p>[not a <code>link](/foo</code>)</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -401,11 +370,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>&lt;a href=&quot;</code>&quot;&gt;`</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -423,11 +390,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><a href="`">`</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -445,11 +410,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>&lt;http://foo.bar.</code>baz&gt;`</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -467,11 +430,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><a href="http://foo.bar.%60baz">http://foo.bar.`baz</a>`</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -490,11 +451,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p>```foo``</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -510,11 +469,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p>`foo</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -532,11 +489,9 @@ final class CodeSpansTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p>`foo<code>bar</code></p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

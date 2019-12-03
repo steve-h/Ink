@@ -35,11 +35,9 @@ final class InlinesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <p><code>hi</code>lo`</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

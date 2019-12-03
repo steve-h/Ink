@@ -82,15 +82,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <h1>Foo</h1>
-        <p>bar
-        baz</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><h1>Foo</h1><p>bar
+        baz</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -110,15 +105,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <h1>Foo</h1>
-        <p>bar
-        baz</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><h1>Foo</h1><p>bar
+        baz</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -138,15 +128,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <h1>Foo</h1>
-        <p>bar
-        baz</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><h1>Foo</h1><p>bar
+        baz</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -166,14 +151,12 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
+        XCTAssertEqual(html,#####"""
         <pre><code>&gt; # Foo
         &gt; bar
         &gt; baz
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -194,15 +177,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <h1>Foo</h1>
-        <p>bar
-        baz</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><h1>Foo</h1><p>bar
+        baz</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -223,15 +201,11 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>bar
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>bar
         baz
-        foo</p>
-        </blockquote>
+        foo</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -259,14 +233,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>foo</p>
-        </blockquote>
-        <hr />
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>foo</p></blockquote><hr>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -292,18 +261,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <ul>
-        <li>foo</li>
-        </ul>
-        </blockquote>
-        <ul>
-        <li>bar</li>
-        </ul>
+        XCTAssertEqual(html,#####"""
+        <blockquote><ul><li>foo</li></ul></blockquote><ul><li>bar</li></ul>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -323,16 +283,11 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <pre><code>foo
-        </code></pre>
-        </blockquote>
-        <pre><code>bar
+        XCTAssertEqual(html,#####"""
+        <blockquote><pre><code>foo
+        </code></pre></blockquote><pre><code>bar
         </code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -350,15 +305,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <pre><code></code></pre>
-        </blockquote>
-        <p>foo</p>
-        <pre><code></code></pre>
+        XCTAssertEqual(html,#####"""
+        <blockquote><pre><code></code></pre></blockquote><p>foo</p><pre><code></code></pre>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -378,14 +327,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>foo
-        - bar</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>foo
+        - bar</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -414,12 +359,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -437,12 +379,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -462,13 +401,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>foo</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>foo</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -488,16 +423,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>foo</p>
-        </blockquote>
-        <blockquote>
-        <p>bar</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>foo</p></blockquote><blockquote><p>bar</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -522,14 +450,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>foo
-        bar</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>foo
+        bar</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -549,14 +473,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>foo</p>
-        <p>bar</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>foo</p><p>bar</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -575,14 +494,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <p>foo</p>
-        <blockquote>
-        <p>bar</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <p>foo</p><blockquote><p>bar</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -603,17 +517,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>aaa</p>
-        </blockquote>
-        <hr />
-        <blockquote>
-        <p>bbb</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>aaa</p></blockquote><hr><blockquote><p>bbb</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -633,14 +539,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>bar
-        baz</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>bar
+        baz</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -658,14 +560,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>bar</p>
-        </blockquote>
-        <p>baz</p>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>bar</p></blockquote><p>baz</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -683,14 +580,9 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <p>bar</p>
-        </blockquote>
-        <p>baz</p>
+        XCTAssertEqual(html,#####"""
+        <blockquote><p>bar</p></blockquote><p>baz</p>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -711,18 +603,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <blockquote>
-        <blockquote>
-        <p>foo
-        bar</p>
-        </blockquote>
-        </blockquote>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><blockquote><blockquote><p>foo
+        bar</p></blockquote></blockquote></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -740,19 +624,11 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <blockquote>
-        <blockquote>
-        <p>foo
+        XCTAssertEqual(html,#####"""
+        <blockquote><blockquote><blockquote><p>foo
         bar
-        baz</p>
-        </blockquote>
-        </blockquote>
-        </blockquote>
+        baz</p></blockquote></blockquote></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
     // 
@@ -775,17 +651,10 @@ final class BlockQuotesTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <blockquote>
-        <pre><code>code
-        </code></pre>
-        </blockquote>
-        <blockquote>
-        <p>not code</p>
-        </blockquote>
+        XCTAssertEqual(html,#####"""
+        <blockquote><pre><code>code
+        </code></pre></blockquote><blockquote><p>not code</p></blockquote>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }

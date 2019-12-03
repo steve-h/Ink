@@ -46,14 +46,9 @@ final class PrecedenceTests: XCTestCase {
         """#####
         markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
         let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,
-        #####"""
-        <ul>
-        <li>`one</li>
-        <li>two`</li>
-        </ul>
+        XCTAssertEqual(html,#####"""
+        <ul><li>`one</li><li>two`</li></ul>
         """#####
-    .replacingOccurrences(of: ">\n<", with: "><")
         )
     }
 }
