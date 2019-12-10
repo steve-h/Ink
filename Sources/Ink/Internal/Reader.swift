@@ -33,6 +33,10 @@ extension Reader {
         advanceIndex()
     }
 
+    mutating func rewind(to index: String.Index) {
+        currentIndex = index
+    }
+    
     @discardableResult
     mutating func read(until character: Character,
                        required: Bool = true,

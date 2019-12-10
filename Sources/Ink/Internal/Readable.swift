@@ -14,12 +14,12 @@ extension Readable {
 //            throw Reader.Error()
 //        }
 // Not sure why this is here it is interfering with proper backslash handling
-        let previousReader = reader
+        let previousReaderIndex = reader.currentIndex
 
         do {
             return try read(using: &reader)
         } catch {
-            reader = previousReader
+            reader.rewind(to: previousReaderIndex)
             throw error
         }
     }

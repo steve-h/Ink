@@ -19,6 +19,7 @@ internal struct Metadata: Readable {
 
             guard reader.currentCharacter != "-" else {
                 try require(reader.readCount(of: "-") == 3)
+                reader.readUntilEndOfLine()
                 return metadata
             }
 
