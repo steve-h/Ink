@@ -120,7 +120,7 @@ private extension FormattedText {
                         }
 
                         if !nextCharacter.isWhitespace {
-                            text.components.append(.text(" "))
+                            text.components.append(.text("\n"))
                         }
 
                         skipCharacter()

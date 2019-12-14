@@ -134,7 +134,7 @@ final class TextFormattingTests: XCTestCase {
         \\*Not italic\\*
         """)
 
-        XCTAssertEqual(html, "<p># Not a title *Not italic*</p>")
+        XCTAssertEqual(html, "<p># Not a title\n*Not italic*</p>")
     }
 
     func testDoubleSpacedHardLinebreak() {
