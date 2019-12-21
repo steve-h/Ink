@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -16,8 +16,6 @@ import Foundation
 
 final class AtxHeadingsTests: XCTestCase {
 
-    // 
-    // 
     // ## ATX headings
     // 
     // An [ATX heading](@)
@@ -34,49 +32,58 @@ final class AtxHeadingsTests: XCTestCase {
     // 
     // Simple headings:
     // 
-    // 
     //     
-    // spec.txt lines 1111-1125
-    func testExample62() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 784-798
+    func testExample32() {
+        let markdownTest =
         #####"""
         # foo
         ## foo
         ### foo
         #### foo
         ##### foo
-        ###### foo
+        ###### foo\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h1>foo</h1>
+      //<h2>foo</h2>
+      //<h3>foo</h3>
+      //<h4>foo</h4>
+      //<h5>foo</h5>
+      //<h6>foo</h6>
+        let normalizedCM = #####"""
         <h1>foo</h1><h2>foo</h2><h3>foo</h3><h4>foo</h4><h5>foo</h5><h6>foo</h6>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // More than six `#` characters is not a heading:
     // 
-    // 
     //     
-    // spec.txt lines 1130-1134
-    func testExample63() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 803-807
+    func testExample33() {
+        let markdownTest =
         #####"""
         ####### foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>####### foo</p>
+        let normalizedCM = #####"""
         <p>####### foo</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // At least one space is required between the `#` characters and the
     // heading's contents, unless the heading is empty.  Note that many
     // implementations currently do not require the space.  However, the
@@ -85,362 +92,410 @@ final class AtxHeadingsTests: XCTestCase {
     // and it helps prevent things like the following from being parsed as
     // headings:
     // 
-    // 
     //     
-    // spec.txt lines 1145-1152
-    func testExample64() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 818-825
+    func testExample34() {
+        let markdownTest =
         #####"""
         #5 bolt
         
-        #hashtag
+        #hashtag\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>#5 bolt</p>
+      //<p>#hashtag</p>
+        let normalizedCM = #####"""
         <p>#5 bolt</p><p>#hashtag</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // This is not a heading, because the first `#` is escaped:
     // 
-    // 
     //     
-    // spec.txt lines 1157-1161
-    func testExample65() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 830-834
+    func testExample35() {
+        let markdownTest =
         #####"""
         \## foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>## foo</p>
+        let normalizedCM = #####"""
         <p>## foo</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Contents are parsed as inlines:
     // 
-    // 
     //     
-    // spec.txt lines 1166-1170
-    func testExample66() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 839-843
+    func testExample36() {
+        let markdownTest =
         #####"""
         # foo *bar* \*baz\*
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<h1>foo <em>bar</em> *baz*</h1>
+        let normalizedCM = #####"""
         <h1>foo <em>bar</em> *baz*</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Leading and trailing [whitespace] is ignored in parsing inline content:
     // 
-    // 
     //     
-    // spec.txt lines 1175-1179
-    func testExample67() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 848-852
+    func testExample37() {
+        let markdownTest =
         #####"""
-        #                  foo                     
+        #                  foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<h1>foo</h1>
+        let normalizedCM = #####"""
         <h1>foo</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // One to three spaces indentation are allowed:
     // 
-    // 
     //     
-    // spec.txt lines 1184-1192
-    func testExample68() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 857-865
+    func testExample38() {
+        let markdownTest =
         #####"""
          ### foo
           ## foo
-           # foo
+           # foo\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h3>foo</h3>
+      //<h2>foo</h2>
+      //<h1>foo</h1>
+        let normalizedCM = #####"""
         <h3>foo</h3><h2>foo</h2><h1>foo</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Four spaces are too much:
     // 
-    // 
     //     
-    // spec.txt lines 1197-1202
-    func testExample69() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 870-875
+    func testExample39() {
+        let markdownTest =
         #####"""
             # foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<pre><code># foo
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code># foo
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 1205-1211
-    func testExample70() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 878-884
+    func testExample40() {
+        let markdownTest =
         #####"""
         foo
-            # bar
+            # bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>foo
-        # bar</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>foo
+      //# bar</p>
+        let normalizedCM = #####"""
+        <p>foo # bar</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A closing sequence of `#` characters is optional:
     // 
-    // 
     //     
-    // spec.txt lines 1216-1222
-    func testExample71() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 889-895
+    func testExample41() {
+        let markdownTest =
         #####"""
         ## foo ##
-          ###   bar    ###
+          ###   bar    ###\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h2>foo</h2>
+      //<h3>bar</h3>
+        let normalizedCM = #####"""
         <h2>foo</h2><h3>bar</h3>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // It need not be the same length as the opening sequence:
     // 
-    // 
     //     
-    // spec.txt lines 1227-1233
-    func testExample72() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 900-906
+    func testExample42() {
+        let markdownTest =
         #####"""
         # foo ##################################
-        ##### foo ##
+        ##### foo ##\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h1>foo</h1>
+      //<h5>foo</h5>
+        let normalizedCM = #####"""
         <h1>foo</h1><h5>foo</h5>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Spaces are allowed after the closing sequence:
     // 
-    // 
     //     
-    // spec.txt lines 1238-1242
-    func testExample73() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 911-915
+    func testExample43() {
+        let markdownTest =
         #####"""
-        ### foo ###     
+        ### foo ###
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<h3>foo</h3>
+        let normalizedCM = #####"""
         <h3>foo</h3>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A sequence of `#` characters with anything but [spaces] following it
     // is not a closing sequence, but counts as part of the contents of the
     // heading:
     // 
-    // 
     //     
-    // spec.txt lines 1249-1253
-    func testExample74() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 922-926
+    func testExample44() {
+        let markdownTest =
         #####"""
         ### foo ### b
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<h3>foo ### b</h3>
+        let normalizedCM = #####"""
         <h3>foo ### b</h3>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // The closing sequence must be preceded by a space:
     // 
-    // 
     //     
-    // spec.txt lines 1258-1262
-    func testExample75() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 931-935
+    func testExample45() {
+        let markdownTest =
         #####"""
         # foo#
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<h1>foo#</h1>
+        let normalizedCM = #####"""
         <h1>foo#</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Backslash-escaped `#` characters do not count as part
     // of the closing sequence:
     // 
-    // 
     //     
-    // spec.txt lines 1268-1276
-    func testExample76() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 941-949
+    func testExample46() {
+        let markdownTest =
         #####"""
         ### foo \###
         ## foo #\##
-        # foo \#
+        # foo \#\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h3>foo ###</h3>
+      //<h2>foo ###</h2>
+      //<h1>foo #</h1>
+        let normalizedCM = #####"""
         <h3>foo ###</h3><h2>foo ###</h2><h1>foo #</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // ATX headings need not be separated from surrounding content by blank
     // lines, and they can interrupt paragraphs:
     // 
-    // 
     //     
-    // spec.txt lines 1282-1290
-    func testExample77() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 955-963
+    func testExample47() {
+        let markdownTest =
         #####"""
         ****
         ## foo
-        ****
+        ****\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<hr />
+      //<h2>foo</h2>
+      //<hr />
+        let normalizedCM = #####"""
         <hr><h2>foo</h2><hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 1293-1301
-    func testExample78() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 966-974
+    func testExample48() {
+        let markdownTest =
         #####"""
         Foo bar
         # baz
-        Bar foo
+        Bar foo\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>Foo bar</p>
+      //<h1>baz</h1>
+      //<p>Bar foo</p>
+        let normalizedCM = #####"""
         <p>Foo bar</p><h1>baz</h1><p>Bar foo</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // ATX headings can be empty:
     // 
-    // 
     //     
-    // spec.txt lines 1306-1314
-    func testExample79() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 979-987
+    func testExample49() {
+        let markdownTest =
         #####"""
-        ## 
+        ##
         #
-        ### ###
+        ### ###\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h2></h2>
+      //<h1></h1>
+      //<h3></h3>
+        let normalizedCM = #####"""
         <h2></h2><h1></h1><h3></h3>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension AtxHeadingsTests {
     static var allTests: Linux.TestList<AtxHeadingsTests> {
         return [
-        ("testExample62", testExample62),
-        ("testExample63", testExample63),
-        ("testExample64", testExample64),
-        ("testExample65", testExample65),
-        ("testExample66", testExample66),
-        ("testExample67", testExample67),
-        ("testExample68", testExample68),
-        ("testExample69", testExample69),
-        ("testExample70", testExample70),
-        ("testExample71", testExample71),
-        ("testExample72", testExample72),
-        ("testExample73", testExample73),
-        ("testExample74", testExample74),
-        ("testExample75", testExample75),
-        ("testExample76", testExample76),
-        ("testExample77", testExample77),
-        ("testExample78", testExample78),
-        ("testExample79", testExample79)
+        ("testExample32", testExample32),
+        ("testExample33", testExample33),
+        ("testExample34", testExample34),
+        ("testExample35", testExample35),
+        ("testExample36", testExample36),
+        ("testExample37", testExample37),
+        ("testExample38", testExample38),
+        ("testExample39", testExample39),
+        ("testExample40", testExample40),
+        ("testExample41", testExample41),
+        ("testExample42", testExample42),
+        ("testExample43", testExample43),
+        ("testExample44", testExample44),
+        ("testExample45", testExample45),
+        ("testExample46", testExample46),
+        ("testExample47", testExample47),
+        ("testExample48", testExample48),
+        ("testExample49", testExample49)
         ]
     }
 }

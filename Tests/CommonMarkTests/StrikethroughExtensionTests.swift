@@ -14,39 +14,29 @@ import XCTest
 import Ink
 import Foundation
 
-final class BlankLinesTests: XCTestCase {
+final class StrikethroughExtensionTests: XCTestCase {
 
-    // ## Blank lines
-    // 
-    // [Blank lines] between block-level elements are ignored,
-    // except for the role they play in determining whether a [list]
-    // is [tight] or [loose].
-    // 
-    // Blank lines at the beginning and end of the document are also ignored.
+    // As with regular emphasis delimiters, a new paragraph will cause strikethrough
+    // parsing to cease:
     // 
     //     
     // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
-    // spec.txt lines 3294-3306
-    func testExample197() {
+    // spec.txt lines 7726-7733
+    func testExample492() {
         let markdownTest =
         #####"""
-          
+        This ~~has a
         
-        aaa
-          
-        
-        # aaa
-        
-          \#####n
+        new paragraph~~.\#####n
         """#####
     
         let html = MarkdownParser().html(from: markdownTest)
         .replacingOccurrences(of: ">\n<", with: "><")
         
-      //<p>aaa</p>
-      //<h1>aaa</h1>
+      //<p>This ~~has a</p>
+      //<p>new paragraph~~.</p>
         let normalizedCM = #####"""
-        <p>aaa</p><h1>aaa</h1>
+        <p>This ~~has a</p><p>new paragraph~~.</p>
         """#####
     
         XCTAssertEqual(html,normalizedCM)
@@ -54,10 +44,10 @@ final class BlankLinesTests: XCTestCase {
 
 }
 
-extension BlankLinesTests {
-    static var allTests: Linux.TestList<BlankLinesTests> {
+extension StrikethroughExtensionTests {
+    static var allTests: Linux.TestList<StrikethroughExtensionTests> {
         return [
-        ("testExample197", testExample197)
+        ("testExample492", testExample492)
         ]
     }
 }

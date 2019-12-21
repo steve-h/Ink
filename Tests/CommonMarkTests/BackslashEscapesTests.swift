@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -16,66 +16,64 @@ import Foundation
 
 final class BackslashEscapesTests: XCTestCase {
 
-    // 
-    // 
-    // ## Insecure characters
-    // 
-    // For security reasons, the Unicode character `U+0000` must be replaced
-    // with the REPLACEMENT CHARACTER (`U+FFFD`).
-    // 
+    // `hi` is parsed as code, leaving the backtick at the end as a literal
+    // backtick.
     // 
     // ## Backslash escapes
     // 
     // Any ASCII punctuation character may be backslash-escaped:
     // 
-    // 
     //     
-    // spec.txt lines 488-492
-    func testExample12() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5794-5798
+    func testExample308() {
+        let markdownTest =
         #####"""
         \!\"\#\$\%\&\'\(\)\*\+\,\-\.\/\:\;\<\=\>\?\@\[\\\]\^\_\`\{\|\}\~
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</p>
+        let normalizedCM = #####"""
         <p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Backslashes before other characters are treated as literal
     // backslashes:
     // 
-    // 
     //     
-    // spec.txt lines 498-502
-    func testExample13() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5804-5808
+    func testExample309() {
+        let markdownTest =
         #####"""
         \	\A\a\ \3\φ\«
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>\	\A\a\ \3\φ\«</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>\	\A\a\ \3\φ\«</p>
+        let normalizedCM = #####"""
+        <p>\\#####t\A\a\ \3\φ\«</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Escaped characters are treated as regular characters and do
     // not have their usual Markdown meanings:
     // 
-    // 
     //     
-    // spec.txt lines 508-528
-    func testExample14() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5814-5834
+    func testExample310() {
+        let markdownTest =
         #####"""
         \*not emphasized*
         \<br/> not a tag
@@ -85,242 +83,270 @@ final class BackslashEscapesTests: XCTestCase {
         \* not a list
         \# not a heading
         \[foo]: /url "not a reference"
-        \&ouml; not a character entity
+        \&ouml; not a character entity\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>*not emphasized*
-        &lt;br/&gt; not a tag
-        [not a link](/foo)
-        `not code`
-        1. not a list
-        * not a list
-        # not a heading
-        [foo]: /url &quot;not a reference&quot;
-        &amp;ouml; not a character entity</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>*not emphasized*
+      //&lt;br/&gt; not a tag
+      //[not a link](/foo)
+      //`not code`
+      //1. not a list
+      //* not a list
+      //# not a heading
+      //[foo]: /url &quot;not a reference&quot;
+      //&amp;ouml; not a character entity</p>
+        let normalizedCM = #####"""
+        <p>*not emphasized* &lt;br/&gt; not a tag [not a link](/foo) `not code` 1. not a list * not a list # not a heading [foo]: /url &quot;not a reference&quot; &amp;ouml; not a character entity</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // If a backslash is itself escaped, the following character is not:
     // 
-    // 
     //     
-    // spec.txt lines 533-537
-    func testExample15() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5839-5843
+    func testExample311() {
+        let markdownTest =
         #####"""
         \\*emphasis*
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>\<em>emphasis</em></p>
+        let normalizedCM = #####"""
         <p>\<em>emphasis</em></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A backslash at the end of the line is a [hard line break]:
     // 
-    // 
     //     
-    // spec.txt lines 542-548
-    func testExample16() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5848-5854
+    func testExample312() {
+        let markdownTest =
         #####"""
         foo\
-        bar
+        bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>foo<br />
-        bar</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>foo<br />
+      //bar</p>
+        let normalizedCM = #####"""
+        <p>foo<br>bar</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Backslash escapes do not work in code blocks, code spans, autolinks, or
     // raw HTML:
     // 
-    // 
     //     
-    // spec.txt lines 554-558
-    func testExample17() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5860-5864
+    func testExample313() {
+        let markdownTest =
         #####"""
         `` \[\` ``
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p><code>\[\`</code></p>
+        let normalizedCM = #####"""
         <p><code>\[\`</code></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 561-566
-    func testExample18() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5867-5872
+    func testExample314() {
+        let markdownTest =
         #####"""
             \[\]
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<pre><code>\[\]
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>\[\]
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 569-576
-    func testExample19() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5875-5882
+    func testExample315() {
+        let markdownTest =
         #####"""
         ~~~
         \[\]
-        ~~~
+        ~~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>\[\]
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>\[\]
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 579-583
-    func testExample20() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5885-5889
+    func testExample316() {
+        let markdownTest =
         #####"""
         <http://example.com?find=\*>
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p><a href="http://example.com?find=%5C*">http://example.com?find=\*</a></p>
+        let normalizedCM = #####"""
         <p><a href="http://example.com?find=%5C*">http://example.com?find=\*</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 586-590
-    func testExample21() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5892-5896
+    func testExample317() {
+        let markdownTest =
         #####"""
         <a href="/bar\/)">
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<a href="/bar\/)">
+        let normalizedCM = #####"""
         <a href="/bar\/)">
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // But they work in all other contexts, including URLs and link titles,
     // link references, and [info strings] in [fenced code blocks]:
     // 
-    // 
     //     
-    // spec.txt lines 596-600
-    func testExample22() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5902-5906
+    func testExample318() {
+        let markdownTest =
         #####"""
         [foo](/bar\* "ti\*tle")
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p><a href="/bar*" title="ti*tle">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/bar*" title="ti*tle">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 603-609
-    func testExample23() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5909-5915
+    func testExample319() {
+        let markdownTest =
         #####"""
         [foo]
         
-        [foo]: /bar\* "ti\*tle"
+        [foo]: /bar\* "ti\*tle"\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/bar*" title="ti*tle">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/bar*" title="ti*tle">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 612-619
-    func testExample24() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 5918-5925
+    func testExample320() {
+        let markdownTest =
         #####"""
         ``` foo\+bar
         foo
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code class="language-foo+bar">foo
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code class="language-foo+bar">foo
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension BackslashEscapesTests {
     static var allTests: Linux.TestList<BackslashEscapesTests> {
         return [
-        ("testExample12", testExample12),
-        ("testExample13", testExample13),
-        ("testExample14", testExample14),
-        ("testExample15", testExample15),
-        ("testExample16", testExample16),
-        ("testExample17", testExample17),
-        ("testExample18", testExample18),
-        ("testExample19", testExample19),
-        ("testExample20", testExample20),
-        ("testExample21", testExample21),
-        ("testExample22", testExample22),
-        ("testExample23", testExample23),
-        ("testExample24", testExample24)
+        ("testExample308", testExample308),
+        ("testExample309", testExample309),
+        ("testExample310", testExample310),
+        ("testExample311", testExample311),
+        ("testExample312", testExample312),
+        ("testExample313", testExample313),
+        ("testExample314", testExample314),
+        ("testExample315", testExample315),
+        ("testExample316", testExample316),
+        ("testExample317", testExample317),
+        ("testExample318", testExample318),
+        ("testExample319", testExample319),
+        ("testExample320", testExample320)
         ]
     }
 }

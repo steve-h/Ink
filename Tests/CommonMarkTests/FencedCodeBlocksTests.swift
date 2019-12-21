@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -16,9 +16,6 @@ import Foundation
 
 final class FencedCodeBlocksTests: XCTestCase {
 
-    // 
-    // 
-    // 
     // ## Fenced code blocks
     // 
     // A [code fence](@) is a sequence
@@ -65,553 +62,644 @@ final class FencedCodeBlocksTests: XCTestCase {
     // 
     // Here is a simple example with backticks:
     // 
-    // 
     //     
-    // spec.txt lines 1982-1991
-    func testExample119() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1655-1664
+    func testExample89() {
+        let markdownTest =
         #####"""
         ```
         <
          >
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>&lt;
+      // &gt;
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>&lt;
          &gt;
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // With tildes:
     // 
-    // 
     //     
-    // spec.txt lines 1996-2005
-    func testExample120() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1669-1678
+    func testExample90() {
+        let markdownTest =
         #####"""
         ~~~
         <
          >
-        ~~~
+        ~~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>&lt;
+      // &gt;
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>&lt;
          &gt;
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
+
     // Fewer than three backticks is not enough:
     // 
-    // 
     //     
-    // spec.txt lines 2009-2015
-    func testExample121() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1682-1688
+    func testExample91() {
+        let markdownTest =
         #####"""
         ``
         foo
-        ``
+        ``\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><code>foo</code></p>
+        let normalizedCM = #####"""
         <p><code>foo</code></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
+
     // The closing code fence must use the same character as the opening
     // fence:
     // 
-    // 
     //     
-    // spec.txt lines 2020-2029
-    func testExample122() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1693-1702
+    func testExample92() {
+        let markdownTest =
         #####"""
         ```
         aaa
         ~~~
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //~~~
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         ~~~
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2032-2041
-    func testExample123() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1705-1714
+    func testExample93() {
+        let markdownTest =
         #####"""
         ~~~
         aaa
         ```
-        ~~~
+        ~~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //```
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         ```
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // The closing code fence must be at least as long as the opening fence:
     // 
-    // 
     //     
-    // spec.txt lines 2046-2055
-    func testExample124() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1719-1728
+    func testExample94() {
+        let markdownTest =
         #####"""
         ````
         aaa
         ```
-        ``````
+        ``````\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //```
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         ```
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2058-2067
-    func testExample125() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1731-1740
+    func testExample95() {
+        let markdownTest =
         #####"""
         ~~~~
         aaa
         ~~~
-        ~~~~
+        ~~~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //~~~
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         ~~~
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Unclosed code blocks are closed by the end of the document
     // (or the enclosing [block quote][block quotes] or [list item][list items]):
     // 
-    // 
     //     
-    // spec.txt lines 2073-2077
-    func testExample126() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1746-1750
+    func testExample96() {
+        let markdownTest =
         #####"""
         ```
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<pre><code></code></pre>
+        let normalizedCM = #####"""
         <pre><code></code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2080-2090
-    func testExample127() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1753-1763
+    func testExample97() {
+        let markdownTest =
         #####"""
         `````
         
         ```
-        aaa
+        aaa\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>
+      //```
+      //aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>
         ```
         aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2093-2104
-    func testExample128() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1766-1777
+    func testExample98() {
+        let markdownTest =
         #####"""
         > ```
         > aaa
         
-        bbb
+        bbb\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<blockquote>
+      //<pre><code>aaa
+      //</code></pre>
+      //</blockquote>
+      //<p>bbb</p>
+        let normalizedCM = #####"""
         <blockquote><pre><code>aaa
         </code></pre></blockquote><p>bbb</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A code block can have all empty lines as its content:
     // 
-    // 
     //     
-    // spec.txt lines 2109-2118
-    func testExample129() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1782-1791
+    func testExample99() {
+        let markdownTest =
         #####"""
         ```
         
           
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>
+      //  
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>
           
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A code block can be empty:
     // 
-    // 
     //     
-    // spec.txt lines 2123-2128
-    func testExample130() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1796-1801
+    func testExample100() {
+        let markdownTest =
         #####"""
         ```
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code></code></pre>
+        let normalizedCM = #####"""
         <pre><code></code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Fences can be indented.  If the opening fence is indented,
     // content lines will have equivalent opening indentation removed,
     // if present:
     // 
-    // 
     //     
-    // spec.txt lines 2135-2144
-    func testExample131() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1808-1817
+    func testExample101() {
+        let markdownTest =
         #####"""
          ```
          aaa
         aaa
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2147-2158
-    func testExample132() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1820-1831
+    func testExample102() {
+        let markdownTest =
         #####"""
           ```
         aaa
           aaa
         aaa
-          ```
+          ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //aaa
+      //aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         aaa
         aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2161-2172
-    func testExample133() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1834-1845
+    func testExample103() {
+        let markdownTest =
         #####"""
            ```
            aaa
             aaa
           aaa
-           ```
+           ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      // aaa
+      //aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
          aaa
         aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Four spaces indentation produces an indented code block:
     // 
-    // 
     //     
-    // spec.txt lines 2177-2186
-    func testExample134() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1850-1859
+    func testExample104() {
+        let markdownTest =
         #####"""
             ```
             aaa
-            ```
+            ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>```
+      //aaa
+      //```
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>```
         aaa
         ```
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Closing fences may be indented by 0-3 spaces, and their indentation
     // need not match that of the opening fence:
     // 
-    // 
     //     
-    // spec.txt lines 2192-2199
-    func testExample135() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1865-1872
+    func testExample105() {
+        let markdownTest =
         #####"""
         ```
         aaa
-          ```
+          ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2202-2209
-    func testExample136() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1875-1882
+    func testExample106() {
+        let markdownTest =
         #####"""
            ```
         aaa
-          ```
+          ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // This is not a closing fence, because it is indented 4 spaces:
     // 
-    // 
     //     
-    // spec.txt lines 2214-2222
-    func testExample137() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1887-1895
+    func testExample107() {
+        let markdownTest =
         #####"""
         ```
         aaa
-            ```
+            ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //    ```
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
             ```
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     // Code fences (opening and closing) cannot contain internal spaces:
     // 
-    // 
     //     
-    // spec.txt lines 2228-2234
-    func testExample138() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1901-1907
+    func testExample108() {
+        let markdownTest =
         #####"""
         ``` ```
-        aaa
+        aaa\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p><code> </code>
-        aaa</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><code> </code>
+      //aaa</p>
+        let normalizedCM = #####"""
+        <p><code></code> aaa</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2237-2245
-    func testExample139() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1910-1918
+    func testExample109() {
+        let markdownTest =
         #####"""
         ~~~~~~
         aaa
-        ~~~ ~~
+        ~~~ ~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>aaa
+      //~~~ ~~
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>aaa
         ~~~ ~~
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Fenced code blocks can interrupt paragraphs, and can be followed
     // directly by paragraphs, without a blank line between:
     // 
-    // 
     //     
-    // spec.txt lines 2251-2262
-    func testExample140() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1924-1935
+    func testExample110() {
+        let markdownTest =
         #####"""
         foo
         ```
         bar
         ```
-        baz
+        baz\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>foo</p>
+      //<pre><code>bar
+      //</code></pre>
+      //<p>baz</p>
+        let normalizedCM = #####"""
         <p>foo</p><pre><code>bar
         </code></pre><p>baz</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Other blocks can also occur before and after fenced code blocks
     // without an intervening blank line:
     // 
-    // 
     //     
-    // spec.txt lines 2268-2280
-    func testExample141() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1941-1953
+    func testExample111() {
+        let markdownTest =
         #####"""
         foo
         ---
         ~~~
         bar
         ~~~
-        # baz
+        # baz\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h2>foo</h2>
+      //<pre><code>bar
+      //</code></pre>
+      //<h1>baz</h1>
+        let normalizedCM = #####"""
         <h2>foo</h2><pre><code>bar
         </code></pre><h1>baz</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // An [info string] can be provided after the opening code fence.
     // Although this spec doesn't mandate any particular treatment of
     // the info string, the first word is typically used to specify
@@ -619,175 +707,196 @@ final class FencedCodeBlocksTests: XCTestCase {
     // normally indicated by adding a class to the `code` element consisting
     // of `language-` followed by the language name.
     // 
-    // 
     //     
-    // spec.txt lines 2290-2301
-    func testExample142() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1963-1974
+    func testExample112() {
+        let markdownTest =
         #####"""
         ```ruby
         def foo(x)
           return 3
         end
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code class="language-ruby">def foo(x)
+      //  return 3
+      //end
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code class="language-ruby">def foo(x)
           return 3
         end
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2304-2315
-    func testExample143() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1977-1988
+    func testExample113() {
+        let markdownTest =
         #####"""
         ~~~~    ruby startline=3 $%@#$
         def foo(x)
           return 3
         end
-        ~~~~~~~
+        ~~~~~~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code class="language-ruby">def foo(x)
+      //  return 3
+      //end
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code class="language-ruby">def foo(x)
           return 3
         end
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 2318-2323
-    func testExample144() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 1991-1996
+    func testExample114() {
+        let markdownTest =
         #####"""
         ````;
-        ````
+        ````\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code class="language-;"></code></pre>
+        let normalizedCM = #####"""
         <pre><code class="language-;"></code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // [Info strings] for backtick code blocks cannot contain backticks:
     // 
-    // 
     //     
-    // spec.txt lines 2328-2334
-    func testExample145() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2001-2007
+    func testExample115() {
+        let markdownTest =
         #####"""
         ``` aa ```
-        foo
+        foo\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p><code>aa</code>
-        foo</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><code>aa</code>
+      //foo</p>
+        let normalizedCM = #####"""
+        <p><code>aa</code> foo</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // [Info strings] for tilde code blocks can contain backticks and tildes:
     // 
-    // 
     //     
-    // spec.txt lines 2339-2346
-    func testExample146() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2012-2019
+    func testExample116() {
+        let markdownTest =
         #####"""
         ~~~ aa ``` ~~~
         foo
-        ~~~
+        ~~~\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <pre><code class="language-aa">foo
-        </code></pre>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code class="language-aa">foo
+      //</code></pre>
+        let normalizedCM = #####"""
+        <p>~~~ aa ``` ~~~ foo</p><pre><code></code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Closing code fences cannot have [info strings]:
     // 
-    // 
     //     
-    // spec.txt lines 2351-2358
-    func testExample147() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2024-2031
+    func testExample117() {
+        let markdownTest =
         #####"""
         ```
         ``` aaa
-        ```
+        ```\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>``` aaa
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>``` aaa
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension FencedCodeBlocksTests {
     static var allTests: Linux.TestList<FencedCodeBlocksTests> {
         return [
-        ("testExample119", testExample119),
-        ("testExample120", testExample120),
-        ("testExample121", testExample121),
-        ("testExample122", testExample122),
-        ("testExample123", testExample123),
-        ("testExample124", testExample124),
-        ("testExample125", testExample125),
-        ("testExample126", testExample126),
-        ("testExample127", testExample127),
-        ("testExample128", testExample128),
-        ("testExample129", testExample129),
-        ("testExample130", testExample130),
-        ("testExample131", testExample131),
-        ("testExample132", testExample132),
-        ("testExample133", testExample133),
-        ("testExample134", testExample134),
-        ("testExample135", testExample135),
-        ("testExample136", testExample136),
-        ("testExample137", testExample137),
-        ("testExample138", testExample138),
-        ("testExample139", testExample139),
-        ("testExample140", testExample140),
-        ("testExample141", testExample141),
-        ("testExample142", testExample142),
-        ("testExample143", testExample143),
-        ("testExample144", testExample144),
-        ("testExample145", testExample145),
-        ("testExample146", testExample146),
-        ("testExample147", testExample147)
+        ("testExample89", testExample89),
+        ("testExample90", testExample90),
+        ("testExample91", testExample91),
+        ("testExample92", testExample92),
+        ("testExample93", testExample93),
+        ("testExample94", testExample94),
+        ("testExample95", testExample95),
+        ("testExample96", testExample96),
+        ("testExample97", testExample97),
+        ("testExample98", testExample98),
+        ("testExample99", testExample99),
+        ("testExample100", testExample100),
+        ("testExample101", testExample101),
+        ("testExample102", testExample102),
+        ("testExample103", testExample103),
+        ("testExample104", testExample104),
+        ("testExample105", testExample105),
+        ("testExample106", testExample106),
+        ("testExample107", testExample107),
+        ("testExample108", testExample108),
+        ("testExample109", testExample109),
+        ("testExample110", testExample110),
+        ("testExample111", testExample111),
+        ("testExample112", testExample112),
+        ("testExample113", testExample113),
+        ("testExample114", testExample114),
+        ("testExample115", testExample115),
+        ("testExample116", testExample116),
+        ("testExample117", testExample117)
         ]
     }
 }

@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -16,8 +16,6 @@ import Foundation
 
 final class ThematicBreaksTests: XCTestCase {
 
-    // 
-    // 
     // This means that parsing can proceed in two steps:  first, the block
     // structure of the document can be discerned; second, text lines inside
     // paragraphs, headings, and other block constructs can be parsed for inline
@@ -46,428 +44,495 @@ final class ThematicBreaksTests: XCTestCase {
     // optionally by any number of spaces or tabs, forms a
     // [thematic break](@).
     // 
-    // 
     //     
-    // spec.txt lines 878-886
-    func testExample43() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 551-559
+    func testExample13() {
+        let markdownTest =
         #####"""
         ***
         ---
-        ___
+        ___\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<hr />
+      //<hr />
+      //<hr />
+        let normalizedCM = #####"""
         <hr><hr><hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Wrong characters:
     // 
-    // 
     //     
-    // spec.txt lines 891-895
-    func testExample44() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 564-568
+    func testExample14() {
+        let markdownTest =
         #####"""
         +++
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>+++</p>
+        let normalizedCM = #####"""
         <p>+++</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 898-902
-    func testExample45() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 571-575
+    func testExample15() {
+        let markdownTest =
         #####"""
         ===
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>===</p>
+        let normalizedCM = #####"""
         <p>===</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Not enough characters:
     // 
-    // 
     //     
-    // spec.txt lines 907-915
-    func testExample46() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 580-588
+    func testExample16() {
+        let markdownTest =
         #####"""
         --
         **
-        __
+        __\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>--
-        **
-        __</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>--
+      //**
+      //__</p>
+        let normalizedCM = #####"""
+        <p>-- ** __</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // One to three spaces indent are allowed:
     // 
-    // 
     //     
-    // spec.txt lines 920-928
-    func testExample47() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 593-601
+    func testExample17() {
+        let markdownTest =
         #####"""
          ***
           ***
-           ***
+           ***\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<hr />
+      //<hr />
+      //<hr />
+        let normalizedCM = #####"""
         <hr><hr><hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Four spaces is too many:
     // 
-    // 
     //     
-    // spec.txt lines 933-938
-    func testExample48() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 606-611
+    func testExample18() {
+        let markdownTest =
         #####"""
             ***
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<pre><code>***
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>***
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 941-947
-    func testExample49() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 614-620
+    func testExample19() {
+        let markdownTest =
         #####"""
         Foo
-            ***
+            ***\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>Foo
-        ***</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>Foo
+      //***</p>
+        let normalizedCM = #####"""
+        <p>Foo ***</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // More than three characters may be used:
     // 
-    // 
     //     
-    // spec.txt lines 952-956
-    func testExample50() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 625-629
+    func testExample20() {
+        let markdownTest =
         #####"""
         _____________________________________
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<hr />
+        let normalizedCM = #####"""
         <hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Spaces are allowed between the characters:
     // 
-    // 
     //     
-    // spec.txt lines 961-965
-    func testExample51() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 634-638
+    func testExample21() {
+        let markdownTest =
         #####"""
          - - -
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<hr />
+        let normalizedCM = #####"""
         <hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 968-972
-    func testExample52() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 641-645
+    func testExample22() {
+        let markdownTest =
         #####"""
          **  * ** * ** * **
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<hr />
+        let normalizedCM = #####"""
         <hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 975-979
-    func testExample53() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 648-652
+    func testExample23() {
+        let markdownTest =
         #####"""
         -     -      -      -
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<hr />
+        let normalizedCM = #####"""
         <hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Spaces are allowed at the end:
     // 
-    // 
     //     
-    // spec.txt lines 984-988
-    func testExample54() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 657-661
+    func testExample24() {
+        let markdownTest =
         #####"""
-        - - - -    
+        - - - -
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<hr />
+        let normalizedCM = #####"""
         <hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // However, no other characters may occur in the line:
     // 
-    // 
     //     
-    // spec.txt lines 993-1003
-    func testExample55() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 666-676
+    func testExample25() {
+        let markdownTest =
         #####"""
         _ _ _ _ a
         
         a------
         
-        ---a---
+        ---a---\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>_ _ _ _ a</p>
+      //<p>a------</p>
+      //<p>---a---</p>
+        let normalizedCM = #####"""
         <p>_ _ _ _ a</p><p>a------</p><p>---a---</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // It is required that all of the [non-whitespace characters] be the same.
     // So, this is not a thematic break:
     // 
-    // 
     //     
-    // spec.txt lines 1009-1013
-    func testExample56() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 682-686
+    func testExample26() {
+        let markdownTest =
         #####"""
          *-*
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p><em>-</em></p>
+        let normalizedCM = #####"""
         <p><em>-</em></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Thematic breaks do not need blank lines before or after:
     // 
-    // 
     //     
-    // spec.txt lines 1018-1030
-    func testExample57() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 691-703
+    func testExample27() {
+        let markdownTest =
         #####"""
         - foo
         ***
-        - bar
+        - bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>foo</li>
+      //</ul>
+      //<hr />
+      //<ul>
+      //<li>bar</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li>foo</li></ul><hr><ul><li>bar</li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Thematic breaks can interrupt a paragraph:
     // 
-    // 
     //     
-    // spec.txt lines 1035-1043
-    func testExample58() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 708-716
+    func testExample28() {
+        let markdownTest =
         #####"""
         Foo
         ***
-        bar
+        bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>Foo</p>
+      //<hr />
+      //<p>bar</p>
+        let normalizedCM = #####"""
         <p>Foo</p><hr><p>bar</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // If a line of dashes that meets the above conditions for being a
     // thematic break could also be interpreted as the underline of a [setext
     // heading], the interpretation as a
     // [setext heading] takes precedence. Thus, for example,
     // this is a setext heading, not a paragraph followed by a thematic break:
     // 
-    // 
     //     
-    // spec.txt lines 1052-1059
-    func testExample59() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 725-732
+    func testExample29() {
+        let markdownTest =
         #####"""
         Foo
         ---
-        bar
+        bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h2>Foo</h2>
+      //<p>bar</p>
+        let normalizedCM = #####"""
         <h2>Foo</h2><p>bar</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // When both a thematic break and a list item are possible
     // interpretations of a line, the thematic break takes precedence:
     // 
-    // 
     //     
-    // spec.txt lines 1065-1077
-    func testExample60() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 738-750
+    func testExample30() {
+        let markdownTest =
         #####"""
         * Foo
         * * *
-        * Bar
+        * Bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>Foo</li>
+      //</ul>
+      //<hr />
+      //<ul>
+      //<li>Bar</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li>Foo</li></ul><hr><ul><li>Bar</li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // If you want a thematic break in a list item, use a different bullet:
     // 
-    // 
     //     
-    // spec.txt lines 1082-1092
-    func testExample61() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 755-765
+    func testExample31() {
+        let markdownTest =
         #####"""
         - Foo
-        - * * *
+        - * * *\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>Foo</li>
+      //<li>
+      //<hr />
+      //</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li>Foo</li><li><hr></li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension ThematicBreaksTests {
     static var allTests: Linux.TestList<ThematicBreaksTests> {
         return [
-        ("testExample43", testExample43),
-        ("testExample44", testExample44),
-        ("testExample45", testExample45),
-        ("testExample46", testExample46),
-        ("testExample47", testExample47),
-        ("testExample48", testExample48),
-        ("testExample49", testExample49),
-        ("testExample50", testExample50),
-        ("testExample51", testExample51),
-        ("testExample52", testExample52),
-        ("testExample53", testExample53),
-        ("testExample54", testExample54),
-        ("testExample55", testExample55),
-        ("testExample56", testExample56),
-        ("testExample57", testExample57),
-        ("testExample58", testExample58),
-        ("testExample59", testExample59),
-        ("testExample60", testExample60),
-        ("testExample61", testExample61)
+        ("testExample13", testExample13),
+        ("testExample14", testExample14),
+        ("testExample15", testExample15),
+        ("testExample16", testExample16),
+        ("testExample17", testExample17),
+        ("testExample18", testExample18),
+        ("testExample19", testExample19),
+        ("testExample20", testExample20),
+        ("testExample21", testExample21),
+        ("testExample22", testExample22),
+        ("testExample23", testExample23),
+        ("testExample24", testExample24),
+        ("testExample25", testExample25),
+        ("testExample26", testExample26),
+        ("testExample27", testExample27),
+        ("testExample28", testExample28),
+        ("testExample29", testExample29),
+        ("testExample30", testExample30),
+        ("testExample31", testExample31)
         ]
     }
 }

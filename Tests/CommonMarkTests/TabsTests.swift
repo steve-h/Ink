@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -17,13 +17,30 @@ import Foundation
 final class TabsTests: XCTestCase {
 
     // ---
-    // title: CommonMark Spec
-    // author: John MacFarlane
+    // title: GitHub Flavored Markdown Spec
     // version: 0.29
     // date: '2019-04-06'
-    // license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
-    // ---
+    // license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+    // ...
+    // 
     // # Introduction
+    // 
+    // ## What is GitHub Flavored Markdown?
+    // 
+    // GitHub Flavored Markdown, often shortened as GFM, is the dialect of Markdown
+    // that is currently supported for user content on GitHub.com and GitHub
+    // Enterprise.
+    // 
+    // This formal specification, based on the CommonMark Spec, defines the syntax and
+    // semantics of this dialect.
+    // 
+    // GFM is a strict superset of CommonMark. All the features which are supported in
+    // GitHub user content and that are not specified on the original CommonMark Spec
+    // are hence known as **extensions**, and highlighted as such.
+    // 
+    // While GFM supports a wide range of inputs, it's worth noting that GitHub.com
+    // and GitHub Enterprise perform additional post-processing and sanitization after
+    // GFM is converted to HTML to ensure security and consistency of the website.
     // 
     // ## What is Markdown?
     // 
@@ -343,14 +360,11 @@ final class TabsTests: XCTestCase {
     // A [non-whitespace character](@) is any character
     // that is not a [whitespace character].
     // 
-    // An [ASCII control character](@) is a character between `U+0000–1F` (both
-    // including) or `U+007F`.
-    // 
     // An [ASCII punctuation character](@)
     // is `!`, `"`, `#`, `$`, `%`, `&`, `'`, `(`, `)`,
-    // `*`, `+`, `,`, `-`, `.`, `/` (U+0021–2F), 
+    // `*`, `+`, `,`, `-`, `.`, `/` (U+0021–2F),
     // `:`, `;`, `<`, `=`, `>`, `?`, `@` (U+003A–0040),
-    // `[`, `\`, `]`, `^`, `_`, `` ` `` (U+005B–0060), 
+    // `[`, `\`, `]`, `^`, `_`, `` ` `` (U+005B–0060),
     // `{`, `|`, `}`, or `~` (U+007B–007E).
     // 
     // A [punctuation character](@) is an [ASCII
@@ -369,105 +383,135 @@ final class TabsTests: XCTestCase {
     // tabs are passed through as literal tabs, not expanded to
     // spaces.)
     // 
-    // 
     //     
-    // spec.txt lines 354-359
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 368-373
     func testExample1() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
         	foo	baz		bim
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <pre><code>foo	baz		bim
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<pre><code>foo	baz		bim
+      //</code></pre>
+        let normalizedCM = #####"""
+        <pre><code>foo\#####tbaz\#####t\#####tbim
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 361-366
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 375-380
     func testExample2() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
           	foo	baz		bim
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <pre><code>foo	baz		bim
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<pre><code>foo	baz		bim
+      //</code></pre>
+        let normalizedCM = #####"""
+        <pre><code>foo\#####tbaz\#####t\#####tbim
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 368-375
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 382-389
     func testExample3() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
             a	a
-            ὐ	a
+            ὐ	a\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <pre><code>a	a
-        ὐ	a
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>a	a
+      //ὐ	a
+      //</code></pre>
+        let normalizedCM = #####"""
+        <pre><code>a\#####ta
+        ὐ\#####ta
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
+
     // In the following example, a continuation paragraph of a list
     // item is indented with a tab; this has exactly the same effect
     // as indentation with four spaces would:
     // 
-    // 
     //     
-    // spec.txt lines 381-392
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 395-406
     func testExample4() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
           - foo
         
-        	bar
+        	bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>
+      //<p>foo</p>
+      //<p>bar</p>
+      //</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li><p>foo</p><p>bar</p></li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 394-406
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 408-420
     func testExample5() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
         - foo
         
-        		bar
+        		bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>
+      //<p>foo</p>
+      //<pre><code>  bar
+      //</code></pre>
+      //</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li><p>foo</p><pre><code>  bar
         </code></pre></li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
+
     // Normally the `>` that begins a block quote may be followed
     // optionally by a space, which is not considered part of the
     // content.  In the following case `>` is followed by a tab,
@@ -477,117 +521,155 @@ final class TabsTests: XCTestCase {
     // inside the block quote context, so we get an indented
     // code block starting with two spaces.
     // 
-    // 
     //     
-    // spec.txt lines 417-424
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 431-438
     func testExample6() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
         >		foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<blockquote>
+      //<pre><code>  foo
+      //</code></pre>
+      //</blockquote>
+        let normalizedCM = #####"""
         <blockquote><pre><code>  foo
         </code></pre></blockquote>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 426-435
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 440-449
     func testExample7() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
         -		foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<ul>
+      //<li>
+      //<pre><code>  foo
+      //</code></pre>
+      //</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li><pre><code>  foo
         </code></pre></li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 438-445
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 452-459
     func testExample8() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
             foo
-        	bar
+        	bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>foo
+      //bar
+      //</code></pre>
+        let normalizedCM = #####"""
         <pre><code>foo
         bar
         </code></pre>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 447-463
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 461-477
     func testExample9() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
          - foo
            - bar
-        	 - baz
+        	 - baz\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>foo
+      //<ul>
+      //<li>bar
+      //<ul>
+      //<li>baz</li>
+      //</ul>
+      //</li>
+      //</ul>
+      //</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li>foo
         <ul><li>bar
         <ul><li>baz</li></ul></li></ul></li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 465-469
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 479-483
     func testExample10() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
         #	Foo
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<h1>Foo</h1>
+        let normalizedCM = #####"""
         <h1>Foo</h1>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 471-475
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 485-489
     func testExample11() {
-        let newlineChar = "\n"
-        var markdownTest =
+        let markdownTest =
         #####"""
         *	*	*	
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<hr />
+        let normalizedCM = #####"""
         <hr>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension TabsTests {

@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -16,8 +16,10 @@ import Foundation
 
 final class PrecedenceTests: XCTestCase {
 
+    // ## Insecure characters
     // 
-    // 
+    // For security reasons, the Unicode character `U+0000` must be replaced
+    // with the REPLACEMENT CHARACTER (`U+FFFD`).
     // 
     // # Blocks and inlines
     // 
@@ -34,29 +36,36 @@ final class PrecedenceTests: XCTestCase {
     // of inline structure.  So, for example, the following is a list with
     // two items, not a list with one item containing a code span:
     // 
-    // 
     //     
-    // spec.txt lines 839-847
-    func testExample42() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 512-520
+    func testExample12() {
+        let markdownTest =
         #####"""
         - `one
-        - two`
+        - two`\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<ul>
+      //<li>`one</li>
+      //<li>two`</li>
+      //</ul>
+        let normalizedCM = #####"""
         <ul><li>`one</li><li>two`</li></ul>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension PrecedenceTests {
     static var allTests: Linux.TestList<PrecedenceTests> {
         return [
-        ("testExample42", testExample42)
+        ("testExample12", testExample12)
         ]
     }
 }

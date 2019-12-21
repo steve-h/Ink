@@ -2,12 +2,12 @@
 *  Ink
 *  Copyright (c) Steve Hume 2019
 *  MIT license, see LICENSE file for details
-These tests are extracted from https://spec.commonmark.org/0.29/
-title: CommonMark Spec
-author: John MacFarlane
+---
+title: GitHub Flavored Markdown Spec
 version: 0.29
 date: '2019-04-06'
-license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0
+license: '[CC-BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)'
+...
 */
 
 import XCTest
@@ -16,8 +16,6 @@ import Foundation
 
 final class LinkReferenceDefinitionsTests: XCTestCase {
 
-    // 
-    // 
     // Fortunately, blank lines are usually not necessary and can be
     // deleted.  The exception is inside `<pre>` tags, but as described
     // [above][HTML blocks], raw HTML blocks starting with `<pre>`
@@ -42,98 +40,105 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
     // reference definitions] can come either before or after the links that use
     // them.
     // 
-    // 
     //     
-    // spec.txt lines 3159-3165
-    func testExample191() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2832-2838
+    func testExample161() {
+        let markdownTest =
         #####"""
         [foo]: /url "title"
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url" title="title">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/url" title="title">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 3168-3176
-    func testExample192() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2841-2849
+    func testExample162() {
+        let markdownTest =
         #####"""
-           [foo]: 
-              /url  
-                   'the title'  
+           [foo]:
+              /url
+                   'the title'
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url" title="the title">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/url" title="the title">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 3179-3185
-    func testExample193() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2852-2858
+    func testExample163() {
+        let markdownTest =
         #####"""
         [Foo*bar\]]:my_(url) 'title (with parens)'
         
-        [Foo*bar\]]
+        [Foo*bar\]]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="my_(url)" title="title (with parens)">Foo*bar]</a></p>
+        let normalizedCM = #####"""
         <p><a href="my_(url)" title="title (with parens)">Foo*bar]</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 3188-3196
-    func testExample194() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2861-2869
+    func testExample164() {
+        let markdownTest =
         #####"""
         [Foo bar]:
         <my url>
         'title'
         
-        [Foo bar]
+        [Foo bar]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p><a href="my%20url" title="title">Foo bar</a></p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="my%20url" title="title">Foo bar</a></p>
+        let normalizedCM = #####"""
+        <p>[Foo bar]: <my url> 'title'</p><p>[Foo bar]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // The title may extend over multiple lines:
     // 
-    // 
     //     
-    // spec.txt lines 3201-3215
-    func testExample195() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2874-2888
+    func testExample165() {
+        let markdownTest =
         #####"""
         [foo]: /url '
         title
@@ -141,478 +146,541 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         line2
         '
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url" title="
+      //title
+      //line1
+      //line2
+      //">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/url" title="
         title
         line1
         line2
         ">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // However, it may not contain a [blank line]:
     // 
-    // 
     //     
-    // spec.txt lines 3220-3230
-    func testExample196() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2893-2903
+    func testExample166() {
+        let markdownTest =
         #####"""
         [foo]: /url 'title
         
         with blank line'
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>[foo]: /url 'title</p>
+      //<p>with blank line'</p>
+      //<p>[foo]</p>
+        let normalizedCM = #####"""
         <p>[foo]: /url 'title</p><p>with blank line'</p><p>[foo]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // The title may be omitted:
     // 
-    // 
     //     
-    // spec.txt lines 3235-3242
-    func testExample197() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2908-2915
+    func testExample167() {
+        let markdownTest =
         #####"""
         [foo]:
         /url
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/url">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // The link destination may not be omitted:
     // 
-    // 
     //     
-    // spec.txt lines 3247-3254
-    func testExample198() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2920-2927
+    func testExample168() {
+        let markdownTest =
         #####"""
         [foo]:
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>[foo]:</p>
+      //<p>[foo]</p>
+        let normalizedCM = #####"""
         <p>[foo]:</p><p>[foo]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
+
     //  However, an empty link destination may be specified using
     //  angle brackets:
     // 
-    // 
     //     
-    // spec.txt lines 3259-3265
-    func testExample199() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2932-2938
+    func testExample169() {
+        let markdownTest =
         #####"""
         [foo]: <>
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
+
     // The title must be separated from the link destination by
     // whitespace:
     // 
-    // 
     //     
-    // spec.txt lines 3270-3277
-    func testExample200() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2943-2950
+    func testExample170() {
+        let markdownTest =
         #####"""
         [foo]: <bar>(baz)
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>[foo]: <bar>(baz)</p><p>[foo]</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>[foo]: <bar>(baz)</p>
+      //<p>[foo]</p>
+        let normalizedCM = #####"""
+        <p><a href="bar" title="baz">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Both title and destination can contain backslash escapes
     // and literal backslashes:
     // 
-    // 
     //     
-    // spec.txt lines 3283-3289
-    func testExample201() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2956-2962
+    func testExample171() {
+        let markdownTest =
         #####"""
         [foo]: /url\bar\*baz "foo\"bar\baz"
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url%5Cbar*baz" title="foo&quot;bar\baz">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/url%5Cbar*baz" title="foo&quot;bar\baz">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A link can come before its corresponding definition:
     // 
-    // 
     //     
-    // spec.txt lines 3294-3300
-    func testExample202() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2967-2973
+    func testExample172() {
+        let markdownTest =
         #####"""
         [foo]
         
-        [foo]: url
+        [foo]: url\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="url">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="url">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // If there are several matching definitions, the first one takes
     // precedence:
     // 
-    // 
     //     
-    // spec.txt lines 3306-3313
-    func testExample203() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2979-2986
+    func testExample173() {
+        let markdownTest =
         #####"""
         [foo]
         
         [foo]: first
-        [foo]: second
+        [foo]: second\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="first">foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="first">foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // As noted in the section on [Links], matching of labels is
     // case-insensitive (see [matches]).
     // 
-    // 
     //     
-    // spec.txt lines 3319-3325
-    func testExample204() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 2992-2998
+    func testExample174() {
+        let markdownTest =
         #####"""
         [FOO]: /url
         
-        [Foo]
+        [Foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url">Foo</a></p>
+        let normalizedCM = #####"""
         <p><a href="/url">Foo</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
-    // 
+
     //     
-    // spec.txt lines 3328-3334
-    func testExample205() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3001-3007
+    func testExample175() {
+        let markdownTest =
         #####"""
         [ΑΓΩ]: /φου
         
-        [αγω]
+        [αγω]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/%CF%86%CE%BF%CF%85">αγω</a></p>
+        let normalizedCM = #####"""
         <p><a href="/%CF%86%CE%BF%CF%85">αγω</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Here is a link reference definition with no corresponding link.
     // It contributes nothing to the document.
     // 
-    // 
     //     
-    // spec.txt lines 3340-3343
-    func testExample206() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3013-3016
+    func testExample176() {
+        let markdownTest =
         #####"""
         [foo]: /url
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //
+        let normalizedCM = #####"""
         
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Here is another one:
     // 
-    // 
     //     
-    // spec.txt lines 3348-3355
-    func testExample207() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3021-3028
+    func testExample177() {
+        let markdownTest =
         #####"""
         [
         foo
         ]: /url
-        bar
+        bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>bar</p>
+        let normalizedCM = #####"""
         <p>bar</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // This is not a link reference definition, because there are
     // [non-whitespace characters] after the title:
     // 
-    // 
     //     
-    // spec.txt lines 3361-3365
-    func testExample208() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3034-3038
+    func testExample178() {
+        let markdownTest =
         #####"""
         [foo]: /url "title" ok
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //<p>[foo]: /url &quot;title&quot; ok</p>
+        let normalizedCM = #####"""
         <p>[foo]: /url &quot;title&quot; ok</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // This is a link reference definition, but it has no title:
     // 
-    // 
     //     
-    // spec.txt lines 3370-3375
-    func testExample209() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3043-3048
+    func testExample179() {
+        let markdownTest =
         #####"""
         [foo]: /url
-        "title" ok
+        "title" ok\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>&quot;title&quot; ok</p>
+        let normalizedCM = #####"""
         <p>&quot;title&quot; ok</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // This is not a link reference definition, because it is indented
     // four spaces:
     // 
-    // 
     //     
-    // spec.txt lines 3381-3389
-    func testExample210() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3054-3062
+    func testExample180() {
+        let markdownTest =
         #####"""
             [foo]: /url "title"
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>[foo]: /url &quot;title&quot;
+      //</code></pre>
+      //<p>[foo]</p>
+        let normalizedCM = #####"""
         <pre><code>[foo]: /url &quot;title&quot;
         </code></pre><p>[foo]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // This is not a link reference definition, because it occurs inside
     // a code block:
     // 
-    // 
     //     
-    // spec.txt lines 3395-3405
-    func testExample211() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3068-3078
+    func testExample181() {
+        let markdownTest =
         #####"""
         ```
         [foo]: /url
         ```
         
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<pre><code>[foo]: /url
+      //</code></pre>
+      //<p>[foo]</p>
+        let normalizedCM = #####"""
         <pre><code>[foo]: /url
         </code></pre><p>[foo]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // A [link reference definition] cannot interrupt a paragraph.
     // 
-    // 
     //     
-    // spec.txt lines 3410-3419
-    func testExample212() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3083-3092
+    func testExample182() {
+        let markdownTest =
         #####"""
         Foo
         [bar]: /baz
         
-        [bar]
+        [bar]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>Foo
-        [bar]: /baz</p><p>[bar]</p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>Foo
+      //[bar]: /baz</p>
+      //<p>[bar]</p>
+        let normalizedCM = #####"""
+        <p>Foo [bar]: /baz</p><p>[bar]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // However, it can directly follow other block elements, such as headings
     // and thematic breaks, and it need not be followed by a blank line.
     // 
-    // 
     //     
-    // spec.txt lines 3425-3434
-    func testExample213() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3098-3107
+    func testExample183() {
+        let markdownTest =
         #####"""
         # [Foo]
         [foo]: /url
-        > bar
+        > bar\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h1><a href="/url">Foo</a></h1>
+      //<blockquote>
+      //<p>bar</p>
+      //</blockquote>
+        let normalizedCM = #####"""
         <h1><a href="/url">Foo</a></h1><blockquote><p>bar</p></blockquote>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 3436-3444
-    func testExample214() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3109-3117
+    func testExample184() {
+        let markdownTest =
         #####"""
         [foo]: /url
         bar
         ===
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <h1>bar</h1><p><a href="/url">foo</a></p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<h1>bar</h1>
+      //<p><a href="/url">foo</a></p>
+        let normalizedCM = #####"""
+        <h1>[foo]: /url bar</h1><p>[foo]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     //     
-    // spec.txt lines 3446-3453
-    func testExample215() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3119-3126
+    func testExample185() {
+        let markdownTest =
         #####"""
         [foo]: /url
         ===
-        [foo]
+        [foo]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p>===
-        <a href="/url">foo</a></p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p>===
+      //<a href="/url">foo</a></p>
+        let normalizedCM = #####"""
+        <h1>[foo]: /url</h1><p>[foo]</p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Several [link reference definitions]
     // can occur one after another, without intervening blank lines.
     // 
-    // 
     //     
-    // spec.txt lines 3459-3472
-    func testExample216() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3132-3145
+    func testExample186() {
+        let markdownTest =
         #####"""
         [foo]: /foo-url "foo"
         [bar]: /bar-url
@@ -621,99 +689,110 @@ final class LinkReferenceDefinitionsTests: XCTestCase {
         
         [foo],
         [bar],
-        [baz]
+        [baz]\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
-        <p><a href="/foo-url" title="foo">foo</a>,
-        <a href="/bar-url" title="bar">bar</a>,
-        <a href="/baz-url">baz</a></p>
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/foo-url" title="foo">foo</a>,
+      //<a href="/bar-url" title="bar">bar</a>,
+      //<a href="/baz-url">baz</a></p>
+        let normalizedCM = #####"""
+        <p><a href="/foo-url" title="foo">foo</a>, <a href="/bar-url" title="bar">bar</a>, <a href="/baz-url">baz</a></p>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // [Link reference definitions] can occur
     // inside block containers, like lists and block quotations.  They
     // affect the entire document, not just the container in which they
     // are defined:
     // 
-    // 
     //     
-    // spec.txt lines 3480-3488
-    func testExample217() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3153-3161
+    func testExample187() {
+        let markdownTest =
         #####"""
         [foo]
         
-        > [foo]: /url
+        > [foo]: /url\#####n
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        .replacingOccurrences(of: ">\n<", with: "><")
+        
+      //<p><a href="/url">foo</a></p>
+      //<blockquote>
+      //</blockquote>
+        let normalizedCM = #####"""
         <p><a href="/url">foo</a></p><blockquote></blockquote>
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
-    // 
-    // 
+
     // Whether something is a [link reference definition] is
     // independent of whether the link reference it defines is
     // used in the document.  Thus, for example, the following
     // document contains just a link reference definition, and
     // no visible content:
     // 
-    // 
     //     
-    // spec.txt lines 3497-3500
-    func testExample218() {
-        let newlineChar = "\n"
-        var markdownTest =
+    // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
+    // spec.txt lines 3170-3173
+    func testExample188() {
+        let markdownTest =
         #####"""
         [foo]: /url
         """#####
-        markdownTest = markdownTest + newlineChar // adding because the multiline literal does not include last newline!
-        let html = MarkdownParser().html(from: markdownTest).replacingOccurrences(of: ">\n<", with: "><")
-        XCTAssertEqual(html,#####"""
+    
+        let html = MarkdownParser().html(from: markdownTest)
+        
+        
+      //
+        let normalizedCM = #####"""
         
         """#####
-        )
+    
+        XCTAssertEqual(html,normalizedCM)
     }
+
 }
 
 extension LinkReferenceDefinitionsTests {
     static var allTests: Linux.TestList<LinkReferenceDefinitionsTests> {
         return [
-        ("testExample191", testExample191),
-        ("testExample192", testExample192),
-        ("testExample193", testExample193),
-        ("testExample194", testExample194),
-        ("testExample195", testExample195),
-        ("testExample196", testExample196),
-        ("testExample197", testExample197),
-        ("testExample198", testExample198),
-        ("testExample199", testExample199),
-        ("testExample200", testExample200),
-        ("testExample201", testExample201),
-        ("testExample202", testExample202),
-        ("testExample203", testExample203),
-        ("testExample204", testExample204),
-        ("testExample205", testExample205),
-        ("testExample206", testExample206),
-        ("testExample207", testExample207),
-        ("testExample208", testExample208),
-        ("testExample209", testExample209),
-        ("testExample210", testExample210),
-        ("testExample211", testExample211),
-        ("testExample212", testExample212),
-        ("testExample213", testExample213),
-        ("testExample214", testExample214),
-        ("testExample215", testExample215),
-        ("testExample216", testExample216),
-        ("testExample217", testExample217),
-        ("testExample218", testExample218)
+        ("testExample161", testExample161),
+        ("testExample162", testExample162),
+        ("testExample163", testExample163),
+        ("testExample164", testExample164),
+        ("testExample165", testExample165),
+        ("testExample166", testExample166),
+        ("testExample167", testExample167),
+        ("testExample168", testExample168),
+        ("testExample169", testExample169),
+        ("testExample170", testExample170),
+        ("testExample171", testExample171),
+        ("testExample172", testExample172),
+        ("testExample173", testExample173),
+        ("testExample174", testExample174),
+        ("testExample175", testExample175),
+        ("testExample176", testExample176),
+        ("testExample177", testExample177),
+        ("testExample178", testExample178),
+        ("testExample179", testExample179),
+        ("testExample180", testExample180),
+        ("testExample181", testExample181),
+        ("testExample182", testExample182),
+        ("testExample183", testExample183),
+        ("testExample184", testExample184),
+        ("testExample185", testExample185),
+        ("testExample186", testExample186),
+        ("testExample187", testExample187),
+        ("testExample188", testExample188)
         ]
     }
 }

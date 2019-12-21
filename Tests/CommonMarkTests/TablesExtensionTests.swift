@@ -14,39 +14,33 @@ import XCTest
 import Ink
 import Foundation
 
-final class BlankLinesTests: XCTestCase {
+final class TablesExtensionTests: XCTestCase {
 
-    // ## Blank lines
-    // 
-    // [Blank lines] between block-level elements are ignored,
-    // except for the role they play in determining whether a [list]
-    // is [tight] or [loose].
-    // 
-    // Blank lines at the beginning and end of the document are also ignored.
+    // If there are no rows in the body, no `<tbody>` is generated in HTML output:
     // 
     //     
     // https://github.com/github/cmark-gfm/blob/master/test/spec.txt
-    // spec.txt lines 3294-3306
-    func testExample197() {
+    // spec.txt lines 3502-3514
+    func testExample205() {
         let markdownTest =
         #####"""
-          
-        
-        aaa
-          
-        
-        # aaa
-        
-          \#####n
+        | abc | def |
+        | --- | --- |\#####n
         """#####
     
         let html = MarkdownParser().html(from: markdownTest)
         .replacingOccurrences(of: ">\n<", with: "><")
         
-      //<p>aaa</p>
-      //<h1>aaa</h1>
+      //<table>
+      //<thead>
+      //<tr>
+      //<th>abc</th>
+      //<th>def</th>
+      //</tr>
+      //</thead>
+      //</table>
         let normalizedCM = #####"""
-        <p>aaa</p><h1>aaa</h1>
+        <p>| abc | def | | --- | --- |</p>
         """#####
     
         XCTAssertEqual(html,normalizedCM)
@@ -54,10 +48,10 @@ final class BlankLinesTests: XCTestCase {
 
 }
 
-extension BlankLinesTests {
-    static var allTests: Linux.TestList<BlankLinesTests> {
+extension TablesExtensionTests {
+    static var allTests: Linux.TestList<TablesExtensionTests> {
         return [
-        ("testExample197", testExample197)
+        ("testExample205", testExample205)
         ]
     }
 }
