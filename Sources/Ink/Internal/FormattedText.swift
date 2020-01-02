@@ -29,21 +29,20 @@ internal struct FormattedText: Readable, HTMLConvertible, PlainTextConvertible {
               modifiers: ModifierCollection) -> String {
         components.reduce(into: "") { string, component in
             switch component {
-            case .linebreak:
-                string.append("<br>")
             case .text(let text):
-                string.append(String(text))
+                string.append(htmlEscapeASubstring(text))
             case .styleMarker(let marker):
-                let html = marker.html(usingURLs: urls, modifiers: modifiers)
-                string.append(html)
+                       let html = marker.html(usingURLs: urls, modifiers: modifiers)
+                       string.append(html)
             case .fragment(let fragment, let rawString):
                 let html = fragment.html(
                     usingURLs: urls,
                     rawString: rawString,
                     applyingModifiers: modifiers
                 )
-
                 string.append(html)
+            case .linebreak:
+                string.append("<br>")
             }
         }
     }
@@ -51,14 +50,14 @@ internal struct FormattedText: Readable, HTMLConvertible, PlainTextConvertible {
     func plainText() -> String {
         components.reduce(into: "") { string, component in
             switch component {
-            case .linebreak:
-                string.append("\n")
             case .text(let text):
                 string.append(String(text))
-            case .styleMarker:
-                break
             case .fragment(let fragment, _):
                 string.append(fragment.plainText())
+            case .styleMarker:
+                break
+            case .linebreak:
+                string.append("\n")
             }
         }
     }
@@ -109,7 +108,7 @@ private extension FormattedText {
                             break
                         }
 
-                        guard reader.previousCharacter != "\\" && !(sequentialSpaceCount >= 2) else {
+                        guard !(sequentialSpaceCount >= 2) else {
                             text.components.append(.linebreak)
                             skipCharacter()
                             continue
@@ -128,6 +127,13 @@ private extension FormattedText {
                     }
 
                     if reader.currentCharacter == " " {
+                        if sequentialSpaceCount >= 1 {
+                            // This code is here to allow a backslash-space to be preserved whitespace
+                            skipCharacter()
+                            sequentialSpaceCount += 1
+                            continue
+                        }
+                        addPendingTextIfNeeded()
                         sequentialSpaceCount += 1
                     } else {
                         sequentialSpaceCount = 0
@@ -150,7 +156,8 @@ private extension FormattedText {
                         try parseStyleMarker()
                         continue
                     }
-
+                    // This code appears to be a custom case of html in a paragraph.
+                    // Assume it will be enhanced in the future.
                     if reader.currentCharacter == "<" {
                         guard let nextCharacter = reader.nextCharacter else {
                             reader.advanceIndex()
@@ -199,20 +206,30 @@ private extension FormattedText {
         }
 
         private mutating func parseNonTriggeringCharacter() {
-            guard reader.currentCharacter != "\\" else {
-                addPendingTextIfNeeded()
-                skipCharacter()
-                return
+                    if reader.currentCharacter == "\\"  {
+                    
+                    if let nextChr = reader.nextCharacter {
+                        // only ASCII punctuation and the html special chars are escapable in CommonMark
+                        if escapedASCIIPunctuation(nextChr) {
+                            addPendingTextIfNeeded()
+                            // skip the backslash and the following char and use substitution instead
+                            skipCharacter() // skip past the backslash
+                            reader.advanceIndex() // include the escaped punctuation character as-is
+                        } else if nextChr.isNewline {
+                            // just skip the backslash and the newline
+                            addPendingTextIfNeeded()
+                            text.components.append(.linebreak)
+                            skipCharacter()
+                            skipCharacter()
+                        } else {
+                            // the backslash remains in all other cases and the next character can be processed
+                            reader.advanceIndex()
+                        }
+                    }
+                } else {
+                        reader.advanceIndex()
+                }
             }
-
-            if let escaped = reader.currentCharacter.escaped {
-                addPendingTextIfNeeded()
-                text.components.append(.text(Substring(escaped)))
-                skipCharacter()
-            } else {
-                reader.advanceIndex()
-            }
-        }
 
         private mutating func parseStyleMarker() throws {
             let marker = try TextStyleMarker.readOrRewind(using: &reader)

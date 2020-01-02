@@ -13,6 +13,12 @@ final class CodeTests: XCTestCase {
         XCTAssertEqual(html, "<p>Hello <code>inline.code()</code></p>")
     }
 
+    func testInlineCodeLeftToRight() {
+        // Derived from CommonMark spec lines 5499-5503
+        let html = MarkdownParser().html(from: "`hi`lo`")
+        XCTAssertEqual(html, "<p><code>hi</code>lo`</p>")
+    }
+    
     func testCodeBlockWithJustBackticks() {
         let html = MarkdownParser().html(from: """
         ```
@@ -23,7 +29,26 @@ final class CodeTests: XCTestCase {
 
         XCTAssertEqual(html, "<pre><code>code()\nblock()\n</code></pre>")
     }
-
+    
+    // https://github.com/commonmark/commonmark-spec
+    // spec.txt lines 1653-1662
+    func testCodeBlockWithTilde() {
+        let html = MarkdownParser().html(from: """
+        ~~~
+        <
+         >
+        ~~~
+        """)
+        
+        let normalizedCM = #####"""
+            <pre><code>&lt;
+             &gt;
+            </code></pre>
+            """#####
+        
+        XCTAssertEqual(html,normalizedCM)
+    }
+    
     func testCodeBlockWithBackticksAndLabel() {
         let html = MarkdownParser().html(from: """
         ```swift
@@ -34,8 +59,41 @@ final class CodeTests: XCTestCase {
         XCTAssertEqual(html, "<pre><code class=\"language-swift\">code()\n</code></pre>")
     }
     
+    func testCodeBlockWithBackticksAndLongInfoString() {
+        // Derived from CommonMark spec lines 1961-1972
+        let html = MarkdownParser().html(from: """
+        ````    ruby startline=3 $%@#$
+        def foo(x)
+          return 3
+        end
+        ````
+        """)
+
+        XCTAssertEqual(html, """
+        <pre><code class="language-ruby">def foo(x)
+          return 3
+        end
+        </code></pre>
+        """)
+    }
+    
+    func testCodeBlockWithSillyLanguageName() {
+        // Derived from CommonMark spec lines 1975-1980
+        let html = MarkdownParser().html(from:
+        #####"""
+        ```;
+        ```
+        """#####
+        + "\n"
+        )
+
+        XCTAssertEqual(html, """
+        <pre><code class="language-;"></code></pre>
+        """)
+    }
+    
     func testCodeBlockWithBackticksAndLabelNeedingTrimming() {
-       // there are 2 spaces after the swift label that need trimming too
+       // there should be 2 spaces after the swift label below that need trimming too
        let html = MarkdownParser().html(from: """
        ``` swift  
        code()
@@ -46,7 +104,6 @@ final class CodeTests: XCTestCase {
    }
     
     func testCodeBlockManyBackticks() {
-        // there are 2 spaces after the swift label that need trimming too
         let html = MarkdownParser().html(from: """
         
         ```````````````````````````````` foo
@@ -57,6 +114,38 @@ final class CodeTests: XCTestCase {
         XCTAssertEqual(html, "<pre><code class=\"language-foo\">bar\n</code></pre>")
     }
     
+    func testCodeBlockSufficientBackticks() {
+        // Derived from CommonMark spec 0.29 lines 1703-1712
+        let html = MarkdownParser().html(from: """
+           ````
+           aaa
+           ```
+           ``````
+           """)
+        
+        XCTAssertEqual(html, #####"""
+           <pre><code>aaa
+           ```
+           </code></pre>
+           """#####)
+    }
+    
+    func testCodeBlockFakeClosureAndFileEndingBlock() {
+        // To complete code coverage for bad closing of block cases
+        let html = MarkdownParser().html(from: #####"""
+           ````
+           aaa
+           ```` this is \really code \" &
+           ```
+           """#####)
+        
+        XCTAssertEqual(html, #####"""
+           <pre><code>aaa
+           ```` this is \really code \&quot; &amp;
+           ```</code></pre>
+           """#####)
+    }
+
     func testEncodingSpecialCharactersWithinCodeBlock() {
         let html = MarkdownParser().html(from: """
         ```swift
@@ -67,6 +156,25 @@ final class CodeTests: XCTestCase {
         XCTAssertEqual(html, """
         <pre><code class="language-swift">Generic&lt;T&gt;() &amp;&amp; expression()\n</code></pre>
         """)
+    }
+    
+    func testEscapeBehaviorWithinCodeBlock() {
+        let html = MarkdownParser().html(from:
+        #####"""
+        ```swift
+        \< < \& & \" " \> >
+        \a a \\ \` `
+        ```
+        """#####
+        )
+
+        XCTAssertEqual(html,
+        #####"""
+        <pre><code class="language-swift">\&lt; &lt; \&amp; &amp; \&quot; &quot; \&gt; &gt;
+        \a a \\ \` `
+        </code></pre>
+        """#####
+        )
     }
 
     func testIgnoringFormattingWithinCodeBlock() {
@@ -84,18 +192,42 @@ final class CodeTests: XCTestCase {
         - Not a list\n</code></pre>
         """)
     }
+    
+    func testCodeBlockBetweenParagraphs() {
+        // Derived from CommonMark spec 0.29 lines 1908-1919
+        let html = MarkdownParser().html(from: #####"""
+        foo
+        ```
+        bar
+        ```
+        baz
+        """#####)
+        
+        XCTAssertEqual(html, #####"""
+        <p>foo</p><pre><code>bar
+        </code></pre><p>baz</p>
+        """#####)
+    }
 }
 
 extension CodeTests {
     static var allTests: Linux.TestList<CodeTests> {
         return [
             ("testInlineCode", testInlineCode),
+            ("testInlineCodeLeftToRight", testInlineCodeLeftToRight),
             ("testCodeBlockWithJustBackticks", testCodeBlockWithJustBackticks),
+            ("testCodeBlockWithTilde", testCodeBlockWithTilde),
             ("testCodeBlockWithBackticksAndLabel", testCodeBlockWithBackticksAndLabel),
+            ("testCodeBlockWithBackticksAndLongInfoString", testCodeBlockWithBackticksAndLongInfoString),
+            ("testCodeBlockWithSillyLanguageName", testCodeBlockWithSillyLanguageName),
             ("testCodeBlockWithBackticksAndLabelNeedingTrimming", testCodeBlockWithBackticksAndLabelNeedingTrimming),
             ("testCodeBlockManyBackticks", testCodeBlockManyBackticks),
+            ("testCodeBlockSufficientBackticks", testCodeBlockSufficientBackticks),
+            ("testCodeBlockFakeClosureAndFileEndingBlock", testCodeBlockFakeClosureAndFileEndingBlock),
             ("testEncodingSpecialCharactersWithinCodeBlock", testEncodingSpecialCharactersWithinCodeBlock),
-            ("testIgnoringFormattingWithinCodeBlock", testIgnoringFormattingWithinCodeBlock)
+            ("testEscapeBehaviorWithinCodeBlock", testEscapeBehaviorWithinCodeBlock),
+            ("testIgnoringFormattingWithinCodeBlock", testIgnoringFormattingWithinCodeBlock),
+            ("testCodeBlockBetweenParagraphs", testCodeBlockBetweenParagraphs)
         ]
     }
 }
