@@ -202,7 +202,7 @@ private extension FormattedText {
         }
 
         private mutating func addPendingTextIfNeeded(trimmingWhitespaces trimWhitespaces: Bool = false) {
-            guard !pendingTextRange.isEmpty else { return }
+            guard !pendingTextRange.isEmpty else { return } // this is not empty on first call??
 
             let textEndIndex = reader.currentIndex
             let endingTextRange = pendingTextRange.lowerBound..<textEndIndex
@@ -211,8 +211,9 @@ private extension FormattedText {
             if trimWhitespaces {
                 string = string.trimmingTrailingWhitespaces()
             }
-
-            text.components.append(.text(string))
+            if !string.isEmpty {
+                text.components.append(.text(string))
+            }
             pendingTextRange = reader.currentIndex..<reader.endIndex
         }
 
