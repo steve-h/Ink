@@ -104,7 +104,33 @@ final class MarkdownTests: XCTestCase {
         """)
 
         XCTAssertEqual(markdown.metadata, [:])
-        XCTAssertEqual(markdown.html, "<hr><p>Key: Verse This meta - data seems to be prose and has some hr --- markers at the end.</p><p>We better fail out to allow the paragraph to render.</p><hr><h1>Title</h1>")
+        XCTAssertEqual(markdown.html, """
+        <hr><p>Key: Verse
+        This
+        meta
+         - data
+        seems
+        to
+        be
+        prose
+        and
+        has
+        some
+        hr ---
+        markers
+        at
+        the
+        end.</p><p>We
+        better
+        fail
+        out
+        to
+        allow
+        the
+        paragraph
+        to
+        render.</p><hr><h1>Title</h1>
+        """)
     }
     
     func testYAMLLikeMetadata() {
@@ -236,7 +262,7 @@ final class MarkdownTests: XCTestCase {
         XCTAssertEqual(markdown.metadata, [:])
         // This test will start to fail if the --- can be interpreted as underlining changing the paragraph to a <h2>
         // without underlining the second --- might be also an <hr> but the current parser is not looking out for ---
-        XCTAssertEqual(markdown.html, "<h1>Title</h1><hr><p>a: 1 b : 2 ---</p><h2>Section</h2>")
+        XCTAssertEqual(markdown.html, "<h1>Title</h1><hr><p>a: 1\nb : 2\n---</p><h2>Section</h2>")
     }
 
     func testPlainTextTitle() {

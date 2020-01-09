@@ -316,6 +316,7 @@ final class TextFormattingTests: XCTestCase {
         > a blockquote `code span`
 
         - list item
+
         ``` swift
         code block Here
         ```
@@ -341,7 +342,9 @@ final class TextFormattingTests: XCTestCase {
         // Make sure the nulls are still escaped and then paste the xctest into the following
         // properAnswer field to get this test to pass.
         let properAnswer = #####"""
-        <p>A para�graph.</p><blockquote><p>a block�quote <code>co�de span</code></p></blockquote><ul><li>l�ist item <code></code>` s�wift code block �Here <code></code>` �*<em>bad Bold Text</em> �##bad heading</li></ul>
+        <p>A para�graph.</p><blockquote><p>a block�quote <code>co�de span</code></p></blockquote><ul><li>l�ist item</li></ul><pre><code class="language-s�wift">code block �Here
+        </code></pre><p>�*<em>bad Bold Text</em>
+        �##bad heading</p>
         """#####
         XCTAssertEqual(html, properAnswer)
     }

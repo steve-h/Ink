@@ -16,7 +16,7 @@ struct InlineCode: Fragment {
         var nonSpaceEncountered = false
         while !reader.didReachEnd {
             switch reader.currentCharacter {
-            case \.isNewline:
+            case \.isWhitespace:
                 code.append(" ") // specified replacement in CommonMark spec
                 reader.advanceIndex()
             case "`":
@@ -32,10 +32,12 @@ struct InlineCode: Fragment {
                     return InlineCode(code: code)
                 } else {
                     code.append(String(repeating: "`", count: markerCount))
+                    nonSpaceEncountered = true
                     // that last backtick could have been the last; let the loop continue but be careful
                 }
                 
             default:
+                nonSpaceEncountered = true
                 code.append(reader.currentCharacter)
                 reader.advanceIndex()
             }
