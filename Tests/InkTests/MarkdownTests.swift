@@ -25,7 +25,7 @@ final class MarkdownTests: XCTestCase {
         XCTAssertEqual(markdown.html, "<h1>Title</h1>")
     }
 
-    func testAllowingEmptyMetadataValues() {
+    func testDiscardingEmptyMetadataValues() {
         let markdown = MarkdownParser().parse("""
         ---
         a: 1
@@ -37,7 +37,6 @@ final class MarkdownTests: XCTestCase {
 
         XCTAssertEqual(markdown.metadata, [
             "a": "1",
-            "b": "",
             "c": "2"
         ])
 
@@ -67,202 +66,28 @@ final class MarkdownTests: XCTestCase {
         XCTAssertEqual(markdown.metadata, [:])
         XCTAssertEqual(markdown.html, "<h1>Title</h1>")
     }
-    
-    func testFalseMetadata() {
-        let markdown = MarkdownParser().parse("""
-        ---
-        Key: Verse
-        This
-        meta
-         - data
-        seems
-        to
-        be
-        prose
-        and
-        has
-        some
-        hr ---
-        markers
-        at
-        the
-        end.
 
-        We
-        better
-        fail
-        out
-        to
-        allow
-        the
-        paragraph
-        to
-        render.
+    func testMetadataModifiers() {
+        let parser = MarkdownParser(modifiers: [
+            Modifier(target: .metadataKeys) { key, _ in
+                "ModifiedKey-" + key
+            },
+            Modifier(target: .metadataValues) { value, _ in
+                "ModifiedValue-" + value
+            }
+        ])
 
+        let markdown = parser.parse("""
         ---
-        # Title
+        keyA: valueA
+        keyB: valueB
+        ---
         """)
 
-        XCTAssertEqual(markdown.metadata, [:])
-        XCTAssertEqual(markdown.html, """
-        <hr><p>Key: Verse
-        This
-        meta
-         - data
-        seems
-        to
-        be
-        prose
-        and
-        has
-        some
-        hr ---
-        markers
-        at
-        the
-        end.</p><p>We
-        better
-        fail
-        out
-        to
-        allow
-        the
-        paragraph
-        to
-        render.</p><hr><h1>Title</h1>
-        """)
-    }
-    
-    func testYAMLLikeMetadata() {
-        let markdown = MarkdownParser().parse("""
-        ---
-        draft: false
-        title: Privacy
-        description: Privacy statement for --- Website Inc.
-        language: en
-        tags: []
-        keywords:
-          - Website Inc.
-          - privacy
-          - gdpr
-        date: '2018-11-19T13:10:52-05:00'
-        lastmod: '2017-11-24T15:15:52-05:00'
-        type: webpage
-        nobc: true
-        ---
-        # Title
-        """)
-
-        XCTAssertEqual(markdown.metadata, ["tags": "", "language": "en", "draft": "false", "keywords": "Website Inc.,privacy,gdpr", "date": "2018-11-19T13:10:52-05:00", "type": "webpage", "nobc": "true", "lastmod": "2017-11-24T15:15:52-05:00", "title": "Privacy", "description": "Privacy statement for --- Website Inc."])
-        XCTAssertEqual(markdown.html, "<h1>Title</h1>")
-    }
-    
-    func testMoreYAMLLikeMetadata() {
-           let markdown = MarkdownParser().parse("""
-           ---
-           draft: false
-           title: Privacy
-           description: >
-             Privacy statement for --- Website Inc.
-           language: en
-           wordsofwisdom: "We need to
-            test the long sentences
-            also"
-           keywords:
-             - Website Inc.
-             - privacy
-             - gdpr
-           date: '2018-11-19T13:10:52-05:00'
-           lastmod: '2017-11-24T15:15:52-05:00'
-           type: "webpage"
-           nobc: true
-           ---
-           # Title
-           """)
-
-           XCTAssertEqual(markdown.metadata, ["lastmod": "2017-11-24T15:15:52-05:00", "type": "webpage", "nobc": "true", "draft": "false", "keywords": "Website Inc.,privacy,gdpr", "date": "2018-11-19T13:10:52-05:00", "title": "Privacy", "description": "Privacy statement for --- Website Inc.", "wordsofwisdom": "We need to test the long sentences also", "language": "en"])
-           XCTAssertEqual(markdown.html, "<h1>Title</h1>")
-       }
-    
-    func testBadYAMLLikeMetadata() {
-              let markdown = MarkdownParser().parse("""
-              ---
-               - item before key
-                : no key
-
-              title: |
-                The best
-                - awesome -
-                Web Publisher
-                : The Sequel
-                   
-              description: >
-                Privacy statement for
-                     
-                --- Website Inc.
-              language: en
-              wordsofwisdom: "We need to
-                - handle asides in -
-               test the long sentences
-
-                    :hi:
-               also"
-              ---
-              # Title
-              """)
-
-              XCTAssertEqual(markdown.metadata, ["title": "  The best\n  - awesome -\n  Web Publisher\n  : The Sequel\n     ", "wordsofwisdom": "We need to - handle asides in - test the long sentences\n\n :hi: also", "language": "en", "description": "Privacy statement for  --- Website Inc."])
-              XCTAssertEqual(markdown.html, "<h1>Title</h1>")
-          }
-    
-    func testJustMetadata() {
-        let markdown = MarkdownParser().parse("""
-           ---
-           a:empty file
-            b:     more info
-           \n
-           """)
-        
-        XCTAssertEqual(markdown.metadata, ["b": "more info", "a": "empty file"])
-        XCTAssertEqual(markdown.html, "")
-    }
-    
-    func testStartWithRuleAndOtherNonMetaData() {
-        let markdown = MarkdownParser().parse("""
-        ---
-             
-            :: hi
-        \n
-        """)
-
-        XCTAssertEqual(markdown.metadata, [:])
-        XCTAssertEqual(markdown.html, "<hr><p>:: hi</p>")
-    }
-    
-    func testStartWithRule() {
-        let markdown = MarkdownParser().parse("""
-        ---
-        # Title
-        """)
-
-        XCTAssertEqual(markdown.metadata, [:])
-        XCTAssertEqual(markdown.html, "<hr><h1>Title</h1>")
-    }
-
-    func testMetadataInWrongPlace() {
-        let markdown = MarkdownParser().parse("""
-        # Title
-        ---
-        a: 1
-        b : 2
-        ---
-        ## Section
-        """)
-
-        XCTAssertEqual(markdown.metadata, [:])
-        // This test will start to fail if the --- can be interpreted as underlining changing the paragraph to a <h2>
-        // without underlining the second --- might be also an <hr> but the current parser is not looking out for ---
-        XCTAssertEqual(markdown.html, "<h1>Title</h1><hr><p>a: 1\nb : 2\n---</p><h2>Section</h2>")
+        XCTAssertEqual(markdown.metadata, [
+            "ModifiedKey-keyA" : "ModifiedValue-valueA",
+            "ModifiedKey-keyB" : "ModifiedValue-valueB"
+        ])
     }
 
     func testPlainTextTitle() {
@@ -313,14 +138,7 @@ extension MarkdownTests {
             ("testAllowingEmptyMetadataValues", testAllowingEmptyMetadataValues),
             ("testMergingOrphanMetadataValueIntoPreviousOne", testMergingOrphanMetadataValueIntoPreviousOne),
             ("testMissingMetadata", testMissingMetadata),
-            ("testFalseMetadata", testFalseMetadata),
-            ("testYAMLLikeMetadata", testYAMLLikeMetadata),
-            ("testMoreYAMLLikeMetadata", testMoreYAMLLikeMetadata),
-            ("testBadYAMLLikeMetadata", testBadYAMLLikeMetadata),
-            ("testJustMetadata", testJustMetadata),
-            ("testStartWithRuleAndOtherNonMetaData", testStartWithRuleAndOtherNonMetaData),
-            ("testStartWithRule", testStartWithRule),
-            ("testMetadataInWrongPlace", testMetadataInWrongPlace),
+            ("testMetadataModifiers", testMetadataModifiers),
             ("testPlainTextTitle", testPlainTextTitle),
             ("testRemovingTrailingMarkersFromTitle", testRemovingTrailingMarkersFromTitle),
             ("testConvertingFormattedTitleTextToPlainText", testConvertingFormattedTitleTextToPlainText),

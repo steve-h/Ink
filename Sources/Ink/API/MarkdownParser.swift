@@ -49,20 +49,15 @@ public struct MarkdownParser {
         if !reader.didReachEnd {
             if metadata == nil, fragments.isEmpty, reader.currentCharacter == "-" {
                 if let parsedMetadata = try? Metadata.readOrRewind(using: &reader) {
-                    metadata = parsedMetadata
+                    metadata = parsedMetadata.applyingModifiers(modifiers)
                 }
             }
         }
         while !reader.didReachEnd {
             reader.discardWhitespacesAndNewlines()
             guard !reader.didReachEnd else { break }
+
             do {
-                guard reader.currentCharacter != "[" else {
-                    let declaration = try URLDeclaration.readOrRewind(using: &reader)
-                    urlsByName[declaration.name] = declaration.url
-                    continue
-                }
-                
                 let type = fragmentType(for: reader.currentCharacter,
                                         nextCharacter: reader.nextCharacter)
                 
@@ -71,10 +66,10 @@ public struct MarkdownParser {
                 
                 if titleHeading == nil, let heading = fragment.fragment as? Heading {
                     if heading.level == 1 {
-                        titleHeading = heading
+                
                     }
                 }
-            } catch {
+                
                 let paragraph = makeFragment(using: Paragraph.read, reader: &reader)
                 fragments.append(paragraph)
             }
