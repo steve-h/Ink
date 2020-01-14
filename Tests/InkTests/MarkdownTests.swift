@@ -135,7 +135,7 @@ extension MarkdownTests {
     static var allTests: Linux.TestList<MarkdownTests> {
         return [
             ("testParsingMetadata", testParsingMetadata),
-            ("testAllowingEmptyMetadataValues", testAllowingEmptyMetadataValues),
+               ("testDiscardingEmptyMetadataValues", testDiscardingEmptyMetadataValues),
             ("testMergingOrphanMetadataValueIntoPreviousOne", testMergingOrphanMetadataValueIntoPreviousOne),
             ("testMissingMetadata", testMissingMetadata),
             ("testMetadataModifiers", testMetadataModifiers),

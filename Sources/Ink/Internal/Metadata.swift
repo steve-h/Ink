@@ -133,6 +133,9 @@ internal struct Metadata: Readable {
                 var value = trim(separatedLine[1])
                 let pre = value.prefix(1)
                 // should really not accept a key that exists but will let it add now?
+                if let lk = lastKey, let val = metadata.values[lk], val.isEmpty {
+                    metadata.values[lk] = nil //remove empty keys?
+                }
                 lastKey = key
                 linesSinceLastKey = 0
                 switch pre {

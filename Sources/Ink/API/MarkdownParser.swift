@@ -58,6 +58,11 @@ public struct MarkdownParser {
             guard !reader.didReachEnd else { break }
 
             do {
+                guard reader.currentCharacter != "[" else {
+                                  let declaration = try URLDeclaration.readOrRewind(using: &reader)
+                                  urlsByName[declaration.name] = declaration.url
+                                  continue
+                              }
                 let type = fragmentType(for: reader.currentCharacter,
                                         nextCharacter: reader.nextCharacter)
                 
@@ -66,13 +71,13 @@ public struct MarkdownParser {
                 
                 if titleHeading == nil, let heading = fragment.fragment as? Heading {
                     if heading.level == 1 {
-                
+                         titleHeading = heading
                     }
                 }
-                
-                let paragraph = makeFragment(using: Paragraph.read, reader: &reader)
-                fragments.append(paragraph)
-            }
+                } catch {
+                    let paragraph = makeFragment(using: Paragraph.read, reader: &reader)
+                    fragments.append(paragraph)
+                }
         }
 
         let urls = NamedURLCollection(urlsByName: urlsByName)
