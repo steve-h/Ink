@@ -49,13 +49,15 @@ public struct MarkdownParser {
         while !reader.didReachEnd {
             reader.discardWhitespacesAndNewlines()
             guard !reader.didReachEnd else { break }
-            if metadata == nil, fragments.isEmpty, reader.currentCharacter == "-" {
-                if let parsedMetadata = try? Metadata.readOrRewind(using: &reader) {
-                    metadata = parsedMetadata
-                }
-            }
+
             do {
-                
+                if metadata == nil, fragments.isEmpty, reader.currentCharacter == "-" {
+                    if let parsedMetadata = try? Metadata.readOrRewind(using: &reader) {
+                        metadata = parsedMetadata.applyingModifiers(modifiers)
+                        continue
+                    }
+                }
+
                 guard reader.currentCharacter != "[" else {
                     let declaration = try URLDeclaration.readOrRewind(using: &reader)
                     urlsByName[declaration.name] = declaration.url
@@ -125,6 +127,7 @@ private extension MarkdownParser {
              "*" where character == nextCharacter:
             return HorizontalLine.self
         case "-", "*", "+", \.isNumber: return List.self
+        case "|": return Table.self
         default: return Paragraph.self
         }
     }

@@ -8,18 +8,18 @@ internal struct FormattedText: Readable, HTMLConvertible, PlainTextConvertible {
     private var components = [Component]()
 
     static func read(using reader: inout Reader) -> Self {
-        read(using: &reader, terminator: nil)
+        read(using: &reader, terminators: [])
     }
 
     static func readLine(using reader: inout Reader) -> Self {
-        let text = read(using: &reader, terminator: "\n")
+        let text = read(using: &reader, terminators: ["\n"])
         if !reader.didReachEnd { reader.advanceIndex() }
         return text
     }
 
     static func read(using reader: inout Reader,
-                     terminator: Character?) -> Self {
-        var parser = Parser(reader: reader, terminator: terminator)
+                     terminators: Set<Character>) -> Self {
+        var parser = Parser(reader: reader, terminators: terminators)
         parser.parse()
         reader = parser.reader
         return parser.text
@@ -79,15 +79,15 @@ private extension FormattedText {
 
     struct Parser {
         var reader: Reader
-        let terminator: Character?
+        let terminators: Set<Character>
         var text = FormattedText()
         var pendingTextRange: Range<String.Index>
         var activeStyles = Set<TextStyle>()
         var activeStyleMarkers = [TextStyleMarker]()
 
-        init(reader: Reader, terminator: Character?) {
+        init(reader: Reader, terminators: Set<Character>) {
             self.reader = reader
-            self.terminator = terminator
+            self.terminators = terminators
             self.pendingTextRange = reader.currentIndex..<reader.endIndex
         }
 
@@ -96,8 +96,8 @@ private extension FormattedText {
 
             while !reader.didReachEnd {
                 do {
-                    if let terminator = terminator, reader.previousCharacter != "\\" {
-                        guard reader.currentCharacter != terminator else {
+                    if !terminators.isEmpty, reader.previousCharacter != "\\" {
+                        guard !terminators.contains(reader.currentCharacter) else {
                             break
                         }
                     }
@@ -199,35 +199,30 @@ private extension FormattedText {
         }
 
         private mutating func parseNonTriggeringCharacter() {
-                    if reader.currentCharacter == "\\"  {
+            switch reader.currentCharacter {
+            case "\\":
+                addPendingTextIfNeeded()
+                skipCharacter()
+            case "&":
+                let ampersandIndex = reader.currentIndex
+
+                do {
+                    try reader.read(until: ";", allowWhitespace: false)
                     addPendingTextIfNeeded()
-                    if let nextChr = reader.nextCharacter {
-                        // only ASCII punctuation and the html special chars are escapable in CommonMark
-                        if let foundSubstitution = escaped(nextChr) {
-                            // skip the backslash and the following char and use substitution instead
-                            skipCharacter()
-                            skipCharacter()
-                            text.components.append(.text(Substring(foundSubstitution)))
-                        } else if nextChr.isNewline {
-                            // just skip the backslash and the newline
-                            text.components.append(.linebreak)
-                            skipCharacter()
-                            skipCharacter()
-                        } else {
-                            // the backslash remains in all other cases
-                            reader.advanceIndex()
-                        }
-                    }
+                } catch {
+                    reader.moveToIndex(ampersandIndex)
+                    fallthrough
+                }
+            default:
+                if let escaped = reader.currentCharacter.escaped {
+                    addPendingTextIfNeeded()
+                    text.components.append(.text(Substring(escaped)))
+                    skipCharacter()
                 } else {
-                    if let escaped = escapedHtml(reader.currentCharacter) {
-                        addPendingTextIfNeeded()
-                        text.components.append(.text(Substring(escaped)))
-                        skipCharacter()
-                    } else {
-                        reader.advanceIndex()
-                    }
+                    reader.advanceIndex()
                 }
             }
+        }
 
         private mutating func parseStyleMarker() throws {
             let marker = try TextStyleMarker.readOrRewind(using: &reader)
