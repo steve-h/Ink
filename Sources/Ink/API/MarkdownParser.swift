@@ -53,7 +53,7 @@ public struct MarkdownParser {
             do {
                 if metadata == nil, fragments.isEmpty, reader.currentCharacter == "-" {
                     if let parsedMetadata = try? Metadata.readOrRewind(using: &reader) {
-                        metadata = parsedMetadata
+                        metadata = parsedMetadata.applyingModifiers(modifiers)
                         continue
                     }
                 }
@@ -127,6 +127,7 @@ private extension MarkdownParser {
              "*" where character == nextCharacter:
             return HorizontalLine.self
         case "-", "*", "+", \.isNumber: return List.self
+        case "|": return Table.self
         default: return Paragraph.self
         }
     }
